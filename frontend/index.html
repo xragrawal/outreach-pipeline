@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICP to outreach — Antseed</title>
+<link rel="icon" href="assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:"Geist Pixel Var";
+  src:url("assets/fonts/GeistPixel.ttf") format("truetype");
+  font-weight:100 900;
+  font-display:swap;
+}
+
+:root{
+  --green:#4f7a24;
+  --green-hover:#436a1e;
+  --green-text:#4f7a24;
+  --acid:#c8f53c;
+  --ink:#0a1a12;
+  --title-ink:#1c1c1c;
+  --title-ink-2:#595959;
+  --text:#30382c;
+  --text-grey:#929292;
+  --h1-second:#595959;
+  --text-body:#56656f;
+  --text-small:#66746b;
+  --page:#fcfcfc;
+  --rail:#ffffff;
+  --dot:#e2e2e2;
+  --dot-off:#e6eadc;
+  --tile:rgba(214,219,211,.2);
+  --tile-line:rgba(64,76,66,.1);
+  --wash:#f6f3ea;
+  --logo-filter:none;
+  --pad:clamp(20px,9.64vw,145px);
+  --ease-arrive:cubic-bezier(.2,.7,.2,1);
+  --ease-slide:cubic-bezier(.65,0,.35,1);
+  --ease-pop:cubic-bezier(.3,1.6,.5,1);
+  --ease-window:cubic-bezier(.2,.9,.25,1.12);
+  --dur-feedback:150ms;
+  --dur-control:350ms;
+  --dur-block:600ms;
+  --dur-painting:1500ms;
+  --font-sans:"Geist",system-ui,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,monospace;
+  --font-pixel:"Geist Pixel Var","Geist",sans-serif;
+}
+
+[data-theme="night"]{
+  --green-text:#98c463;
+  --title-ink:#eceee9;
+  --title-ink-2:#9ba49e;
+  --text:#eceee9;
+  --text-grey:#9ba49e;
+  --h1-second:#9ba49e;
+  --text-body:#9ba49e;
+  --text-small:#9ba49e;
+  --page:#0f1312;
+  --rail:#181d1b;
+  --dot:#3d4340;
+  --dot-off:#29302c;
+  --tile:rgba(255,255,255,.06);
+  --tile-line:rgba(255,255,255,.1);
+  --wash:#39403d;
+  --logo-filter:invert(.93);
+  --green-hover:#5b8a2b;
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font-sans);
+  font-size:16px;
+  line-height:24px;
+  color:var(--text);
+  background:var(--page);
+  -webkit-font-smoothing:antialiased;
+}
+[data-theme="night"] body{background:var(--page)}
+
+/* the margins: a 2px round dot every 8px */
+.page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow-x:clip;
+  padding:0 clamp(16px,6.4vw,96px);
+  background-image:radial-gradient(circle at 4px 4px, var(--dot) .85px, #0000 1.25px);
+  background-size:8px 8px;
+  background-position:50% -4px;
+  background-color:var(--page);
+  transition:background-color .6s ease-in-out;
+}
+.rail{
+  max-width:1312px;
+  width:100%;
+  flex:1 1 auto;
+  margin:0 auto;
+  background:var(--rail);
+  position:relative;
+  transition:background-color .6s ease-in-out;
+}
+/* the rail edge: left, right and bottom dots */
+.dotted::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  pointer-events:none;
+  background-image:radial-gradient(circle at 1px 1px, var(--dot) .85px, #0000 1.25px);
+  background-size:8px 8px;
+  -webkit-mask:
+    linear-gradient(#000 0 0) bottom/100% 2px no-repeat,
+    linear-gradient(#000 0 0) left/2px 100% no-repeat,
+    linear-gradient(#000 0 0) right/2px 100% no-repeat;
+  mask:
+    linear-gradient(#000 0 0) bottom/100% 2px no-repeat,
+    linear-gradient(#000 0 0) left/2px 100% no-repeat,
+    linear-gradient(#000 0 0) right/2px 100% no-repeat;
+}
+
+/* ---------- type ---------- */
+.pixel{font-family:var(--font-pixel);font-weight:400;letter-spacing:0}
+h1{
+  font-family:var(--font-pixel);
+  font-weight:400;
+  font-variation-settings:"ELSH" 11;
+  font-size:clamp(40px,4.6vw,60px);
+  line-height:1.05;
+  letter-spacing:-.065em;
+  margin:0;
+  opacity:.82;
+  color:var(--title-ink);
+}
+h1 .second{color:var(--title-ink-2)}
+h2{
+  font-family:var(--font-pixel);
+  font-weight:400;
+  font-variation-settings:"ELSH" 40;
+  font-size:clamp(30px,3.6vw,46px);
+  line-height:1;
+  letter-spacing:-2px;
+  margin:0 0 8px;
+  color:var(--title-ink);
+}
+h2 .second{color:var(--text-grey)}
+h3{
+  font-family:var(--font-sans);
+  font-weight:500;
+  font-size:18px;
+  line-height:24px;
+  margin:0;
+}
+.eyebrow{
+  font-family:var(--font-pixel);
+  font-variation-settings:"ELSH" 20;
+  font-size:17px;
+  line-height:1.5;
+  color:var(--green-text);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  text-decoration:none;
+}
+.lede{font-size:clamp(20px,2.1vw,26px);line-height:1.4;letter-spacing:-.01em;color:var(--text-body);margin:20px 0 0;max-width:46ch}
+.sub{font-size:18px;line-height:27px;color:var(--text-body);margin:10px 0 0}
+.body{font-size:16px;line-height:24px}
+.small{font-size:12px;line-height:16px;color:var(--text-small);font-variant-numeric:tabular-nums}
+.mono{font-family:var(--font-mono);font-size:12.5px;line-height:18px;color:var(--green-text)}
+.muted{color:var(--text-body)}
+.grey{color:var(--text-grey)}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky;top:0;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;
+  padding:12px var(--pad);
+  background:color-mix(in srgb, var(--rail) 86%, transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--tile-line);
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.brand img{height:27px;width:auto;filter:var(--logo-filter);display:block}
+.brand .tag{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;
+  color:var(--text-small);border-left:1px solid var(--tile-line);padding-left:12px;
+}
+.nav-actions{display:flex;align-items:center;gap:10px}
+
+/* ---------- buttons ---------- */
+.btn{
+  font-family:var(--font-sans);font-weight:500;font-size:15px;line-height:20px;
+  height:44px;padding:0 18px;border-radius:10px;border:0;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+  transition:background var(--dur-feedback) ease, transform var(--dur-feedback) ease;
+}
+.btn-primary{
+  background:var(--green);color:#fff;
+  box-shadow:0 3.5px .5px 0 rgba(46,74,14,.1), inset 0 -.5px 0 0 rgba(200,230,170,.63), inset 0 -2px 1px 0 #3b5e17;
+}
+.btn-primary:hover{background:var(--green-hover)}
+.btn-ghost{
+  background:var(--tile);color:var(--text);
+  border:1px solid var(--tile-line);
+  box-shadow:inset 0 -1px 2px 0 rgba(48,56,44,.08);
+  height:40px;font-size:14px;padding:0 16px;
+}
+.btn-ghost:hover{background:var(--tile);filter:brightness(.98)}
+.btn:focus-visible{outline:2px solid var(--green-text);outline-offset:2px}
+
+/* ---------- sections ---------- */
+section{padding:120px var(--pad);position:relative}
+/* every section starts with its own dotted rail line */
+section::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:2px;
+  background-image:radial-gradient(circle at 1px 1px, var(--dot) .85px, #0000 1.25px);
+  background-size:8px 8px;
+}
+section.tight{padding-top:56px;padding-bottom:56px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.head p{margin:0;max-width:52ch}
+
+/* ---------- hero ---------- */
+header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
+.hero-wash{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(120% 90% at 50% -10%, var(--wash) 0%, transparent 62%);
+  opacity:.75;
+}
+.hero-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:48px;align-items:end;
+}
+.hero-panel{
+  border:1px solid var(--tile-line);border-radius:11px;background:var(--tile);
+  padding:20px;align-self:end;
+}
+.hero-panel .label{font-size:12px;line-height:16px;color:var(--text-small);margin-bottom:10px}
+.hero-panel .co{font-size:17px;line-height:24px;font-weight:500;color:var(--text)}
+.hero-panel .row{display:flex;align-items:baseline;gap:8px;margin:6px 0 10px}
+.hero-panel .fig{
+  font-family:var(--font-pixel);font-variation-settings:"ELSH" 20;
+  font-size:34px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text);
+}
+.hero-panel .addr{font-family:var(--font-mono);font-size:12px;line-height:18px;color:var(--green-text);word-break:break-all}
+.hero-panel .link{
+  display:inline-block;margin-top:12px;font-size:13px;line-height:18px;
+  color:var(--text-body);text-decoration:none;border-bottom:1px solid var(--tile-line);
+}
+.hero-panel .link:hover{color:var(--green-text);border-color:var(--green-text)}
+.hero h1{max-width:22ch}
+.hero .lede{max-width:46ch}
+.install{
+  margin-top:28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  font-family:var(--font-mono);font-size:12.5px;max-width:100%;
+}
+.install code{
+  background:var(--wash);border:1px solid var(--tile-line);
+  padding:10px 14px;border-radius:12px;color:var(--text);
+  white-space:nowrap;overflow:auto;max-width:100%;min-width:0;flex:0 1 auto;
+}
+.install code b{color:var(--green-text);font-weight:400}
+
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr)}
+.metric{padding:28px 0 0;position:relative}
+.metric + .metric{padding-left:28px;border-left:1px solid var(--tile-line)}
+.metric .label{font-size:13px;line-height:16px;color:var(--text-small);margin-bottom:6px}
+.metric .figure{
+  font-family:var(--font-pixel);font-variation-settings:"ELSH" 20;
+  font-size:clamp(34px,3.4vw,52px);line-height:1.02;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;
+}
+.metric .note{font-size:12px;line-height:16px;color:var(--text-small);margin-top:4px}
+
+/* ---------- stages ---------- */
+.stages{position:relative;margin-top:8px}
+.stage{
+  display:grid;grid-template-columns:56px 1fr auto;gap:20px;
+  padding:26px 0;border-top:1px solid var(--tile-line);
+  align-items:start;position:relative;
+}
+.stage:first-child{border-top:0}
+.stage .num{
+  font-family:var(--font-pixel);font-variation-settings:"ELSH" 20;
+  font-size:24px;line-height:28px;color:var(--green-text);
+  font-variant-numeric:tabular-nums;
+}
+.stage h3{margin-bottom:4px}
+.stage .q{color:var(--text-body);font-size:15px;line-height:22px;max-width:56ch;margin:0}
+.stage .out{
+  font-family:var(--font-mono);font-size:11.5px;line-height:18px;
+  color:var(--text-small);margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;
+}
+.stage .out span{background:var(--tile);border:1px solid var(--tile-line);padding:2px 7px;border-radius:5px}
+.stage .state{display:flex;flex-direction:column;align-items:flex-end;gap:8px;white-space:nowrap}
+.pill{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;line-height:16px;color:var(--text-small);
+  border:1px solid var(--tile-line);background:var(--tile);
+  padding:4px 9px;border-radius:999px;
+}
+.dotmark{width:7px;height:7px;border-radius:50%;background:var(--green-text);display:inline-block;flex:0 0 auto}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--tile-line);border-radius:8px;background:var(--rail)}
+table{width:100%;border-collapse:collapse;font-size:14px;line-height:20px}
+thead th{
+  text-align:left;font-weight:500;font-size:12px;line-height:16px;
+  color:var(--text-small);padding:12px 14px;border-bottom:1px solid var(--tile-line);
+  white-space:nowrap;background:var(--tile);
+}
+tbody td{padding:12px 14px;border-bottom:1px solid var(--tile-line);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--tile)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.co{font-weight:500}
+.co small{display:block;font-weight:400;font-size:12px;color:var(--text-small);margin-top:2px}
+.bar{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.bar .track{width:64px;height:4px;border-radius:2px;background:var(--dot-off);overflow:hidden;flex:0 0 auto}
+.bar .fill{display:block;height:100%;border-radius:2px;background:var(--green-text);width:0;transition:width 900ms var(--ease-arrive)}
+.bar .val{font-family:var(--font-mono);font-size:12.5px;min-width:38px;text-align:right}
+.tier{font-size:11px;line-height:16px;padding:2px 8px;border-radius:999px;border:1px solid var(--tile-line);color:var(--text-small);white-space:nowrap}
+.tier.t1{color:var(--green-text);border-color:color-mix(in srgb,var(--green-text) 40%, transparent)}
+.email{font-family:var(--font-mono);font-size:12px;color:var(--text);white-space:nowrap}
+body[data-contacts="no"] .col-contact{display:none}
+.pri{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-small);white-space:nowrap}
+.pri.now{color:var(--green-text)}
+
+/* ---------- contacts toolbar ---------- */
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.chip{
+  font-size:13px;line-height:18px;padding:7px 12px;border-radius:999px;
+  border:1px solid var(--tile-line);background:transparent;color:var(--text-body);
+  cursor:pointer;font-family:var(--font-sans);
+  transition:background var(--dur-feedback), color var(--dur-feedback);
+}
+.chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+.chip:hover{background:var(--tile)}
+input[type="search"]{
+  font-family:var(--font-sans);font-size:14px;color:var(--text);
+  background:var(--tile);border:1px solid var(--tile-line);border-radius:999px;
+  padding:8px 14px;min-width:200px;outline:none;
+}
+input[type="search"]:focus{border-color:var(--green-text)}
+
+/* ---------- multi-line cards ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{
+  position:relative;background:var(--rail);border-radius:11px;padding:20px;
+  border:1px solid var(--tile-line);
+  transition:transform var(--dur-control) var(--ease-arrive), border-color var(--dur-control);
+}
+.card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--green-text) 34%, var(--tile-line))}
+.card h3{margin:0 0 6px}
+.card .stat{display:flex;align-items:baseline;gap:8px;margin:0 0 10px}
+.card .n{
+  font-family:var(--font-pixel);font-variation-settings:"ELSH" 20;
+  font-size:30px;line-height:30px;font-variant-numeric:tabular-nums;
+}
+.card .fam{font-size:12px;line-height:16px;color:var(--text-small)}
+.card .list{font-size:13px;line-height:20px;color:var(--text-body);margin:0 0 12px}
+.card .addr{font-family:var(--font-mono);font-size:11.5px;color:var(--green-text);word-break:break-all}
+
+/* ---------- callout ---------- */
+.callout{
+  display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;
+  padding:18px 20px;border-radius:12px;background:var(--wash);
+  border:1px solid var(--tile-line);margin-top:24px;
+}
+.callout .dotmark{margin-top:7px}
+.callout p{margin:0;font-size:14px;line-height:22px;color:var(--text-body)}
+.callout strong{color:var(--text);font-weight:500}
+
+/* ---------- footer ---------- */
+footer{padding:40px var(--pad);display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+footer .small{max-width:60ch}
+footer img{height:22px;filter:var(--logo-filter)}
+
+/* ---------- motion ---------- */
+.arrive{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease-arrive),transform .7s var(--ease-arrive)}
+.arrive.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .arrive{opacity:1;transform:none;transition:none}
+  .bar .fill{transition:none}
+  *{scroll-behavior:auto !important}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:1023px){
+  .hero-inner{grid-template-columns:1fr;gap:32px}
+  .hero-panel{max-width:420px}
+}
+@media (max-width:900px){
+  .cards{grid-template-columns:1fr 1fr}
+  .metrics{grid-template-columns:1fr 1fr;gap:20px 0}
+  .metric:nth-child(3){padding-left:0;border-left:0}
+  .metric:nth-child(3),.metric:nth-child(4){padding-top:20px;border-top:1px solid var(--tile-line)}
+}
+@media (max-width:760px){
+  nav{padding:12px 20px;flex-wrap:wrap}
+  .brand .tag{display:none}
+  .nav-actions{gap:6px}
+  .nav-actions .btn-primary{padding:0 12px;font-size:14px}
+  .install{flex-direction:column;align-items:flex-start;width:100%}
+  .install code{white-space:normal;word-break:break-word;width:100%;flex:1 1 100%}
+  section,header.hero{padding-left:20px;padding-right:20px}
+  section{padding-top:72px;padding-bottom:72px}
+  header.hero{padding-top:56px;padding-bottom:56px}
+  h1{font-size:46px;line-height:1.04;letter-spacing:-.06em}
+  h2{font-size:34px;letter-spacing:-1.4px}
+  h2{letter-spacing:-1.4px}
+  .stage{grid-template-columns:36px 1fr;gap:14px}
+  .stage .state{grid-column:2;flex-direction:row;align-items:center}
+  .cards{grid-template-columns:1fr}
+  .metrics{grid-template-columns:1fr}
+  .metric{padding-left:0 !important;border-left:0 !important;padding-top:18px;border-top:1px solid var(--tile-line)}
+  .metric:first-child{border-top:0;padding-top:0}
+  /* ranking keeps the score, drops the two wide columns */
+  .col-core,.col-contact{display:none}
+  #ranking table td,#ranking table th{padding:10px 10px}
+  #ranking .bar{gap:6px}
+  #ranking .bar .track{display:none}
+  #ranking .bar .val{min-width:0;font-size:13px}
+  /* contacts become cards: one contact per block */
+  #contacts .tablewrap{border:0;background:transparent;overflow:visible;border-radius:0}
+  #contacts table,#contacts tbody{display:block}
+  #contacts thead{display:none}
+  #contacts tbody tr{
+    display:grid;grid-template-columns:1fr auto;gap:2px 12px;
+    border:1px solid var(--tile-line);border-radius:12px;
+    background:var(--rail);padding:14px;margin-bottom:10px;
+  }
+  #contacts tbody td{border:0;padding:0}
+  #contacts td:nth-child(1){grid-column:2;grid-row:1;justify-self:end}
+  #contacts td:nth-child(2){grid-column:1;grid-row:1}
+  #contacts td:nth-child(3){grid-column:1;grid-row:2}
+  #contacts td:nth-child(4){grid-column:1;grid-row:3;font-size:13px;line-height:18px}
+  #contacts td:nth-child(5){grid-column:1/-1;grid-row:4;margin-top:10px}
+  #contacts td:nth-child(6){grid-column:2;grid-row:2;justify-self:end;align-self:start}
+  #contacts td:nth-child(6)::before{content:"conf ";color:var(--text-small)}
+  #contacts .email{white-space:normal;word-break:break-all}
+  footer{padding:28px 20px}
+  .install code{font-size:11px}
+}
+@media (max-width:520px){
+  nav{padding:10px 16px;flex-wrap:nowrap;gap:8px}
+  .brand img{height:22px}
+  .brand{gap:8px}
+  .nav-actions .btn-ghost{height:34px;font-size:13px;padding:0 11px}
+  .nav-actions .btn-primary{height:36px;font-size:13px;padding:0 12px;border-radius:9px}
+  h1{font-size:38px;letter-spacing:-.055em;line-height:1.06}
+  h2{font-size:30px}
+  .hero-panel{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="rail dotted">
+
+  <nav>
+    <a class="brand" href="#top">
+      <img src="assets/logo/antseed-lockup-black.svg" alt="Antseed" width="91" height="27">
+      <span class="tag">ICP → OUTREACH</span>
+    </a>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" id="theme" type="button" aria-label="Switch theme">
+        <span class="dotmark" aria-hidden="true"></span><span id="theme-label">Night</span>
+      </button>
+      <a class="btn btn-primary" id="sheet-link" href="#" target="_blank" rel="noopener">Open the sheet</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+      <a class="eyebrow" href="#stages">Pipeline <span aria-hidden="true">›</span></a>
+      <h1>From one ICP<br><span class="second">to a contactable list.</span></h1>
+      <p class="lede">Five stages turn a single target into a ranked list of similar companies, each with a named contact and a reason to write.</p>
+      <div class="install">
+        <code><b>$</b> python3 pipeline/run_pipeline.py --stage all</code>
+        <button class="btn btn-ghost" id="copy" type="button">Copy command</button>
+      </div>
+      </div>
+      <aside class="hero-panel" id="hero-panel" hidden></aside>
+    </div>
+  </header>
+
+  <section class="tight" aria-label="Key figures">
+    <div class="metrics">
+      <div class="metric arrive">
+        <div class="label">Companies sourced</div>
+        <div class="figure" data-count="259">0</div>
+        <div class="note">6 source types</div>
+      </div>
+      <div class="metric arrive">
+        <div class="label">Reachable after the filter</div>
+        <div class="figure" data-count="207">0</div>
+        <div class="note">52 removed, with a reason</div>
+      </div>
+      <div class="metric arrive">
+        <div class="label">Personal emails found</div>
+        <div class="figure" data-count="0">0</div>
+        <div class="note">0 shared inboxes refused</div>
+      </div>
+      <div class="metric arrive">
+        <div class="label">Capabilities scored</div>
+        <div class="figure" data-count="31">0</div>
+        <div class="note">weight sum 9.18</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stages">
+    <div class="head">
+      <div>
+        <h2>Five stages<span class="second">.</span></h2>
+        <p class="sub">Each stage answers one question and ends with a gate. A failed gate stops the run.</p>
+      </div>
+      <span class="pill"><span class="dotmark"></span><span id="gate-summary">gates passed</span></span>
+    </div>
+    <div class="stages" id="stage-list"></div>
+    <div class="callout arrive">
+      <span class="dotmark" aria-hidden="true"></span>
+      <p><strong>No hub.</strong> The stages run in a line, not around a centre. Stage 4 reports its ties instead of hiding them: 98 companies share one score, so their order is not a ranking.</p>
+    </div>
+  </section>
+
+  <section id="ranking">
+    <div class="head">
+      <div>
+        <h2>The ranking<span class="second">.</span></h2>
+        <p class="sub">Capability carries 88% of the score. Delivery and buyer carry the rest.</p>
+      </div>
+      <button class="btn btn-ghost" id="toggle-rows" type="button" data-expanded="false">Show all 207</button>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="num">#</th>
+            <th>Company</th>
+            <th>Tier</th>
+            <th class="num col-core">Core</th>
+            <th>Score</th>
+            <th class="col-contact">Contact</th>
+          </tr>
+        </thead>
+        <tbody id="rank-body"></tbody>
+      </table>
+    </div>
+    <p class="small" style="margin-top:12px">Score = 0.88 × match index + 0.07 × delivery + 0.05 × buyer. Rescaled so the best row scores 100.</p>
+  </section>
+
+  <section id="contacts">
+    <div class="head">
+      <div>
+        <h2>Contacts<span class="second">.</span></h2>
+        <p class="sub" id="contacts-sub">Personal addresses only. A shared inbox is refused, so the row stays blank.</p>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="chip" data-pri="all" aria-pressed="true">All</button>
+      <button class="chip" data-pri="now" aria-pressed="false">Now</button>
+      <button class="chip" data-pri="this week" aria-pressed="false">This week</button>
+      <button class="chip" data-pri="batch" aria-pressed="false">Batch</button>
+      <input type="search" id="q" placeholder="Search company or name" aria-label="Search contacts">
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Company</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th class="num">Conf</th>
+          </tr>
+        </thead>
+        <tbody id="contact-body"></tbody>
+      </table>
+    </div>
+    <p class="small" id="contact-count" style="margin-top:12px"></p>
+    <div class="callout" id="contacts-empty" hidden>
+      <span class="dotmark" aria-hidden="true"></span>
+      <p><strong>Contact data stays out of this copy.</strong> The run writes <code>outreach.csv</code> and <code>similarity-ranking-contacts.csv</code>. Both hold personal addresses, so this repository has neither.</p>
+    </div>
+  </section>
+
+  <section id="multiline">
+    <div class="head">
+      <div>
+        <h2>Multi-line<span class="second">.</span></h2>
+        <p class="sub">The five reachable companies that sell more than one product line.</p>
+      </div>
+    </div>
+    <div class="cards" id="card-list"></div>
+    <p class="small" style="margin-top:16px">Twelve more reachable companies show three families, but they sell one product: node hosting plus an API.</p>
+  </section>
+
+  <footer>
+    <img src="assets/logo/antseed-lockup-black.svg" alt="Antseed" width="74" height="22">
+    <p class="small">Built 24 November 2026. Figures read from the run, not typed. Day and night are two themes, not a filter.</p>
+  </footer>
+
+</div>
+</div>
+
+<script>
+const DATA = {"sheet": "", "meta": {"kept": 207, "emails": 0, "contacts": false}, "stages": [{"id": 1, "name": "ICP generation", "question": "Who do we want, what do they sell, and what do we value?", "outputs": ["icp.md", "pipeline/taxonomy.csv"], "gate": "icp", "note": "31 tags · weight sum 9.18"}, {"id": 2, "name": "Sourcing", "question": "Which companies could match, and where do we find them?", "outputs": ["universe.csv"], "gate": "source", "note": "259 rows · 259 unique"}, {"id": 3, "name": "Scoring model", "question": "Which parameters separate a good match from a bad one, and how much does each count?", "outputs": ["pipeline/scoring-model.md"], "gate": "model", "note": "0.88 / 0.07 / 0.05"}, {"id": 4, "name": "Scoring", "question": "How close is each company, and is it reachable?", "outputs": ["similarity-ranking.csv", "similarity-ranking-reachable.csv", "similarity-ranking-removed.csv"], "gate": "score", "note": "207 kept · 52 removed"}, {"id": 5, "name": "Enrichment and outreach handoff", "question": "Who do we contact, at which address, and why now?", "outputs": ["similarity-ranking-contacts.csv", "outreach.csv"], "gate": "enrich", "note": "0 personal emails"}], "ranking": [{"rank": 1, "company": "BlockRun", "category": "Agent API gateway", "tier": "1 direct", "core_hits": 3, "score": 95.1, "email": "", "contact": ""}, {"rank": 2, "company": "Uniblock", "category": "Blockchain RPC and data APIs", "tier": "2 adjacent", "core_hits": 1, "score": 48.5, "email": "", "contact": ""}, {"rank": 3, "company": "blockmachine", "category": "Blockchain RPC and data APIs", "tier": "2 adjacent", "core_hits": 1, "score": 46.8, "email": "", "contact": ""}, {"rank": 4, "company": "Merge", "category": "Agent tools and authentication", "tier": "2 adjacent", "core_hits": 1, "score": 35.4, "email": "", "contact": ""}, {"rank": 5, "company": "Crossmint", "category": "Wallet and payment infrastructure", "tier": "2 adjacent", "core_hits": 1, "score": 30.2, "email": "", "contact": ""}, {"rank": 6, "company": "Speakeasy", "category": "API developer infrastructure", "tier": "2 adjacent", "core_hits": 1, "score": 28.1, "email": "", "contact": ""}, {"rank": 7, "company": "Parallel", "category": "Web data infrastructure", "tier": "2 adjacent", "core_hits": 1, "score": 28.0, "email": "", "contact": ""}, {"rank": 8, "company": "Tavily", "category": "Web data infrastructure", "tier": "2 adjacent", "core_hits": 1, "score": 28.0, "email": "", "contact": ""}, {"rank": 9, "company": "LI.FI", "category": "Cross-chain API infrastructure", "tier": "2 adjacent", "core_hits": 1, "score": 27.8, "email": "", "contact": ""}, {"rank": 10, "company": "Chaingateway.io", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 24.3, "email": "", "contact": ""}, {"rank": 11, "company": "thirdweb", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 24.3, "email": "", "contact": ""}, {"rank": 12, "company": "Browser Use", "category": "Browser infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 23.9, "email": "", "contact": ""}, {"rank": 13, "company": "Amforc", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 23.7, "email": "", "contact": ""}, {"rank": 14, "company": "Blink Labs", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 23.7, "email": "", "contact": ""}, {"rank": 15, "company": "Goldsky", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 23.7, "email": "", "contact": ""}, {"rank": 16, "company": "StreamingFast", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 23.7, "email": "", "contact": ""}, {"rank": 17, "company": "1RPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 18, "company": "4EVERLAND", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 19, "company": "All That Node", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 20, "company": "Allnodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 21, "company": "Ankr", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 22, "company": "ARKHIA", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 23, "company": "Asternodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 24, "company": "AvaCloud", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 25, "company": "AZXA.IO", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 26, "company": "BitHub", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 27, "company": "BLAZED.sh", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 28, "company": "BlazingNode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 29, "company": "BlockCypher", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 30, "company": "BlockEden.xyz", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 31, "company": "Blockfrost", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 32, "company": "Blockops", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 33, "company": "BlockPI", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 34, "company": "BlockReq", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 35, "company": "BLOCKSIZE", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 36, "company": "BlockVectra", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 37, "company": "BlockVision", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 38, "company": "Boar Network", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 39, "company": "BoltRPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 40, "company": "Canton Nodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 41, "company": "Chain.love", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 42, "company": "CHAINNODES", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 43, "company": "Chainstack", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 44, "company": "constant-k", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 45, "company": "Corvus Labs", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 46, "company": "Crypto APIs", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 47, "company": "DedicatedNodes.io", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 48, "company": "Demeter", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 49, "company": "dRPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 50, "company": "Dwellir", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 51, "company": "ERPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 52, "company": "etox", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 53, "company": "FastNear", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 54, "company": "Fastnode.io", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 55, "company": "FlashBlock", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 56, "company": "FluxRPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 57, "company": "GetBlock", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 58, "company": "Helius", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 59, "company": "Hydromancer", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 60, "company": "Hypedexer", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 61, "company": "Imperator.co", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 62, "company": "Inodra", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 63, "company": "Instanodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 64, "company": "Kaleido", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 65, "company": "Kriptonio", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 66, "company": "L0vd", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 67, "company": "Launchnodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 68, "company": "LeoRPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 69, "company": "Liquify", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 70, "company": "Luganodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 71, "company": "Node Forge", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 72, "company": "node101", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 73, "company": "NodeFlare", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 74, "company": "Nodefleet", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 75, "company": "Nodely", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 76, "company": "NodeReal", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 77, "company": "Nodies", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 78, "company": "Nodit", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 79, "company": "NoLimitNodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 80, "company": "Noode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 81, "company": "NorthWest Nodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 82, "company": "Novacula", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 83, "company": "NOWNodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 84, "company": "OBSRVR", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 85, "company": "OnFinality", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 86, "company": "OrbitFlare", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 87, "company": "RadiumBlock", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 88, "company": "RockX", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 89, "company": "RouteMe.sh", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 90, "company": "RPC Fast", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 91, "company": "RpcNode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 92, "company": "Selvage Labs", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 93, "company": "Shyft", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 94, "company": "SigmaCore", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 95, "company": "Sodae", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 96, "company": "Solami", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 97, "company": "SolidRPC", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 98, "company": "SolSqueezer", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 99, "company": "Spectrum", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 100, "company": "SpeedyNodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 101, "company": "Stakely", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 102, "company": "Supanode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 103, "company": "SwiftNodes", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 104, "company": "Synapse", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 105, "company": "Tatum", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 106, "company": "Tenderly", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 107, "company": "TON API", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 108, "company": "TONNode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 109, "company": "Triport", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 110, "company": "TronGrid", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 111, "company": "Validation Cloud", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 112, "company": "Venum", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 113, "company": "Web3CDN", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 114, "company": "ZAN", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 21.3, "email": "", "contact": ""}, {"rank": 115, "company": "Browserbase", "category": "Browser infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 20.1, "email": "", "contact": ""}, {"rank": 116, "company": "Triton One", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 19.2, "email": "", "contact": ""}, {"rank": 117, "company": "Allium", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 118, "company": "Bitquery", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 119, "company": "Blockchair", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 120, "company": "Chainbase", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 121, "company": "CODEX DATA", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 122, "company": "Envio", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 123, "company": "GoldRush", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 124, "company": "Hello Moon", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 125, "company": "Indexing Co", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 126, "company": "IndexSupply", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 127, "company": "Mobula", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 128, "company": "Moralis", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 129, "company": "Noves", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 130, "company": "Ormi Labs", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 131, "company": "PINAX", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 132, "company": "Sentio", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 133, "company": "Solana Tracker", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 134, "company": "SolanaStreaming", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 135, "company": "SonarX", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 136, "company": "SQD", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 137, "company": "Subscan", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 138, "company": "Tokenview", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 139, "company": "WatchData", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 140, "company": "Zerion", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 141, "company": "ZettaBlock", "category": "Blockchain data infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 18.3, "email": "", "contact": ""}, {"rank": 142, "company": "01.ro", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 143, "company": "0xFury", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 144, "company": "Blink", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 145, "company": "Block Stack", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 146, "company": "Bloq", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 147, "company": "ECAD Infra", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 148, "company": "Exaion", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 149, "company": "GlobalStake", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 150, "company": "InfStones", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 151, "company": "Nodeinfra", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 152, "company": "NodeOps", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 153, "company": "SenseiNode", "category": "Blockchain RPC and data APIs", "tier": "3 different layer", "core_hits": 0, "score": 18.1, "email": "", "contact": ""}, {"rank": 154, "company": "Arcade", "category": "Agent tools and authentication", "tier": "3 different layer", "core_hits": 0, "score": 16.0, "email": "", "contact": ""}, {"rank": 155, "company": "Composio", "category": "Agent tools and authentication", "tier": "3 different layer", "core_hits": 0, "score": 14.7, "email": "", "contact": ""}, {"rank": 156, "company": "bloXroute Labs", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 13.5, "email": "", "contact": ""}, {"rank": 157, "company": "Dodo Payments", "category": "Payment infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 13.2, "email": "", "contact": ""}, {"rank": 158, "company": "fal", "category": "Model inference", "tier": "3 different layer", "core_hits": 0, "score": 11.7, "email": "", "contact": ""}, {"rank": 159, "company": "Venice", "category": "Model inference", "tier": "3 different layer", "core_hits": 0, "score": 11.7, "email": "", "contact": ""}, {"rank": 160, "company": "Fern", "category": "API developer infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 11.5, "email": "", "contact": ""}, {"rank": 161, "company": "Fractal ID", "category": "Identity infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 10.8, "email": "", "contact": ""}, {"rank": 162, "company": "LangChain", "category": "Agent orchestration and observability", "tier": "3 different layer", "core_hits": 0, "score": 10.6, "email": "", "contact": ""}, {"rank": 163, "company": "BlockRazor", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 10.5, "email": "", "contact": ""}, {"rank": 164, "company": "Solana Vibe Station", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 10.5, "email": "", "contact": ""}, {"rank": 165, "company": "CrewAI", "category": "Agent orchestration", "tier": "3 different layer", "core_hits": 0, "score": 10.3, "email": "", "contact": ""}, {"rank": 166, "company": "Zenity", "category": "Agent security", "tier": "3 different layer", "core_hits": 0, "score": 10.1, "email": "", "contact": ""}, {"rank": 167, "company": "Fleek", "category": "Cloud compute and hosting", "tier": "3 different layer", "core_hits": 0, "score": 10.0, "email": "", "contact": ""}, {"rank": 168, "company": "Cherry Servers", "category": "Cloud and blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 9.6, "email": "", "contact": ""}, {"rank": 169, "company": "RedSwitches", "category": "Cloud and blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 9.6, "email": "", "contact": ""}, {"rank": 170, "company": "velia.net", "category": "Cloud and blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 9.6, "email": "", "contact": ""}, {"rank": 171, "company": "Inngest", "category": "Workflow infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 9.6, "email": "", "contact": ""}, {"rank": 172, "company": "HoneyHive", "category": "AI evaluation and observability", "tier": "3 different layer", "core_hits": 0, "score": 9.3, "email": "", "contact": ""}, {"rank": 173, "company": "Mem0", "category": "Agent memory", "tier": "3 different layer", "core_hits": 0, "score": 9.2, "email": "", "contact": ""}, {"rank": 174, "company": "E2B", "category": "Code execution sandboxes", "tier": "3 different layer", "core_hits": 0, "score": 8.3, "email": "", "contact": ""}, {"rank": 175, "company": "Mastra", "category": "Agent runtime", "tier": "3 different layer", "core_hits": 0, "score": 8.1, "email": "", "contact": ""}, {"rank": 176, "company": "Etherspot", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.9, "email": "", "contact": ""}, {"rank": 177, "company": "Particle Network", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.9, "email": "", "contact": ""}, {"rank": 178, "company": "Shinami", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.9, "email": "", "contact": ""}, {"rank": 179, "company": "Hatchet", "category": "Workflow infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.9, "email": "", "contact": ""}, {"rank": 180, "company": "Fluence", "category": "Cloud compute", "tier": "3 different layer", "core_hits": 0, "score": 7.7, "email": "", "contact": ""}, {"rank": 181, "company": "Spheron", "category": "Cloud compute", "tier": "3 different layer", "core_hits": 0, "score": 7.7, "email": "", "contact": ""}, {"rank": 182, "company": "Swan Chain", "category": "Cloud compute", "tier": "3 different layer", "core_hits": 0, "score": 7.7, "email": "", "contact": ""}, {"rank": 183, "company": "Mintlify", "category": "API developer infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.7, "email": "", "contact": ""}, {"rank": 184, "company": "Conduit", "category": "Managed blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 7.1, "email": "", "contact": ""}, {"rank": 185, "company": "Aleph Cloud", "category": "Cloud compute and storage", "tier": "3 different layer", "core_hits": 0, "score": 7.0, "email": "", "contact": ""}, {"rank": 186, "company": "Lyzr", "category": "Agent orchestration", "tier": "3 different layer", "core_hits": 0, "score": 6.5, "email": "", "contact": ""}, {"rank": 187, "company": "AgentOps", "category": "Agent observability", "tier": "3 different layer", "core_hits": 0, "score": 6.4, "email": "", "contact": ""}, {"rank": 188, "company": "Pipedream", "category": "Agent tools and authentication", "tier": "3 different layer", "core_hits": 0, "score": 5.8, "email": "", "contact": ""}, {"rank": 189, "company": "Biconomy", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 5.4, "email": "", "contact": ""}, {"rank": 190, "company": "Judgment Labs", "category": "AI evaluation and observability", "tier": "3 different layer", "core_hits": 0, "score": 5.4, "email": "", "contact": ""}, {"rank": 191, "company": "Openlayer", "category": "AI evaluation and observability", "tier": "3 different layer", "core_hits": 0, "score": 5.4, "email": "", "contact": ""}, {"rank": 192, "company": "PromptLayer", "category": "AI evaluation and observability", "tier": "3 different layer", "core_hits": 0, "score": 5.4, "email": "", "contact": ""}, {"rank": 193, "company": "Zep", "category": "Agent memory", "tier": "3 different layer", "core_hits": 0, "score": 5.3, "email": "", "contact": ""}, {"rank": 194, "company": "Dynamic", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.7, "email": "", "contact": ""}, {"rank": 195, "company": "Stackup", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.7, "email": "", "contact": ""}, {"rank": 196, "company": "ZeroDev", "category": "Wallet infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.7, "email": "", "contact": ""}, {"rank": 197, "company": "Upstash", "category": "Database infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.7, "email": "", "contact": ""}, {"rank": 198, "company": "Distributional", "category": "AI evaluation and observability", "tier": "3 different layer", "core_hits": 0, "score": 4.7, "email": "", "contact": ""}, {"rank": 199, "company": "AgentMail", "category": "Email infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.5, "email": "", "contact": ""}, {"rank": 200, "company": "AltLayer", "category": "Managed blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.2, "email": "", "contact": ""}, {"rank": 201, "company": "Reddio", "category": "Managed blockchain infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 4.2, "email": "", "contact": ""}, {"rank": 202, "company": "Cerbos", "category": "Authorization infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 3.2, "email": "", "contact": ""}, {"rank": 203, "company": "Blocknative", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 2.0, "email": "", "contact": ""}, {"rank": 204, "company": "BlockSec", "category": "Blockchain security infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 1.5, "email": "", "contact": ""}, {"rank": 205, "company": "Astralane", "category": "Transaction infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 1.2, "email": "", "contact": ""}, {"rank": 206, "company": "Impossible Cloud", "category": "Storage infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 1.0, "email": "", "contact": ""}, {"rank": 207, "company": "Pinata", "category": "Storage infrastructure", "tier": "3 different layer", "core_hits": 0, "score": 1.0, "email": "", "contact": ""}], "contacts": [], "multiline": [{"company": "Upstash", "families": 5, "families_list": "AI; Comms; Compute; Data; Dev tooling", "email": ""}, {"company": "thirdweb", "families": 4, "families_list": "Chain; Data; Dev tooling; Money", "email": ""}, {"company": "BlockRun", "families": 3, "families_list": "AI; Compute; Data", "email": ""}, {"company": "CrewAI", "families": 3, "families_list": "Compute; Dev tooling; Obs", "email": ""}, {"company": "LangChain", "families": 3, "families_list": "Compute; Dev tooling; Obs", "email": ""}]};
+
+const el = (s, r = document) => r.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- theme ---------- */
+const root = document.documentElement;
+const stored = localStorage.getItem("antseed-theme");
+if (stored) root.dataset.theme = stored;
+function syncTheme(){
+  const night = root.dataset.theme === "night";
+  el("#theme-label").textContent = night ? "Day" : "Night";
+}
+syncTheme();
+el("#theme").addEventListener("click", () => {
+  root.dataset.theme = root.dataset.theme === "night" ? "day" : "night";
+  localStorage.setItem("antseed-theme", root.dataset.theme);
+  syncTheme();
+});
+
+/* ---------- sheet link ---------- */
+if (DATA.sheet) el("#sheet-link").href = DATA.sheet;
+else el("#sheet-link").hidden = true;
+
+/* ---------- the first move ---------- */
+const first = DATA.ranking[0];
+if (first) {
+  const panel = el("#hero-panel");
+  panel.hidden = false;
+  panel.innerHTML = `
+    <div class="label">Top of the ranking</div>
+    <div class="co">${esc(first.company)}</div>
+    <div class="row"><span class="fig">${Number(first.score).toFixed(1)}</span><span class="small">match index</span></div>
+    ${first.email ? `<div class="addr">${esc(first.email)}</div>` : `<div class="small">No personal address yet</div>`}
+    <a class="link" href="#ranking">See all ${DATA.meta.kept} ranked ›</a>`;
+}
+
+/* ---------- copy ---------- */
+el("#copy").addEventListener("click", async (e) => {
+  const cmd = "python3 pipeline/run_pipeline.py --stage all";
+  try { await navigator.clipboard.writeText(cmd); e.target.textContent = "Copied"; }
+  catch { e.target.textContent = "Select the command"; }
+  setTimeout(() => e.target.textContent = "Copy command", 1600);
+});
+
+/* ---------- stages ---------- */
+el("#stage-list").innerHTML = DATA.stages.map(s => `
+  <div class="stage arrive">
+    <div class="num">${String(s.id).padStart(2,"0")}</div>
+    <div>
+      <h3>${esc(s.name)}</h3>
+      <p class="q">${esc(s.question)}</p>
+      <div class="out">${s.outputs.map(o => `<span>${esc(o)}</span>`).join("")}</div>
+    </div>
+    <div class="state">
+      <span class="pill"><span class="dotmark"></span>gate ${esc(s.gate)}</span>
+      <span class="small">${esc(s.note || "")}</span>
+    </div>
+  </div>`).join("");
+
+/* ---------- ranking ---------- */
+function tierClass(t){
+  const n = String(t).trim()[0];
+  return n === "1" ? "tier t1" : "tier";
+}
+function renderRank(expanded){
+  const rows = expanded ? DATA.ranking : DATA.ranking.slice(0, 12);
+  el("#rank-body").innerHTML = rows.map(r => `
+    <tr>
+      <td class="num">${r.rank}</td>
+      <td class="co">${esc(r.company)}<small>${esc(r.category || "")}</small></td>
+      <td><span class="${tierClass(r.tier)}">${esc(r.tier)}</span></td>
+      <td class="num col-core">${r.core_hits}</td>
+      <td>
+        <div class="bar">
+          <span class="val">${Number(r.score).toFixed(1)}</span>
+          <span class="track"><span class="fill" style="width:${Math.max(2, Number(r.score))}%"></span></span>
+        </div>
+      </td>
+      <td class="col-contact">${r.email ? `<span class="email">${esc(r.email)}</span>` : `<span class="small">${esc(r.contact || "no personal email")}</span>`}</td>
+    </tr>`).join("");
+}
+renderRank(false);
+el("#toggle-rows").addEventListener("click", (e) => {
+  const on = e.target.dataset.expanded === "true";
+  e.target.dataset.expanded = String(!on);
+  e.target.textContent = on ? `Show all ${DATA.meta.kept}` : "Show fewer";
+  renderRank(!on);
+});
+
+/* ---------- contacts ---------- */
+if (!DATA.meta.contacts) {
+  document.body.dataset.contacts = "no";
+  el("#contacts .toolbar").hidden = true;
+  el("#contacts .tablewrap").hidden = true;
+  el("#contact-count").hidden = true;
+  el("#contacts-empty").hidden = false;
+  el("#contacts-sub").textContent = "The run writes the addresses to a file. This copy has no contact data.";
+}
+
+let pri = "all", q = "";
+function renderContacts(){
+  const rows = DATA.contacts.filter(c =>
+    (pri === "all" || c.priority === pri) &&
+    (!q || (c.company + " " + c.name + " " + c.role).toLowerCase().includes(q))
+  );
+  el("#contact-body").innerHTML = rows.map(c => `
+    <tr>
+      <td><span class="pri ${c.priority === "now" ? "now" : ""}">${c.priority === "now" ? '<span class="dotmark"></span>' : ""}${esc(c.priority)}</span></td>
+      <td class="co">${esc(c.company)}<small>${esc(c.tier)}</small></td>
+      <td>${esc(c.name)}</td>
+      <td class="muted">${esc(c.role)}</td>
+      <td><span class="email">${esc(c.email)}</span></td>
+      <td class="num">${esc(c.confidence)}</td>
+    </tr>`).join("") || `<tr><td colspan="6" class="small" style="padding:20px 14px">No contact matches that filter.</td></tr>`;
+  el("#contact-count").textContent = `${rows.length} of ${DATA.contacts.length} contacts shown. ${DATA.meta.emails} personal addresses in total.`;
+}
+if (DATA.meta.contacts) renderContacts();
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+  pri = b.dataset.pri;
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  renderContacts();
+}));
+el("#q").addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase(); renderContacts(); });
+
+/* ---------- cards ---------- */
+el("#card-list").innerHTML = DATA.multiline.map(m => `
+  <div class="card arrive">
+    <h3>${esc(m.company)}</h3>
+    <div class="stat"><span class="n">${m.families}</span><span class="fam">${m.families === 1 ? "family" : "families"}</span></div>
+    <p class="list">${esc(m.families_list)}</p>
+    ${m.email ? `<div class="addr">${esc(m.email)}</div>` : (DATA.meta.contacts ? `<div class="small">Shared inbox only</div>` : "")}
+  </div>`).join("");
+
+/* ---------- count-up ---------- */
+function countUp(node){
+  const end = Number(node.dataset.count);
+  if (!Number.isFinite(end)) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches){ node.textContent = end; return; }
+  const dur = 2200, t0 = performance.now();
+  function step(t){
+    const k = Math.min(1, (t - t0) / dur);
+    node.textContent = Math.round(end * (1 - Math.pow(2, -10 * k)));
+    if (k < 1) requestAnimationFrame(step); else node.textContent = end;
+  }
+  requestAnimationFrame(step);
+}
+
+/* ---------- arrive ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    const items = [...en.target.querySelectorAll(".arrive")];
+    items.forEach((n, i) => setTimeout(() => n.classList.add("in"), i * 50));
+    if (en.target.matches(".metric")) en.target.classList.add("in");
+    io.unobserve(en.target);
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".arrive").forEach(n => io.observe(n));
+document.querySelectorAll(".metric").forEach(n => io.observe(n));
+document.querySelectorAll(".figure[data-count]").forEach(countUp);
+</script>
+</body>
+</html>

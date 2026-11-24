@@ -1,0 +1,277 @@
+{
+  "project": {
+    "name": "icp-to-outreach",
+    "subject": "useBuy.ai",
+    "date": "2026-11-24",
+    "workdir": "."
+  },
+  "stages": [
+    {
+      "id": 1,
+      "key": "icp",
+      "name": "ICP generation",
+      "question": "Who do we want, what do they sell, and what do we value?",
+      "inputs": [
+        "company-profile.md",
+        "service-catalogue-analysis.md"
+      ],
+      "outputs": [
+        "icp.md",
+        "pipeline/taxonomy.csv"
+      ],
+      "command": null,
+      "gate": "icp",
+      "required_sections": [
+        "Buyer",
+        "Value proposition",
+        "Capability surface",
+        "Weights",
+        "Core capabilities",
+        "Anti-ICP",
+        "Evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "key": "source",
+      "name": "Sourcing",
+      "question": "Which companies could match, and where do we find them?",
+      "inputs": [
+        "../usebuy-infrastructure-2026-11-20/infrastructure-companies.csv"
+      ],
+      "outputs": [
+        "universe.csv"
+      ],
+      "command": null,
+      "gate": "source",
+      "source_csv": "../usebuy-infrastructure-2026-11-20/infrastructure-companies.csv",
+      "encoding": "utf-8-sig",
+      "id_column": "company",
+      "text_fields": [
+        "infrastructure_category",
+        "service_summary",
+        "infra_services_sold"
+      ],
+      "source_types": [
+        "directory",
+        "review site",
+        "market report",
+        "marketplace catalogue",
+        "competitor customer list",
+        "funding database"
+      ]
+    },
+    {
+      "id": 3,
+      "key": "model",
+      "name": "Scoring model",
+      "question": "Which parameters separate a good match from a bad one, and how much does each count?",
+      "inputs": [
+        "pipeline/taxonomy.csv",
+        "full-scoring-table.md"
+      ],
+      "outputs": [
+        "pipeline/scoring-model.md"
+      ],
+      "command": null,
+      "gate": "model",
+      "terms": {
+        "capability": 0.88,
+        "delivery": 0.07,
+        "buyer": 0.05
+      },
+      "tiers": [
+        {
+          "tier": 1,
+          "match_index_min": 55,
+          "core_hits_min": 2
+        },
+        {
+          "tier": 2,
+          "match_index_min": 18,
+          "core_hits_min": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "score",
+      "name": "Scoring",
+      "question": "How close is each company, and is it reachable?",
+      "inputs": [
+        "universe.csv",
+        "pipeline/taxonomy.csv"
+      ],
+      "outputs": [
+        "similarity-ranking.csv",
+        "similarity-ranking-reachable.csv",
+        "similarity-ranking-removed.csv"
+      ],
+      "command": [
+        "python3",
+        "rank_similarity.py"
+      ],
+      "post_command": [
+        "python3",
+        "filter_reachable.py"
+      ],
+      "gate": "score",
+      "reachability": {
+        "headcount_limit": 150,
+        "remove_competitors": [
+          "Firecrawl",
+          "Apify",
+          "Exa"
+        ],
+        "reason_codes": [
+          "hyperscaler",
+          "public company",
+          "AI major",
+          "competitor",
+          "headcount"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "key": "enrich",
+      "name": "Enrichment and outreach handoff",
+      "question": "Who do we contact, at which address, and why now?",
+      "inputs": [
+        "similarity-ranking-reachable.csv"
+      ],
+      "outputs": [
+        "similarity-ranking-contacts.csv",
+        "outreach.csv"
+      ],
+      "command": [
+        "python3",
+        "enrich_hunter.py",
+        "--min-score",
+        "21.4"
+      ],
+      "gate": "enrich",
+      "requires_credits": true,
+      "enrichment": {
+        "provider": "hunter",
+        "endpoint": "domain-search",
+        "page_limit": 10,
+        "credit_per_domain": 1,
+        "require_type": "personal",
+        "reject_local_parts": [
+          "info",
+          "hello",
+          "contact",
+          "support",
+          "help",
+          "helpdesk",
+          "sales",
+          "admin",
+          "administrator",
+          "team",
+          "hi",
+          "hey",
+          "enquiries",
+          "enquiry",
+          "inquiries",
+          "inquiry",
+          "partnerships",
+          "partners",
+          "business",
+          "bd",
+          "press",
+          "media",
+          "jobs",
+          "careers",
+          "recruiting",
+          "privacy",
+          "legal",
+          "billing",
+          "accounts",
+          "accounting",
+          "finance",
+          "marketing",
+          "hr",
+          "people",
+          "office",
+          "mail",
+          "email",
+          "connect",
+          "grow",
+          "founders",
+          "founder",
+          "noreply",
+          "no-reply",
+          "donotreply",
+          "security",
+          "abuse",
+          "postmaster",
+          "webmaster",
+          "dev",
+          "devs",
+          "developers",
+          "engineering",
+          "api",
+          "ops",
+          "community",
+          "social",
+          "feedback",
+          "success",
+          "customers",
+          "clients",
+          "orders",
+          "service",
+          "services",
+          "general"
+        ],
+        "prefer_titles": [
+          "founder",
+          "co-founder",
+          "ceo",
+          "cto",
+          "coo",
+          "cpo",
+          "cro",
+          "chief",
+          "president",
+          "owner",
+          "partner",
+          "head of",
+          "vp ",
+          "vice president",
+          "director",
+          "lead",
+          "manager",
+          "business development",
+          "partnerships"
+        ],
+        "status_values": [
+          "found",
+          "generic_only",
+          "not_found",
+          "not_run",
+          "error"
+        ]
+      },
+      "handoff": {
+        "fields": [
+          "contact_name",
+          "contact_role",
+          "contact_email",
+          "priority",
+          "reason_to_contact"
+        ],
+        "priority_rule": "tier 1 = now, tier 2 = this week, tier 3 = batch",
+        "backend": "google_sheets",
+        "spreadsheet_id": "1gApZC5JzftQ1E4JpZOqmTPuvxtzPw63muT7DJGgvXSA",
+        "tabs": [
+          "shortlist",
+          "multi-service"
+        ],
+        "value_input": "RAW",
+        "freeze_header": true,
+        "verify": "exact_match_on_every_column"
+      }
+    }
+  ]
+}

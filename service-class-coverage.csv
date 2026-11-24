@@ -1,0 +1,260 @@
+rank,company,class_count,service_classes,category,segment,headcount,url,services
+1,thirdweb,5,Blockchain RPC and nodes; Data APIs and analytics; Developer tooling; Payments; Wallets and keys,Blockchain RPC and data APIs,Web3,19,https://thirdweb.com,Wallet APIs; blockchain RPC access; transaction APIs; payment and application SDK infrastructure
+2,Upstash,5,"AI and model inference; Cloud compute; Database; Developer tooling; Messaging, email, voice",Database infrastructure,AI and developer infrastructure,,https://upstash.com,Serverless Redis; vector databases; messaging and workflow infrastructure
+3,4EVERLAND,4,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment; Storage,Blockchain RPC and data APIs,Web3,5,https://4everland.org,Blockchain RPC access; decentralized storage; cloud computing and hosting
+4,Cloudflare,4,"Cloud compute; Hosting and deployment; Networking, CDN, DNS; Security",Cloud and blockchain infrastructure,Web3,,https://cloudflare.com,Edge application hosting; serverless compute; API gateways; networking and security services
+5,Google Cloud,4,Cloud compute; Database; Hosting and deployment; Storage,Cloud and blockchain infrastructure,Web3,,https://cloud.google.com,Cloud compute; storage; databases; managed blockchain node hosting
+6,Modal,4,AI and model inference; Cloud compute; Developer tooling; Hosting and deployment,Cloud compute,AI and developer infrastructure,,https://modal.com,Serverless compute; GPU workloads; model inference hosting; code execution sandboxes
+7,01.ro,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,10,https://01.ro,Validator node operations; RPC endpoints; blockchain snapshots; seed and sentry nodes; validator hosting
+8,Alchemy,3,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,Blockchain RPC and data APIs,Web3,373,https://www.alchemy.com,Blockchain RPC APIs; indexed blockchain data APIs; webhooks; wallet APIs; gas sponsorship
+9,Alibaba Cloud,3,"Cloud compute; Networking, CDN, DNS; Storage",Cloud and blockchain infrastructure,Web3,,https://www.alibabacloud.com,Cloud servers; storage; networking; managed blockchain services
+10,Allnodes,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,6,https://www.allnodes.com,Blockchain node hosting; validator hosting; staking infrastructure; RPC access
+11,Amazon Web Services,3,Cloud compute; Database; Storage,Cloud and blockchain infrastructure,Web3,,https://aws.amazon.com,Cloud compute; storage; databases; managed blockchain services
+12,Amforc,3,Blockchain RPC and nodes; Cloud compute; Data APIs and analytics,Blockchain RPC and data APIs,Web3,5,https://amforc.com,Managed RPC endpoints; validator infrastructure; dedicated cloud environments; CPU and GPU compute
+13,ARKHIA,3,Blockchain RPC and nodes; Data APIs and analytics; Payments,Blockchain RPC and data APIs,Web3,3,https://arkhia.io,Blockchain RPC APIs; Hedera REST and gRPC data; AI payment infrastructure; cloud data pipelines
+14,AZXA.IO,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,4,https://azxa.io,Dedicated RPC nodes; archive node access; WebSocket connections; managed node hosting
+15,Blink,3,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,Blockchain RPC and data APIs,Web3,7,https://blinklabs.xyz,MEV protection for wallets and RPC providers; transaction lifecycle APIs
+16,Block Stack,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,32,https://blockstack.tech,Blockchain network hosting; blockchain infrastructure deployment and management
+17,BlockCypher,3,Blockchain RPC and nodes; Data APIs and analytics; Observability and evaluation,Blockchain RPC and data APIs,Web3,1,https://www.blockcypher.com,Blockchain data APIs; transaction APIs; address and transaction monitoring
+18,BlockRun,3,AI and model inference; Cloud compute; Data APIs and analytics,Agent API gateway,AI and developer infrastructure,,https://blockrun.ai,Model inference gateway; web search APIs; market data APIs; paid agent tools
+19,Chaingateway.io,3,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,Blockchain RPC and data APIs,Web3,2,https://chaingateway.io,Blockchain transaction APIs; wallet APIs; blockchain event webhooks
+20,ChainUp Cloud,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,120,https://cloud.chainup.com,Blockchain node hosting; RPC endpoint subscriptions; managed blockchain infrastructure
+21,CrewAI,3,Developer tooling; Hosting and deployment; Observability and evaluation,Agent orchestration,AI and developer infrastructure,,https://www.crewai.com,Multi-agent workflow hosting; workflow deployment; monitoring and management
+22,HUAWEI CLOUD,3,"Cloud compute; Networking, CDN, DNS; Storage",Cloud and blockchain infrastructure,Web3,,https://www.huaweicloud.com,Cloud compute; storage; networking; blockchain infrastructure services
+23,IBM Cloud,3,Cloud compute; Database; Storage,Cloud and blockchain infrastructure,Web3,,https://www.ibm.com,Cloud compute; storage; databases; enterprise blockchain infrastructure
+24,IntellectEU,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,222,https://catalyst.intellecteu.com,Enterprise blockchain network deployment; managed node infrastructure through Catalyst
+25,Kaleido,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,75,https://www.kaleido.io,Enterprise blockchain hosting; managed blockchain networks; node and developer APIs
+26,LangChain,3,Developer tooling; Hosting and deployment; Observability and evaluation,Agent orchestration and observability,AI and developer infrastructure,,https://www.langchain.com,Agent deployment; execution tracing; evaluations; monitoring
+27,Launchnodes,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,13,https://www.launchnodes.com,Validator node deployment; blockchain node hosting; staking infrastructure
+28,MongoDB,3,AI and model inference; Database; Hosting and deployment,Database infrastructure,AI and developer infrastructure,,https://www.mongodb.com,Managed document databases; database hosting; vector search
+29,NodeOps,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,26,https://nodeops.network,Cloud node deployment; blockchain node hosting; node operations management
+30,Oracle Cloud,3,Cloud compute; Database; Storage,Cloud and blockchain infrastructure,Web3,,https://www.oracle.com,Cloud compute; storage; databases; enterprise blockchain infrastructure
+31,RPC Fast,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,24,https://rpcfast.com,Blockchain RPC infrastructure; dedicated node hosting
+32,SenseiNode,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,18,https://www.senseinode.com,Managed blockchain nodes; validator hosting; RPC infrastructure
+33,Stakely,3,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,Blockchain RPC and data APIs,Web3,12,https://stakely.io,Node hosting; blockchain RPC access; validator and staking infrastructure
+34,Supabase,3,Database; Identity and auth; Storage,Database infrastructure,AI and developer infrastructure,,https://supabase.com,Managed PostgreSQL; authentication; file storage; backend APIs
+35,Tatum,3,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,Blockchain RPC and data APIs,Web3,76,https://tatum.io,Blockchain RPC APIs; wallet and transaction APIs; blockchain application infrastructure
+36,Tenderly,3,Blockchain RPC and nodes; Data APIs and analytics; Observability and evaluation,Blockchain RPC and data APIs,Web3,79,https://tenderly.co,Blockchain RPC access; transaction simulation; smart contract debugging; monitoring
+37,Zenity,3,Identity and auth; Observability and evaluation; Security,Agent security,AI and developer infrastructure,,https://zenity.io,AI agent security; access controls; risk monitoring; governance
+38,0xFury,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://www.0xfury.com,Blockchain node management; validator operations; Web3 infrastructure services
+39,1RPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,7,https://www.1rpc.io,Blockchain RPC endpoint access
+40,AgentOps,2,Hosting and deployment; Observability and evaluation,Agent observability,AI and developer infrastructure,,https://www.agentops.ai,Agent execution tracing; debugging; monitoring; deployment tools
+41,Aleph Cloud,2,Cloud compute; Storage,Cloud compute and storage,Web3,,https://aleph.cloud,Virtual machines; distributed computing; file storage
+42,All That Node,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,59,https://www.allthatnode.com,Blockchain RPC endpoints; dedicated blockchain node access
+43,Ankr,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,87,https://www.ankr.com,Blockchain RPC APIs; managed node access; blockchain infrastructure services
+44,Asternodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.asternodes.io,"Blockchain node APIs through JSON-RPC, REST, and WebSocket interfaces"
+45,AvaCloud,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://avacloud.io,Managed validator nodes; Avalanche RPC nodes; dedicated nodes; block explorers; Web3 data APIs
+46,BitHub,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.bithub.com,Hosted blockchain JSON-RPC API access
+47,BLAZED.sh,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://blazed.sh,Application containers hosted beside Ethereum nodes; local RPC access; mempool subscriptions
+48,BlazingNode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.blazingnode.com,Polygon RPC subscriptions; dedicated Polygon capacity; WebSocket connections
+49,Blink Labs,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,6,https://blinklabs.io,Cardano and Handshake node engineering; chain data APIs; custom indexers; production operations
+50,Blockdaemon,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,210,https://blockdaemon.com,Managed blockchain nodes; RPC APIs; validator and staking infrastructure
+51,BlockEden.xyz,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://blockeden.xyz,Blockchain RPC endpoint access; developer API infrastructure
+52,Blockfrost,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://blockfrost.io,Cardano API access; blockchain data queries; hosted developer endpoints
+53,blockmachine,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://blockmachine.io,Usage-based blockchain RPC API access
+54,Blockops,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,9,https://www.blockops.network,Validator management; multi-validator clusters; dedicated blockchain infrastructure
+55,BlockPI,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,5,https://blockpi.io,Blockchain RPC endpoints; managed blockchain API access
+56,BlockReq,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://blockreq.com,Multi-chain RPC API subscriptions; WebSocket connections
+57,BlockSec,2,Observability and evaluation; Security,Blockchain security infrastructure,Web3,,https://blocksec.com,Transaction monitoring; smart contract security analysis; onchain threat detection
+58,BLOCKSIZE,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,13,https://blocksize.info,Digital asset price feeds; streaming market data through WebSocket APIs
+59,BlockVectra,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://blockvectra.com,Blockchain RPC APIs; blockchain data APIs; webhook delivery
+60,BlockVision,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,7,https://blockvision.org,Blockchain RPC endpoints; indexed blockchain data APIs
+61,Bloq,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,43,https://bloq.com,Hosted blockchain nodes; blockchain API access through BloqCloud
+62,Boar Network,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,5,https://boar.network,EVM RPC endpoints; Bitcoin RPC subscriptions; custom dedicated infrastructure
+63,BoltRPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://boltrpc.io,Blockchain HTTPS and WebSocket RPC endpoints; Sui gRPC access
+64,Canton Nodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,5,https://www.cantonnodes.com,Canton Network RPC access; dedicated RPC endpoints; enterprise API infrastructure
+65,Chain.love,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,6,https://chain-love.gitbook.io,Blockchain RPC subscriptions; dedicated RPC service plans
+66,CHAINNODES,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,10,https://www.chainnodes.org,Blockchain RPC subscriptions; dedicated blockchain nodes
+67,Chainstack,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,55,https://chainstack.com,Shared and dedicated RPC nodes; self-hosted node management; archive data; blockchain data streams
+68,Cherry Servers,2,Cloud compute; Hosting and deployment,Cloud and blockchain infrastructure,Web3,,https://www.cherryservers.com,Bare-metal servers; cloud servers; dedicated hosting
+69,Coinbase Cloud,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,36,https://www.coinbase.com,Blockchain node API access; developer APIs for onchain applications
+70,constant-k,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.constant-k.com,Solana RPC access; Yellowstone gRPC streams; Solana shred data streams
+71,Corvus Labs,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://corvus-labs.io,Blockchain node RPC access
+72,Crossmint,2,Payments; Wallets and keys,Wallet and payment infrastructure,Web3,,https://www.crossmint.com,Embedded wallets; payment APIs; tokenization APIs; agent payment infrastructure
+73,Crypto APIs,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,12,https://cryptoapis.io,Blockchain data APIs; transaction APIs; blockchain event notifications
+74,DedicatedNodes.io,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://www.dedicatednodes.io,Dedicated Solana servers; managed blockchain RPC nodes
+75,Demeter,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,17,https://demeter.run,Hosted Cardano node access; Cardano development infrastructure
+76,dRPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,19,https://drpc.org,Blockchain RPC endpoint access; RPC routing and failover
+77,Dune,2,Data APIs and analytics; Database,Blockchain data infrastructure,Web3,152,https://dune.com,Hosted blockchain SQL queries; analytics APIs; indexed blockchain datasets
+78,Dwellir,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,10,https://www.dwellir.com,Blockchain RPC endpoints; managed blockchain node infrastructure
+79,Dynamic,2,Identity and auth; Wallets and keys,Wallet infrastructure,Web3,,https://www.dynamic.xyz,Embedded wallets; user authentication; wallet connection APIs
+80,ECAD Infra,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,14,https://ecadinfra.com,Blockchain node RPC access
+81,ERPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://erpc.global,Blockchain node RPC access
+82,etox,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://etox.io,Authenticated JSON-RPC APIs; WebSocket connections; dedicated RPC capacity
+83,Exaion,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://crypto.exaion.com,Managed blockchain node access; enterprise blockchain infrastructure
+84,FastNear,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://fastnear.com,NEAR RPC access; NEAR blockchain data APIs
+85,Fastnode.io,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,4,https://fastnode.io,Blockchain node RPC access
+86,Fern,2,Developer tooling; Hosting and deployment,API developer infrastructure,AI and developer infrastructure,,https://buildwithfern.com,API documentation hosting; developer portals; generated client SDKs
+87,FlashBlock,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://flashblock.trade,Blockchain node RPC access
+88,Fleek,2,Cloud compute; Hosting and deployment,Cloud compute and hosting,Web3,,https://fleek.xyz,Cloud computing; application hosting; deployment infrastructure
+89,FluxRPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,11,https://fluxrpc.com,Blockchain node RPC access
+90,GetBlock,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,32,https://getblock.io,Shared blockchain RPC access; dedicated blockchain node access
+91,GlobalStake,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,11,https://globalstake.io,Blockchain node RPC access
+92,GoldRush,2,Data APIs and analytics; Wallets and keys,Blockchain data infrastructure,Web3,38,https://goldrush.dev,Unified blockchain data APIs; wallet and transaction data; indexed blockchain data
+93,Goldsky,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,30,https://goldsky.com,Blockchain indexing; hosted subgraphs; real-time blockchain data pipelines
+94,Helius,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,61,https://www.helius.dev,Solana RPC access; blockchain data APIs; webhooks; transaction infrastructure
+95,HoneyHive,2,Data APIs and analytics; Observability and evaluation,AI evaluation and observability,AI and developer infrastructure,,https://www.honeyhive.ai,Agent tracing; AI evaluations; test datasets; experiment tracking
+96,Hydromancer,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://hydromancer.xyz,Blockchain node RPC access
+97,Hypedexer,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://hypedexer.com,Blockchain node RPC access
+98,Imperator.co,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,4,https://www.imperator.co,Dedicated blockchain nodes; RPC endpoints; validator infrastructure
+99,InfStones,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,34,https://infstones.com,Managed blockchain nodes; RPC APIs; validator and staking infrastructure
+100,Infura,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,14,https://infura.io,Blockchain RPC endpoints; developer API access
+101,Inodra,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://inodra.com,Blockchain node RPC access
+102,Instanodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,18,https://www.instanodes.io,Blockchain node RPC access
+103,Kriptonio,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://kriptonio.com,Blockchain RPC APIs; application backend infrastructure
+104,L0vd,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://l0vd.com,Blockchain node RPC access
+105,LaunchDarkly,2,Developer tooling; Hosting and deployment,Developer infrastructure,AI and developer infrastructure,,https://launchdarkly.com,Feature flag hosting; application experimentation; AI configuration management
+106,LeoRPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://leorpc.com,Blockchain node RPC access
+107,Liquify,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,14,https://www.liquify.com,Blockchain RPC access; managed blockchain node infrastructure
+108,Luganodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,16,https://rpc.luganodes.com,Blockchain RPC endpoint access; validator and staking infrastructure
+109,Lyzr,2,Developer tooling; Hosting and deployment,Agent orchestration,AI and developer infrastructure,,https://www.lyzr.ai,Enterprise agent development platform; agent deployment; workflow management
+110,Mastra,2,Developer tooling; Observability and evaluation,Agent runtime,AI and developer infrastructure,,https://mastra.ai,Hosted agent runtime; workflow execution; agent tracing and observability
+111,Mem0,2,AI and model inference; Storage,Agent memory,AI and developer infrastructure,,https://mem0.ai,Persistent agent memory APIs; storage and retrieval of user and conversation context
+112,Mintlify,2,Developer tooling; Hosting and deployment,API developer infrastructure,AI and developer infrastructure,,https://www.mintlify.com,Developer documentation hosting; documentation search; agent-readable documentation
+113,Mobula,2,Data APIs and analytics; Wallets and keys,Blockchain data infrastructure,Web3,10,https://mobula.io,Token market data APIs; wallet data; blockchain analytics
+114,Moralis,2,Data APIs and analytics; Wallets and keys,Blockchain data infrastructure,Web3,58,https://moralis.com,Wallet data APIs; token and NFT data APIs; indexed blockchain data
+115,Nansen,2,Data APIs and analytics; Wallets and keys,Blockchain data infrastructure,Web3,117,https://nansen.ai,Wallet analytics; blockchain intelligence; blockchain data APIs
+116,Neon,2,Cloud compute; Database,Database infrastructure,AI and developer infrastructure,,https://neon.com,Managed PostgreSQL databases; serverless database compute; database branching
+117,Node Forge,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://nodeforge.io,Blockchain node RPC access
+118,node101,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,11,https://node101.io,RPC endpoint access; validator infrastructure; blockchain node operations
+119,NodeFlare,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://nodeflare.app,Blockchain node RPC access
+120,Nodefleet,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,4,https://datanodes.nodefleet.net,Blockchain node RPC access
+121,Nodeinfra,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://nodeinfra.com,Managed blockchain nodes; RPC access; validator infrastructure
+122,Nodely,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://nodely.io,Blockchain node RPC access
+123,NodeReal,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,20,https://nodereal.io,Blockchain RPC access; blockchain developer API infrastructure
+124,Nodies,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,8,https://www.nodies.app,Blockchain node RPC access
+125,Nodit,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,66,https://www.nodit.io,Blockchain RPC nodes; indexed blockchain data APIs; data streaming
+126,NoLimitNodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://nolimitnodes.com,Blockchain node RPC access
+127,Noode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,4,https://noode.com.tr,Enterprise blockchain RPC access; dedicated node clusters
+128,NorthWest Nodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://northwestnodes.com,Blockchain node RPC access
+129,Novacula,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://novacula.io,Blockchain node RPC access
+130,NOWNodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,10,https://nownodes.io,Blockchain RPC endpoints; blockchain data API subscriptions
+131,OBSRVR,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.withobsrvr.com,Blockchain node RPC access
+132,OnFinality,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,6,https://onfinality.io,Blockchain RPC endpoints; managed blockchain nodes
+133,OrbitFlare,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://orbitflare.com,Blockchain node RPC access
+134,Pinecone,2,AI and model inference; Database,Database infrastructure,AI and developer infrastructure,,https://www.pinecone.io,Managed vector databases; vector similarity search; retrieval infrastructure
+135,Pipedream,2,Developer tooling; Identity and auth,Agent tools and authentication,AI and developer infrastructure,,https://pipedream.com,Hosted workflows; managed API integrations; authentication for embedded integrations
+136,Privy,2,Identity and auth; Wallets and keys,Wallet infrastructure,Web3,,https://www.privy.io,Embedded wallets; key management; authentication; transaction signing infrastructure
+137,PromptLayer,2,Observability and evaluation; Storage,AI evaluation and observability,AI and developer infrastructure,,https://www.promptlayer.com,Prompt storage and version control; prompt evaluations; request tracing
+138,QuickNode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,110,https://www.quicknode.com,Blockchain RPC endpoints; dedicated node infrastructure; blockchain data streaming
+139,RadiumBlock,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://radiumblock.com,Blockchain node RPC access
+140,RedSwitches,2,Cloud compute; Hosting and deployment,Cloud and blockchain infrastructure,Web3,,https://www.redswitches.com,Dedicated servers; bare-metal hosting; managed server infrastructure
+141,Render,2,Database; Hosting and deployment,Cloud hosting,AI and developer infrastructure,,https://render.com,Application hosting; background workers; managed databases
+142,Replicate,2,AI and model inference; Hosting and deployment,Model inference,AI and developer infrastructure,,https://replicate.com,Hosted model inference APIs; deployment of machine learning models
+143,Replit,2,Cloud compute; Hosting and deployment,Cloud development infrastructure,AI and developer infrastructure,,https://replit.com,Hosted development environments; application deployment; cloud compute
+144,Resend,2,"Messaging, email, voice; Observability and evaluation",Email infrastructure,AI and developer infrastructure,,https://resend.com,Transactional email delivery; email sending APIs; delivery monitoring
+145,RockX,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,19,https://access.rockx.com,Blockchain RPC APIs; validator and staking infrastructure
+146,RouteMe.sh,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://routeme.sh,Blockchain node RPC access
+147,RpcNode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://rpcnode.dev,Blockchain node RPC access
+148,Selvage Labs,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://selvagelabs.io,Blockchain node RPC access
+149,Sentio,2,Data APIs and analytics; Observability and evaluation,Blockchain data infrastructure,Web3,12,https://www.sentio.xyz,Blockchain indexing; transaction monitoring; blockchain analytics
+150,Shinami,2,Blockchain RPC and nodes; Wallets and keys,Wallet infrastructure,Web3,9,https://www.shinami.com,Wallet APIs; transaction sponsorship; blockchain node access
+151,Shyft,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,5,https://shyft.to,Solana RPC access; indexed Solana data APIs; transaction data infrastructure
+152,SigmaCore,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://sigmatic.io,Blockchain node RPC access
+153,Sodae,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://sodae.io,Blockchain node RPC access
+154,Solami,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,1,https://solami.dev,Blockchain node RPC access
+155,SolidRPC,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,2,https://solidrpc.io,Blockchain node RPC access
+156,SolSqueezer,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://solsqueezer.gitbook.io,Blockchain node RPC access
+157,Spectrum,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,4,https://spectrumnodes.com,Blockchain node RPC access
+158,SpeedyNodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.speedynodes.com,Blockchain node RPC access
+159,StreamingFast,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://thegraph.market,Blockchain data streaming; indexing infrastructure; data query services
+160,Supanode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,12,https://supanode.xyz,Solana RPC endpoints; WebSocket and gRPC data streams; transaction sending; dedicated infrastructure
+161,SwiftNodes,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://swiftnodes.io,Blockchain node RPC access
+162,Synapse,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://synapse.oobeprotocol.ai,Blockchain node RPC access
+163,Telnyx,2,"Messaging, email, voice; Networking, CDN, DNS",Voice infrastructure,AI and developer infrastructure,,https://telnyx.com,Voice APIs; messaging APIs; telecommunications infrastructure; voice AI services
+164,TON API,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://tonapi.io,TON blockchain data APIs; transaction and account data access
+165,TONNode,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://tonnode.io,Blockchain node RPC access
+166,Triport,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://triport.io,Blockchain node RPC access
+167,TronGrid,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.trongrid.io,TRON RPC endpoints; blockchain data APIs; transaction submission APIs
+168,Uniblock,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,16,https://www.uniblock.dev,Unified blockchain APIs; RPC access; blockchain data routing
+169,Validation Cloud,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,25,https://validationcloud.io,Blockchain node APIs; RPC access; staking infrastructure
+170,velia.net,2,Cloud compute; Hosting and deployment,Cloud and blockchain infrastructure,Web3,,https://www.velia.net,Dedicated server hosting; managed server infrastructure
+171,Venum,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://www.venum.dev,Blockchain node RPC access
+172,Vercel,2,Cloud compute; Hosting and deployment,Cloud hosting,AI and developer infrastructure,,https://vercel.com,Web application deployment; serverless functions; AI model gateway
+173,Web3CDN,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,,https://web3cdn.network,Blockchain node RPC access
+174,ZAN,2,Blockchain RPC and nodes; Data APIs and analytics,Blockchain RPC and data APIs,Web3,3,https://zan.top,Blockchain node services; RPC API access
+175,Zapier,2,Developer tooling; Identity and auth,Agent tools and authentication,AI and developer infrastructure,,https://zapier.com,Hosted automation workflows; application integrations; MCP tool access
+176,Zep,2,AI and model inference; Storage,Agent memory,AI and developer infrastructure,,https://www.getzep.com,Agent memory storage; context retrieval; managed context infrastructure
+177,Zerion,2,Data APIs and analytics; Wallets and keys,Blockchain data infrastructure,Web3,72,https://zerion.io,Wallet portfolio data APIs; indexed token and transaction data
+178,ZeroDev,2,Developer tooling; Wallets and keys,Wallet infrastructure,Web3,,https://zerodev.app,Smart accounts; transaction sponsorship; wallet SDK infrastructure
+179,AgentMail,1,"Messaging, email, voice",Email infrastructure,AI and developer infrastructure,,https://www.agentmail.to,Programmable email inboxes; email sending and receiving APIs; agent email management
+180,Allium,1,Data APIs and analytics,Blockchain data infrastructure,Web3,78,https://allium.so,Indexed blockchain datasets; blockchain data queries; data APIs
+181,AltLayer,1,Hosting and deployment,Managed blockchain infrastructure,Web3,15,https://altlayer.io,Managed rollup infrastructure; application-chain deployment
+182,Anthropic,1,AI and model inference,Model inference,AI and developer infrastructure,,https://www.anthropic.com,Language model inference APIs for business applications and agents
+183,Arcade,1,Identity and auth,Agent tools and authentication,AI and developer infrastructure,,https://www.arcade.dev,Authenticated tool execution; application connectors; agent authorization
+184,Biconomy,1,Wallets and keys,Wallet infrastructure,Web3,,https://www.biconomy.io,Smart accounts; gas sponsorship; transaction execution APIs
+185,Bitquery,1,Data APIs and analytics,Blockchain data infrastructure,Web3,21,https://bitquery.io,Blockchain data APIs; GraphQL queries; transaction and market data streams
+186,Blockchair,1,Data APIs and analytics,Blockchain data infrastructure,Web3,9,https://blockchair.com,Blockchain explorer APIs; transaction and address data; blockchain datasets
+187,Blocknative,1,Observability and evaluation,Transaction infrastructure,Web3,,https://www.blocknative.com,Mempool data; gas estimation; transaction monitoring APIs
+188,BlockRazor,1,Blockchain RPC and nodes,Transaction infrastructure,Web3,5,https://blockrazor.io,Blockchain transaction delivery; low-latency RPC infrastructure
+189,Browser Use,1,Browser automation,Browser infrastructure,AI and developer infrastructure,,https://browser-use.com,Cloud browser sessions; browser automation; agent browser execution
+190,Browserbase,1,Browser automation,Browser infrastructure,AI and developer infrastructure,,https://www.browserbase.com,Hosted browser sessions; browser automation APIs; browser session management
+191,Cerbos,1,Identity and auth,Authorization infrastructure,AI and developer infrastructure,,https://www.cerbos.dev,Application authorization; permission policies; managed policy administration
+192,Certora,1,Security,Blockchain security infrastructure,Web3,,https://www.certora.com,Smart contract formal verification; security testing tools
+193,Chainbase,1,Data APIs and analytics,Blockchain data infrastructure,Web3,10,https://platform.chainbase.com,Indexed blockchain data APIs; blockchain data pipelines
+194,CODEX DATA,1,Data APIs and analytics,Blockchain data infrastructure,Web3,12,https://www.codex.io,Token and decentralized exchange data APIs; real-time market data
+195,CoinGecko,1,Data APIs and analytics,Blockchain data APIs,Web3,,https://www.coingecko.com,Cryptocurrency price APIs; token market data; historical market data
+196,Composio,1,Identity and auth,Agent tools and authentication,AI and developer infrastructure,,https://composio.dev,Application connectors; managed OAuth; authenticated API and tool access
+197,Conduit,1,Hosting and deployment,Managed blockchain infrastructure,Web3,36,https://conduit.xyz,Managed rollup hosting; blockchain deployment infrastructure
+198,Deepgram,1,"Messaging, email, voice",Voice infrastructure,AI and developer infrastructure,,https://deepgram.com,Speech recognition APIs; speech synthesis APIs; voice agent APIs
+199,DeepSeek,1,AI and model inference,Model inference,AI and developer infrastructure,,https://www.deepseek.com,Language model inference APIs
+200,Distributional,1,Observability and evaluation,AI evaluation and observability,AI and developer infrastructure,,https://distributional.com,AI evaluation; automated testing of AI outputs; production performance monitoring
+201,Dodo Payments,1,Payments,Payment infrastructure,AI and developer infrastructure,,https://dodopayments.com,Payment processing; subscriptions; software billing
+202,E2B,1,Developer tooling,Code execution sandboxes,AI and developer infrastructure,,https://e2b.dev,Isolated cloud sandboxes; execution of agent-generated code; sandbox management APIs
+203,Envio,1,Data APIs and analytics,Blockchain data infrastructure,Web3,13,https://envio.dev,Blockchain indexing; indexed event data; blockchain data retrieval infrastructure
+204,Etherscan,1,Data APIs and analytics,Blockchain data infrastructure,Web3,41,https://etherscan.io,"Blockchain explorer APIs; address, contract, and transaction data access"
+205,Etherspot,1,Wallets and keys,Wallet infrastructure,Web3,7,https://etherspot.io,Smart account infrastructure; transaction execution; gas sponsorship APIs
+206,fal,1,AI and model inference,Model inference,AI and developer infrastructure,,https://fal.ai,Image generation APIs; video generation APIs; audio generation APIs; hosted model inference
+207,Firecrawl,1,Browser automation,Web data infrastructure,AI and developer infrastructure,,https://www.firecrawl.dev,Web scraping APIs; website crawling; web search; browser interaction
+208,Fluence,1,Cloud compute,Cloud compute,Web3,,https://www.fluence.network,Distributed virtual machines; cloud compute rental
+209,Fractal ID,1,Identity and auth,Identity infrastructure,Web3,,https://web.fractal.id,Identity verification; business onboarding infrastructure for Web3 applications
+210,Hatchet,1,Developer tooling,Workflow infrastructure,AI and developer infrastructure,,https://hatchet.run,Hosted task queues; workflow execution; durable background jobs
+211,Hello Moon,1,Data APIs and analytics,Blockchain data infrastructure,Web3,8,https://www.hellomoon.io,Solana blockchain data APIs; indexed account and transaction data
+212,Hostinger,1,Hosting and deployment,Cloud hosting,AI and developer infrastructure,,https://www.hostinger.com,Web hosting; virtual private servers; managed cloud hosting
+213,Impossible Cloud,1,Storage,Storage infrastructure,Web3,,https://www.impossiblecloud.com,Cloud object storage; business data storage infrastructure
+214,Indexing Co,1,Data APIs and analytics,Blockchain data infrastructure,Web3,7,https://www.indexing.co,Blockchain indexing services; real-time blockchain data pipelines
+215,IndexSupply,1,Data APIs and analytics,Blockchain data infrastructure,Web3,1,https://www.indexsupply.com,Blockchain indexing; indexed blockchain datasets; data query infrastructure
+216,Inngest,1,Developer tooling,Workflow infrastructure,AI and developer infrastructure,,https://www.inngest.com,Durable workflow execution; background jobs; event-driven task orchestration
+217,Judgment Labs,1,Observability and evaluation,AI evaluation and observability,AI and developer infrastructure,,https://judgmentlabs.ai,Agent evaluations; task monitoring; evaluation APIs
+218,Kaiko,1,Data APIs and analytics,Blockchain data infrastructure,Web3,224,https://www.kaiko.com,Digital asset market data; historical trade data; market data APIs
+219,Merge,1,Identity and auth,Agent tools and authentication,AI and developer infrastructure,,https://www.merge.dev,Unified enterprise APIs; application integrations; authenticated agent connectors
+220,MoonPay,1,Payments,Payment infrastructure,Web3,,https://www.moonpay.com,Fiat onramp and off-ramp APIs; embedded crypto checkout; business payment infrastructure
+221,Noves,1,Data APIs and analytics,Blockchain data infrastructure,Web3,15,https://www.noves.fi,Decoded transaction data; blockchain transaction translation APIs
+222,OpenAI,1,AI and model inference,Model inference,AI and developer infrastructure,,https://openai.com,"Model inference APIs for text, images, audio, and agent applications"
+223,Openlayer,1,Observability and evaluation,AI evaluation and observability,AI and developer infrastructure,,https://www.openlayer.com,AI testing; model and application evaluations; production monitoring
+224,Ormi Labs,1,Data APIs and analytics,Blockchain data infrastructure,Web3,7,https://ormilabs.com,Blockchain indexing; indexed blockchain data APIs
+225,Particle Network,1,Wallets and keys,Wallet infrastructure,Web3,20,https://particle.network,Wallet infrastructure; unified account access; cross-chain transaction infrastructure
+226,Pinata,1,Storage,Storage infrastructure,Web3,,https://pinata.cloud,Managed file storage; IPFS uploads and retrieval; storage APIs
+227,PINAX,1,Data APIs and analytics,Blockchain data infrastructure,Web3,18,https://pinax.network,Blockchain data streaming; indexing infrastructure; hosted data services
+228,Ramp Network,1,Payments,Payment infrastructure,Web3,,https://ramp.network,Fiat onramp and off-ramp APIs; embedded crypto purchasing infrastructure
+229,Safe,1,Wallets and keys,Wallet infrastructure,Web3,,https://safe.global,Smart account infrastructure; multisignature account tooling
+230,Solana Tracker,1,Data APIs and analytics,Blockchain data infrastructure,Web3,,https://solanatracker.io,Solana token and market data APIs; blockchain data access
+231,Solana Vibe Station,1,Blockchain RPC and nodes,Transaction infrastructure,Web3,3,https://www.solanavibestation.com,Solana RPC endpoints; low-latency transaction infrastructure
+232,SolanaStreaming,1,Data APIs and analytics,Blockchain data infrastructure,Web3,,https://solanastreaming.com,Solana blockchain data streams; real-time transaction data access
+233,SonarX,1,Data APIs and analytics,Blockchain data infrastructure,Web3,15,https://www.sonarx.com,Blockchain datasets; indexed blockchain data delivery
+234,Speakeasy,1,Developer tooling,API developer infrastructure,AI and developer infrastructure,,https://www.speakeasy.com,Client SDK generation; MCP server generation; API development tools
+235,Spheron,1,Cloud compute,Cloud compute,Web3,,https://www.spheron.network,Distributed GPU rental; AI workload computing
+236,SQD,1,Data APIs and analytics,Blockchain data infrastructure,Web3,38,https://sqd.dev,Blockchain indexing infrastructure; multi-chain datasets; blockchain data streams
+237,Stackup,1,Wallets and keys,Wallet infrastructure,Web3,,https://www.stackup.sh,Smart account infrastructure; account abstraction APIs
+238,Storj,1,Storage,Storage infrastructure,Web3,,https://www.storj.io,Cloud object storage; data storage and delivery
+239,Stripe,1,Payments,Payment infrastructure,AI and developer infrastructure,,https://stripe.com,Payment processing APIs; subscription billing; financial infrastructure APIs
+240,Subscan,1,Data APIs and analytics,Blockchain data infrastructure,Web3,1,https://pro.subscan.io,Blockchain explorer APIs; indexed account and transaction data
+241,Swan Chain,1,Cloud compute,Cloud compute,Web3,,https://www.swanchain.io,Distributed AI compute; cloud infrastructure services
+242,Tokenview,1,Data APIs and analytics,Blockchain data infrastructure,Web3,,https://services.tokenview.io,Blockchain explorer APIs; multi-chain transaction and address data
+243,Transak,1,Payments,Payment infrastructure,Web3,,https://transak.com,Fiat onramp and off-ramp APIs; embedded crypto checkout
+244,Triton One,1,Blockchain RPC and nodes,Transaction infrastructure,Web3,21,https://triton.one,Solana RPC infrastructure; blockchain data streaming
+245,Turnkey,1,Wallets and keys,Wallet infrastructure,Web3,,https://www.turnkey.com,Wallet creation APIs; transaction signing; key management infrastructure
+246,Venice,1,AI and model inference,Model inference,Web3,,https://venice.ai,Private AI model inference APIs
+247,WatchData,1,Data APIs and analytics,Blockchain data infrastructure,Web3,2,https://watchdata.io,Blockchain data APIs; indexed transaction and account data
+248,Zeeve,1,Hosting and deployment,Managed blockchain infrastructure,Web3,120,https://www.zeeve.io,Managed blockchain nodes; rollup hosting; application-chain deployment
+249,ZettaBlock,1,Data APIs and analytics,Blockchain data infrastructure,Web3,7,https://zettablock.com,Blockchain data APIs; data indexing; application data infrastructure
+250,0x,0,,Trading API infrastructure,Web3,,https://0x.org,Swap quote APIs; trade routing; onchain swap execution infrastructure
+251,Apify,0,,Web data infrastructure,AI and developer infrastructure,,https://apify.com,Hosted web scraping actors; crawler execution; data extraction APIs
+252,Astralane,0,,Transaction infrastructure,Web3,11,https://astralane.io,Blockchain transaction delivery; low-latency blockchain connectivity
+253,bloXroute Labs,0,,Transaction infrastructure,Web3,54,https://bloxroute.com,Low-latency transaction distribution; blockchain data feeds; transaction infrastructure
+254,Exa,0,,Web data infrastructure,AI and developer infrastructure,,https://exa.ai,Web search APIs; page content extraction; web research APIs
+255,LI.FI,0,,Cross-chain API infrastructure,Web3,,https://li.fi,Cross-chain bridge aggregation APIs; swap routing APIs
+256,Parallel,0,,Web data infrastructure,AI and developer infrastructure,,https://parallel.ai,Web search APIs; web research APIs; structured research outputs
+257,Perplexity,0,,Web data infrastructure,AI and developer infrastructure,,https://www.perplexity.ai,Search APIs; grounded answer APIs; web research APIs
+258,Reddio,0,,Managed blockchain infrastructure,Web3,2,https://www.reddio.com,Managed blockchain infrastructure; application-chain infrastructure
+259,Tavily,0,,Web data infrastructure,AI and developer infrastructure,,https://www.tavily.com,Web search APIs; content extraction; agent research APIs

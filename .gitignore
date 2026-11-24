@@ -1,0 +1,12 @@
+# personal data: never commit
+outreach.csv
+similarity-ranking-contacts.csv
+hunter-cache/
+hunter-account.json
+
+# python
+__pycache__/
+*.pyc
+
+# system
+.DS_Store

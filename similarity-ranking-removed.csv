@@ -1,0 +1,53 @@
+old_rank,company,score,category,headcount,reason_code,reason
+,Firecrawl,68.3,Web data infrastructure,,competitor,"web data competitor, excluded by request"
+,Apify,64.7,Web data infrastructure,,competitor,"catalogue competitor and supplier, excluded by request"
+,Cloudflare,39.5,Cloud and blockchain infrastructure,,large network,"public company, edge network"
+,Zapier,32.4,Agent tools and authentication,,large SaaS,automation leader
+,Vercel,31.7,Cloud hosting,,late-stage platform,large developer platform
+,Exa,28.0,Web data infrastructure,,competitor,"web search competitor, excluded by request"
+,Perplexity,28.0,Web data infrastructure,,AI major,consumer search brand
+,Alchemy,24.3,Blockchain RPC and data APIs,373,headcount 373,large infrastructure vendor
+,ChainUp Cloud,21.3,Blockchain RPC and data APIs,120,headcount 120,part of a large group
+,Infura,21.3,Blockchain RPC and data APIs,14,corporate product,product of ConsenSys
+,QuickNode,21.3,Blockchain RPC and data APIs,110,headcount 110,large RPC vendor
+,Dune,18.3,Blockchain data infrastructure,152,headcount 152,large analytics vendor
+,Etherscan,18.3,Blockchain data infrastructure,41,category leader,explorer leader
+,Kaiko,18.3,Blockchain data infrastructure,224,headcount 224,market-data vendor
+,Nansen,18.3,Blockchain data infrastructure,117,headcount 117,large analytics vendor
+,Blockdaemon,18.1,Blockchain RPC and data APIs,210,headcount 210,large node vendor
+,Coinbase Cloud,18.1,Blockchain RPC and data APIs,36,exchange division,division of a listed exchange
+,IntellectEU,18.1,Blockchain RPC and data APIs,222,headcount 222,large integrator
+,Modal,16.7,Cloud compute,,late-stage AI,compute platform
+,Anthropic,15.5,Model inference,,AI major,frontier model lab
+,DeepSeek,15.5,Model inference,,AI major,frontier model lab
+,Replicate,15.5,Model inference,,AI major,model hosting leader
+,Replit,14.4,Cloud development infrastructure,,late-stage SaaS,large dev platform
+,Stripe,13.2,Payment infrastructure,,large fintech,public-scale payments company
+,CoinGecko,12.9,Blockchain data APIs,,category leader,market-data leader
+,OpenAI,11.7,Model inference,,AI major,frontier model lab
+,MoonPay,10.7,Payment infrastructure,,large fintech,fiat onramp leader
+,Transak,10.7,Payment infrastructure,,large fintech,fiat onramp vendor
+,Alibaba Cloud,9.6,Cloud and blockchain infrastructure,,hyperscaler,global cloud division
+,Amazon Web Services,9.6,Cloud and blockchain infrastructure,,hyperscaler,global cloud division
+,Google Cloud,9.6,Cloud and blockchain infrastructure,,hyperscaler,"global cloud division, also a supplier"
+,HUAWEI CLOUD,9.6,Cloud and blockchain infrastructure,,hyperscaler,global cloud division
+,IBM Cloud,9.6,Cloud and blockchain infrastructure,,hyperscaler,global cloud division
+,Oracle Cloud,9.6,Cloud and blockchain infrastructure,,hyperscaler,global cloud division
+,Hostinger,8.6,Cloud hosting,,large host,global hosting group
+,Render,8.6,Cloud hosting,,late-stage SaaS,hosting platform
+,Telnyx,7.7,Voice infrastructure,,large carrier,global carrier
+,0x,4.9,Trading API infrastructure,,large protocol,liquidity protocol company
+,Privy,4.7,Wallet infrastructure,,acquired,acquired by Stripe
+,Safe,4.7,Wallet infrastructure,,large foundation,"wallet standard, foundation-run"
+,Turnkey,4.7,Wallet infrastructure,,late-stage,wallet infrastructure vendor
+,Ramp Network,4.2,Payment infrastructure,,large fintech,fiat onramp vendor
+,Deepgram,3.8,Voice infrastructure,,late-stage AI,voice AI leader
+,Resend,3.8,Email infrastructure,,late-stage SaaS,email platform
+,MongoDB,3.3,Database infrastructure,,public company,listed database vendor
+,Pinecone,3.3,Database infrastructure,,late-stage SaaS,vector DB leader
+,LaunchDarkly,2.5,Developer infrastructure,,late-stage SaaS,feature-flag leader
+,Neon,2.2,Database infrastructure,,late-stage SaaS,acquired-scale database vendor
+,Supabase,2.2,Database infrastructure,,late-stage platform,large open-source platform
+,Storj,1.0,Storage infrastructure,,token-listed,listed storage network
+,Zeeve,1.0,Managed blockchain infrastructure,120,headcount 120,managed infra vendor
+,Certora,0.8,Blockchain security infrastructure,,late-stage,security vendor

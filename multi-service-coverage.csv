@@ -1,0 +1,38 @@
+rank,company,url,scope,family_count,class_count,families,service_classes,headcount,status,evidence,note
+1,Northflank,https://northflank.com,outside CSV,6,7,AI; Compute; Data; Network; Obs; Trust,"Services; Databases (Postgres, MySQL, MongoDB, Redis); Jobs; GPUs; Sandboxes; Networking; Observability",,outside,"Vendor homepage, read 2026-11-23","Measured from the vendor page, not the CSV."
+2,Supabase,https://supabase.com,outside CSV,6,7,AI; Comms; Compute; Data; Obs; Trust,Database; Authentication; Storage; Edge Functions; Realtime; Vector; Cron and Queues; Logs,,outside,"Vendor features page, read 2026-11-23","Measured from the vendor page, not the CSV."
+3,Upstash,https://upstash.com,in CSV,5,5,AI; Comms; Compute; Data; Dev tooling,"AI and model inference; Cloud compute; Database; Developer tooling; Messaging, email, voice",,kept,CSV service fields,
+4,thirdweb,https://thirdweb.com,in CSV,4,5,Chain; Data; Dev tooling; Money,Blockchain RPC and nodes; Data APIs and analytics; Developer tooling; Payments; Wallets and keys,19,kept,CSV service fields,
+5,4EVERLAND,https://4everland.org,in CSV,3,4,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment; Storage,5,kept,CSV service fields,
+6,Cloudflare,https://cloudflare.com,in CSV,3,4,Compute; Network; Trust,"Cloud compute; Hosting and deployment; Networking, CDN, DNS; Security",,removed-too-big,CSV service fields,
+7,Modal,https://modal.com,in CSV,3,4,AI; Compute; Dev tooling,AI and model inference; Cloud compute; Developer tooling; Hosting and deployment,,removed-too-big,CSV service fields,
+8,01.ro,https://01.ro,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,10,kept,CSV service fields,
+9,Alchemy,https://www.alchemy.com,in CSV,3,3,Chain; Data; Money,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,373,removed-too-big,CSV service fields,
+10,Alibaba Cloud,https://www.alibabacloud.com,in CSV,3,3,Compute; Data; Network,"Cloud compute; Networking, CDN, DNS; Storage",,removed-too-big,CSV service fields,
+11,Allnodes,https://www.allnodes.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,6,kept,CSV service fields,
+12,Amforc,https://amforc.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Cloud compute; Data APIs and analytics,5,kept,CSV service fields,
+13,ARKHIA,https://arkhia.io,in CSV,3,3,Chain; Data; Money,Blockchain RPC and nodes; Data APIs and analytics; Payments,3,kept,CSV service fields,
+14,AZXA.IO,https://azxa.io,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,4,kept,CSV service fields,
+15,Blink,https://blinklabs.xyz,in CSV,3,3,Chain; Data; Money,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,7,kept,CSV service fields,
+16,Block Stack,https://blockstack.tech,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,32,kept,CSV service fields,
+17,BlockCypher,https://www.blockcypher.com,in CSV,3,3,Chain; Data; Obs,Blockchain RPC and nodes; Data APIs and analytics; Observability and evaluation,1,kept,CSV service fields,
+18,BlockRun,https://blockrun.ai,in CSV,3,3,AI; Compute; Data,AI and model inference; Cloud compute; Data APIs and analytics,,kept,CSV service fields,
+19,Chaingateway.io,https://chaingateway.io,in CSV,3,3,Chain; Data; Money,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,2,kept,CSV service fields,
+20,ChainUp Cloud,https://cloud.chainup.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,120,removed-too-big,CSV service fields,
+21,CrewAI,https://www.crewai.com,in CSV,3,3,Compute; Dev tooling; Obs,Developer tooling; Hosting and deployment; Observability and evaluation,,kept,CSV service fields,
+22,HUAWEI CLOUD,https://www.huaweicloud.com,in CSV,3,3,Compute; Data; Network,"Cloud compute; Networking, CDN, DNS; Storage",,removed-too-big,CSV service fields,
+23,IntellectEU,https://catalyst.intellecteu.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,222,removed-too-big,CSV service fields,
+24,Kaleido,https://www.kaleido.io,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,75,kept,CSV service fields,
+25,LangChain,https://www.langchain.com,in CSV,3,3,Compute; Dev tooling; Obs,Developer tooling; Hosting and deployment; Observability and evaluation,,kept,CSV service fields,
+26,Launchnodes,https://www.launchnodes.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,13,kept,CSV service fields,
+27,MongoDB,https://www.mongodb.com,in CSV,3,3,AI; Compute; Data,AI and model inference; Database; Hosting and deployment,,removed-too-big,CSV service fields,
+28,NodeOps,https://nodeops.network,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,26,kept,CSV service fields,
+29,RPC Fast,https://rpcfast.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,24,kept,CSV service fields,
+30,SenseiNode,https://www.senseinode.com,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,18,kept,CSV service fields,
+31,Stakely,https://stakely.io,in CSV,3,3,Chain; Compute; Data,Blockchain RPC and nodes; Data APIs and analytics; Hosting and deployment,12,kept,CSV service fields,
+32,Tatum,https://tatum.io,in CSV,3,3,Chain; Data; Money,Blockchain RPC and nodes; Data APIs and analytics; Wallets and keys,76,kept,CSV service fields,
+33,Tenderly,https://tenderly.co,in CSV,3,3,Chain; Data; Obs,Blockchain RPC and nodes; Data APIs and analytics; Observability and evaluation,79,kept,CSV service fields,
+34,Google Cloud,https://cloud.google.com,in CSV,2,4,Compute; Data,Cloud compute; Database; Hosting and deployment; Storage,,removed-too-big,CSV service fields,"CSV lists 4 services. Vendor page sells compute, database, storage, and network."
+35,Amazon Web Services,https://aws.amazon.com,in CSV,2,3,Compute; Data,Cloud compute; Database; Storage,,removed-too-big,CSV service fields,"CSV lists 3 services. Vendor page sells compute, database, storage, and network."
+36,IBM Cloud,https://www.ibm.com,in CSV,2,3,Compute; Data,Cloud compute; Database; Storage,,removed-too-big,CSV service fields,"CSV lists 3 services. Vendor page sells compute, database, storage, and network."
+37,Oracle Cloud,https://www.oracle.com,in CSV,2,3,Compute; Data,Cloud compute; Database; Storage,,removed-too-big,CSV service fields,"CSV lists 3 services. Vendor page sells compute, database, storage, and network."

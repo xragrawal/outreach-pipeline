@@ -1,0 +1,11 @@
+rank,company,url,model,category_count,usebuy_categories_covered,scale,payment_rail,evidence,notes
+1,Monid,https://monid.ai,Unified agent tool marketplace,7,social media; web scraping; web search; crypto; generative AI; agent payments; MCP gateway,3179 endpoints / 102 providers,Prepaid balance plus x402 USDC on Base and Monad,Verified on vendor page,Likely usebuy's upstream. usebuy catalogue IDs carry the monid.* prefix.
+2,PayAPI Market,https://payapi.market,Pay-per-call API marketplace,5,crypto and finance; data; tools; verification; intelligence,3558 listed / 2337 settlement-verified / 35970 endpoints,"USDC on Base, Solana, Algorand, Polygon",Verified on vendor page,Zero commission on each job. Discovery over MCP.
+3,Bounty API,https://bountyapi.com,Pay-per-call data API suite,3,social intelligence; news search; agent payments,about 10 routes,x402 USDC on Base,Verified on vendor page,Narrow inventory but the same shape. No scraping or browser.
+4,x402 Bazaar,https://www.x402bazaar.org,Agent API marketplace,3,multi-category index; agent payments; MCP discovery,112 APIs / 11 categories,"USDC on Base, SKALE, Polygon",Search snippet only,Smallest catalogue in this set.
+5,APIMesa,https://apimesa.com,Pay-per-call API marketplace,3,AI; web scraping; agent payments,not published,API key plus credits,Search snippet only,Site is not readable by fetch. Small.
+6,Vaaya,https://mcpmarket.com/server/vaaya,Pay-per-call agent API bundle,4,media generation; deep research; browser automation; agent payments,not published,Pay per call,Listing page only,Smallest footprint. Listed through an MCP directory.
+7,AgentCash,https://agentcash.dev,Wallet layer for pay-per-call APIs,2,agent payments; API discovery,not published,x402,Search snippet only,"A wallet and installer, not a catalogue owner."
+8,AIsa,https://aisa.one,Data resource layer for agents,2,company and people data; pay per result,not published,Pay per result,Search snippet only,"Breadth is all data. No scraping, browser, or search API."
+9,hiapi,https://www.hiapi.ai,Multimodal model gateway,1,model inference,not published,Pay as you go,Directory listing only,Model only.
+10,AIMLAPI,https://aimlapi.com,Multimodal model gateway,1,model inference,1000+ models,Pay as you go,Directory listing only,Model only.
