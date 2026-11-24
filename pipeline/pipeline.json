@@ -39,7 +39,12 @@
       "outputs": [
         "universe.csv"
       ],
-      "command": null,
+      "command": [
+        "python3",
+        "scripts/source_companies.py",
+        "--run",
+        "{run}"
+      ],
       "gate": "source",
       "source_types": [
         "directory",

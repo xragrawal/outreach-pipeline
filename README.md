@@ -12,7 +12,7 @@ separate.
 
 ```
 pipeline/     the engine: orchestrator, stage config, playbook
-scripts/      the four worker scripts
+scripts/      the pipeline worker scripts
 frontend/     a static page that renders a run
 examples/     one finished run, kept as a worked example
 ```
@@ -87,13 +87,12 @@ That writes `runs/acme/` with a `run.json` of defaults, an `icp.md` of TODO
 lines, an empty `taxonomy.csv` and a `universe.csv` with only a header. `runs/`
 is git-ignored, so a working run never reaches the repo.
 
-Then fill four files, in this order:
+Then fill three files, in this order:
 
 | File | What you write |
 |---|---|
 | `runs/acme/icp.md` | Buyer, value proposition, capability surface, weights, core capabilities, anti-ICP, evidence |
 | `runs/acme/taxonomy.csv` | One tag per row: `tag,weight,core,regex`. Optional `guard` column for a second regex that must also match |
-| `runs/acme/universe.csv` | The sourced companies, one row each |
 | `runs/acme/run.json` | Subject, column map, tier cuts, reachability rules, handoff |
 
 Check the first three stages before you spend anything:
@@ -136,6 +135,7 @@ example run.
 | `scripts/service_class_coverage.py` | Groups the market into service classes. |
 | `scripts/build_outreach.py` | Turns contacts into `outreach.csv`, in priority order. |
 | `scripts/new_run.py` | Makes an empty run folder from the template. |
+| `scripts/source_companies.py` | Finds companies and fetches their public product details. |
 | `pipeline/run.template.json` | The defaults a new run starts from. |
 | `frontend/build.py` | Renders a run into one static HTML page. |
 | `frontend/serve.py` | Serves the page and runs stages on request. |
@@ -154,7 +154,13 @@ passes. **Run stages 1–4** walks the chain in order.
 The page can also create a working run. Enter the company, buyer, value
 proposition, weighted capabilities, core capabilities, anti-ICP and evidence.
 The server writes the run folder and makes it active for the current session.
-Import the candidate CSV in Stage 2, then run the waterfall from Stage 1.
+Stage 2 searches Exa through Agent Reach and writes `universe.csv`. It uses the
+weighted capabilities and value proposition as search terms. It then fetches
+each company page and extracts its summary, services, source URL, and evidence
+type. Install and configure `mcporter` with the Exa MCP service first.
+
+You can replace the automatic list with a candidate CSV in Stage 2. If you run
+Stage 2 again, it keeps manual rows and adds current web results.
 
 The server binds to `127.0.0.1` only, and it runs one fixed command list, so it
 cannot run anything else. It runs one stage at a time. Stage 5 asks for a

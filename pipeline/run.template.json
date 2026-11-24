@@ -5,6 +5,17 @@
   "date": "",
   "note": "",
   "source_csv": "universe.csv",
+  "sourcing": {
+    "provider": "exa",
+    "max_companies": 30,
+    "results_per_query": 8,
+    "query_count": 4,
+    "timeout_seconds": 30,
+    "search_retries": 3,
+    "fetch_details": true,
+    "detail_timeout_seconds": 12,
+    "queries": []
+  },
   "columns": {
     "id": "company",
     "url": "url",

@@ -69,7 +69,10 @@ A tag may carry a `guard` regex. The tag matches only when its regex and its gua
 
 **Question:** Which companies could match, and where do we find them?
 
-**Method:** build the universe from at least three source types. One source gives you one bias.
+**Method:** Stage 2 builds Exa searches from the weighted capabilities and the
+value proposition. It keeps company websites and removes common content sites.
+It fetches each company page and extracts company details. It merges manual CSV
+rows with the current web results.
 
 | Source type | What it gives | Bias |
 |---|---|---|
@@ -233,7 +236,7 @@ python3 scripts/new_run.py --slug acme --subject "Acme.ai"
 
 1. Write `runs/acme/icp.md`. Stage 1 fails while a TODO line is left.
 2. Write `runs/acme/taxonomy.csv`: at least five tags, one or more core.
-3. Fill `runs/acme/universe.csv`, then set `columns` in `run.json` to match.
+3. Run Stage 2 to source `runs/acme/universe.csv` automatically.
 4. Run `--run runs/acme --stage 1,2,3` and fix any gate failure.
 5. Run `--run runs/acme --stage 4` and read the tie report before you trust the order.
 6. Set the tier cuts in `run.json` from the score shape, then run stage 5 with

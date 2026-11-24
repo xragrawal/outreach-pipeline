@@ -80,7 +80,7 @@ RUN_README = """# Run: {subject}
 ## Steps
 
 1. Fill `icp.md` and `taxonomy.csv`.
-2. Fill `universe.csv` with the sourced companies.
+2. Run stage 2 to source `universe.csv` automatically.
 3. Write `scoring-model.md`.
 4. Run stage 4 to score, stage 5 to enrich.
 5. Build the page.
@@ -139,7 +139,7 @@ def main():
     print(f"run   {rel}")
     print("\nnext:")
     print(f"  1. write {rel}/icp.md and {rel}/taxonomy.csv")
-    print(f"  2. fill {rel}/universe.csv")
+    print(f"  2. run automatic sourcing for {rel}/universe.csv")
     print(f"  3. python3 pipeline/run_pipeline.py --run {rel} --stage 1,2,3")
     print(f"  4. python3 pipeline/run_pipeline.py --run {rel} --stage 4")
     print(f"  5. python3 frontend/build.py --run {rel}")

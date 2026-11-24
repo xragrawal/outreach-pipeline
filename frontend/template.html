@@ -709,8 +709,8 @@ footer img{height:22px;filter:var(--logo-filter)}
     </div>
     <div class="stages" id="stage-list"></div>
     <div class="source-panel server-action" id="source-panel">
-      <h3>Supply the candidate list</h3>
-      <p>Stage 2 reads a CSV. Paste it here after you define the ICP. Keep the required columns in the header.</p>
+      <h3>Automatic sourcing with optional CSV</h3>
+      <p>Run Stage 2 to search the web and write the candidate list. Import a CSV here to replace that list.</p>
       <div class="source-row">
         <div class="field">
           <label for="candidate-csv">Candidate CSV</label>
@@ -719,7 +719,7 @@ footer img{height:22px;filter:var(--logo-filter)}
         <div class="source-actions">
           <input id="candidate-file" type="file" accept=".csv,text/csv" hidden>
           <button class="btn btn-ghost" id="choose-csv" type="button">Choose CSV</button>
-          <button class="btn btn-primary" id="import-csv" type="button">Import candidates</button>
+          <button class="btn btn-primary" id="import-csv" type="button">Replace with CSV</button>
           <span class="form-status" id="source-status" role="status" aria-live="polite"></span>
         </div>
       </div>
