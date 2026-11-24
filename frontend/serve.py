@@ -12,6 +12,7 @@ Usage
     python3 frontend/serve.py
     python3 frontend/serve.py --port 9000
     python3 frontend/serve.py --no-open
+    python3 frontend/serve.py --run runs/acme
 """
 
 import argparse
@@ -32,6 +33,8 @@ CONFIG = ROOT / "pipeline" / "pipeline.json"
 JOBS = {}
 LOCK = threading.Lock()
 CURRENT = {"id": None}
+RUN_ARG = None
+PAGE = BASE / ".serve.html"
 
 
 # ---------------------------------------------------------------------------
@@ -40,7 +43,8 @@ CURRENT = {"id": None}
 
 def load():
     cfg = json.loads(CONFIG.read_text())
-    run_dir = (ROOT / cfg.get("run", ".")).resolve()
+    rel = RUN_ARG or cfg.get("run", ".")
+    run_dir = Path(rel).resolve() if Path(rel).is_absolute() else (ROOT / rel).resolve()
     run = json.loads((run_dir / "run.json").read_text()) if (run_dir / "run.json").exists() else {}
     return cfg, run_dir, run
 
@@ -57,8 +61,11 @@ def state():
             "missing": missing,
             "credits": bool(s.get("requires_credits")),
         })
-    return {"ok": True, "run": str(run_dir.relative_to(ROOT)), "subject": run.get("subject", ""),
-            "stages": stages}
+    try:
+        rel = str(run_dir.relative_to(ROOT))
+    except ValueError:
+        rel = str(run_dir)
+    return {"ok": True, "run": rel, "subject": run.get("subject", ""), "stages": stages}
 
 
 def command_for(stage_id, confirm_credits):
@@ -88,6 +95,9 @@ def run_job(job_id, cmd):
         with LOCK:
             job["output"] += f"server error: {exc}\n"
         code = 1
+    if code == 0:
+        # rebuild first, so a reload right after "done" reads the new figures
+        build_page(load()[1])
     with LOCK:
         job["code"] = code
         job["state"] = "done"
@@ -142,7 +152,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_json(200, snapshot)
             return
         if path in ("/", ""):
-            self.send_file(BASE / "index.html")
+            self.send_file(PAGE if PAGE.exists() else BASE / "index.html")
             return
         # only files inside frontend/
         target = (BASE / path.lstrip("/")).resolve()
@@ -182,18 +192,34 @@ class Handler(BaseHTTPRequestHandler):
         self.send_json(202, {"job": job_id})
 
 
+def build_page(run_dir):
+    """Read the run into a private page. A half-finished run may fail; say so and go on."""
+    cmd = [sys.executable, "-u", "frontend/build.py", "--run", str(run_dir),
+           "--out", str(PAGE)]
+    done = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
+    if done.returncode != 0:
+        print("page  : build failed, serving the page as it is")
+        print("        " + (done.stderr or done.stdout).strip().splitlines()[-1])
+        return
+    print("page  : built from the run")
+
+
 def main():
+    global RUN_ARG
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", type=int, default=8787)
     ap.add_argument("--no-open", action="store_true")
+    ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
     args = ap.parse_args()
+    RUN_ARG = args.run
 
     cfg, run_dir, run = load()
     url = f"http://127.0.0.1:{args.port}/"
-    print(f"page  : {url}")
-    print(f"run   : {run_dir}")
-    print(f"subject: {run.get('subject', '-')}")
-    print("press Ctrl+C to stop")
+    print(f"page  : {url}", flush=True)
+    build_page(run_dir)
+    print(f"run   : {run_dir}", flush=True)
+    print(f"subject: {run.get('subject', '-')}", flush=True)
+    print("press Ctrl+C to stop", flush=True)
     if not args.no_open:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()
     ThreadingHTTPServer(("127.0.0.1", args.port), Handler).serve_forever()

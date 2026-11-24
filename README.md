@@ -74,9 +74,54 @@ python3 pipeline/run_pipeline.py --run examples/usebuy --stage 4
 Stage 5 spends paid API credits, so it needs `--confirm-credits`. The default is
 a dry run.
 
-To start a new run, copy `examples/usebuy` to a new folder, replace the
-artefacts, and edit `run.json`. `pipeline/PIPELINE.md` gives the stage contracts
-and the lessons from the example run.
+## Start a new run
+
+Do not copy `examples/usebuy`. That folder carries one subject's tags, cuts and
+rules. Make an empty run instead:
+
+```bash
+python3 scripts/new_run.py --slug acme --subject "Acme.ai"
+```
+
+That writes `runs/acme/` with a `run.json` of defaults, an `icp.md` of TODO
+lines, an empty `taxonomy.csv` and a `universe.csv` with only a header. `runs/`
+is git-ignored, so a working run never reaches the repo.
+
+Then fill four files, in this order:
+
+| File | What you write |
+|---|---|
+| `runs/acme/icp.md` | Buyer, value proposition, capability surface, weights, core capabilities, anti-ICP, evidence |
+| `runs/acme/taxonomy.csv` | One tag per row: `tag,weight,core,regex`. Optional `guard` column for a second regex that must also match |
+| `runs/acme/universe.csv` | The sourced companies, one row each |
+| `runs/acme/run.json` | Subject, column map, tier cuts, reachability rules, handoff |
+
+Check the first three stages before you spend anything:
+
+```bash
+python3 pipeline/run_pipeline.py --run runs/acme --stage 1,2,3
+```
+
+Stage 1 fails while `icp.md` still holds a TODO line. Fix it, run again.
+
+Then score, enrich and write the handoff:
+
+```bash
+python3 pipeline/run_pipeline.py --run runs/acme --stage 4
+python3 pipeline/run_pipeline.py --run runs/acme --stage 5 --confirm-credits
+python3 frontend/build.py --run runs/acme
+```
+
+Stage 4 writes the ranking and the reachability filter. Stage 5 calls Hunter,
+keeps only personal addresses, and writes `outreach.csv` in priority order.
+Stage 5 spends credits, so it needs `--confirm-credits`.
+
+The column names in `universe.csv` are your choice. Point `columns` in
+`run.json` at them. The default map is `company`, `url`, `segment`, `category`,
+`summary`, `services`, `sales_route`, `evidence_type`, `headcount`.
+
+`pipeline/PIPELINE.md` gives the stage contracts and the lessons from the
+example run.
 
 ## Files
 
@@ -89,6 +134,9 @@ and the lessons from the example run.
 | `scripts/filter_reachable.py` | Removes companies that are too large to reach. |
 | `scripts/enrich_hunter.py` | Finds personal addresses through Hunter. |
 | `scripts/service_class_coverage.py` | Groups the market into service classes. |
+| `scripts/build_outreach.py` | Turns contacts into `outreach.csv`, in priority order. |
+| `scripts/new_run.py` | Makes an empty run folder from the template. |
+| `pipeline/run.template.json` | The defaults a new run starts from. |
 | `frontend/build.py` | Renders a run into one static HTML page. |
 | `frontend/serve.py` | Serves the page and runs stages on request. |
 | `examples/usebuy/` | One finished run, end to end. |

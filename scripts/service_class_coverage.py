@@ -103,19 +103,26 @@ def main():
     src = run_dir / run.get("source_csv", "universe.csv")
     out_path = run_dir / "service-class-coverage.csv"
 
+    id_col = cols.get("id", "company")
+    url_col = cols.get("url", "url")
+    cat_col = cols.get("category", "category")
+    seg_col = cols.get("segment", "segment")
+    hc_col = cols.get("headcount", "headcount")
+    svc_col = cols.get("services", "services")
+
     rows = list(csv.DictReader(open(src, encoding="utf-8-sig")))
     out = []
     for r in rows:
         cls = classes_for(r, cols)
         out.append({
-            "company": r["company"],
-            "url": r["url"],
-            "category": r["infrastructure_category"],
-            "segment": r["segment"],
-            "headcount": r["directory_headcount"],
+            "company": r.get(id_col, ""),
+            "url": r.get(url_col, ""),
+            "category": r.get(cat_col, ""),
+            "segment": r.get(seg_col, ""),
+            "headcount": r.get(hc_col, ""),
             "class_count": len(cls),
             "service_classes": "; ".join(sorted(CLASSES[k][0] for k in cls)),
-            "services": r["infra_services_sold"],
+            "services": r.get(svc_col, ""),
         })
 
     out.sort(key=lambda x: (-x["class_count"], x["company"].lower()))

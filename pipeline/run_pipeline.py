@@ -96,6 +96,8 @@ def gate_icp(wd, run, stage):
         missing = [s for s in stage.get("required_sections", []) if s.lower() not in text]
         if missing:
             bad(f"icp.md lacks sections: {missing}")
+        if "todo" in text:
+            bad("icp.md still holds TODO lines. Write the ICP first.")
         ok(f"icp.md has {len(stage.get('required_sections', []))} required sections")
 
     tax = wd / "taxonomy.csv"
@@ -223,7 +225,8 @@ def gate_score(wd, run, stage):
         ties[r["score"]] = ties.get(r["score"], 0) + 1
     worst = max(ties.items(), key=lambda x: x[1])
     if worst[1] > len(rows) * 0.1:
-        warn(f"{worst[1]} companies tie at score {worst[0]}. Their order is not meaningful.")
+        word = "company ties" if worst[1] == 1 else "companies tie"
+        warn(f"{worst[1]} {word} at score {worst[0]}. Their order is not meaningful.")
     else:
         ok("no large tie block")
 
@@ -321,8 +324,12 @@ def run_stage(cfg, run_dir, run, stage, dry, confirm_credits):
 
     if stage.get("command"):
         run_command(run_dir, fill(stage["command"], run_dir), dry)
-    if stage.get("post_command"):
-        run_command(run_dir, fill(stage["post_command"], run_dir), dry)
+
+    post = stage.get("post_command")
+    if post:
+        # one command, or a list of commands run in order
+        for cmd in (post if isinstance(post[0], list) else [post]):
+            run_command(run_dir, fill(cmd, run_dir), dry)
 
     gate = GATES.get(stage.get("gate"))
     if not gate:

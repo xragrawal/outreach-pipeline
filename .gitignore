@@ -10,3 +10,9 @@ __pycache__/
 
 # system
 .DS_Store
+
+# working runs: may hold contact data
+runs/
+
+# page built for the local server
+frontend/.serve.html

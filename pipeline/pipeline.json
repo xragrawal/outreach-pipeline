@@ -76,7 +76,8 @@
       "outputs": [
         "similarity-ranking.csv",
         "similarity-ranking-reachable.csv",
-        "similarity-ranking-removed.csv"
+        "similarity-ranking-removed.csv",
+        "service-class-coverage.csv"
       ],
       "command": [
         "python3",
@@ -85,10 +86,18 @@
         "{run}"
       ],
       "post_command": [
-        "python3",
-        "scripts/filter_reachable.py",
-        "--run",
-        "{run}"
+        [
+          "python3",
+          "scripts/filter_reachable.py",
+          "--run",
+          "{run}"
+        ],
+        [
+          "python3",
+          "scripts/service_class_coverage.py",
+          "--run",
+          "{run}"
+        ]
       ],
       "gate": "score"
     },
@@ -111,7 +120,13 @@
         "{run}"
       ],
       "gate": "enrich",
-      "requires_credits": true
+      "requires_credits": true,
+      "post_command": [
+        "python3",
+        "scripts/build_outreach.py",
+        "--run",
+        "{run}"
+      ]
     }
   ]
 }

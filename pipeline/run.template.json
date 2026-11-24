@@ -1,0 +1,88 @@
+{
+  "name": "",
+  "subject": "",
+  "subject_url": "",
+  "date": "",
+  "note": "",
+  "source_csv": "universe.csv",
+  "columns": {
+    "id": "company",
+    "url": "url",
+    "segment": "segment",
+    "category": "category",
+    "summary": "service_summary",
+    "services": "services",
+    "sales_route": "sales_route",
+    "evidence_type": "evidence_type",
+    "headcount": "headcount"
+  },
+  "model": {
+    "terms": {
+      "capability": 0.88,
+      "delivery": 0.07,
+      "buyer": 0.05
+    },
+    "tiers": [
+      {
+        "tier": 1,
+        "match_index_min": 55,
+        "core_hits_min": 2
+      },
+      {
+        "tier": 2,
+        "match_index_min": 18,
+        "core_hits_min": 1
+      }
+    ],
+    "buyer_weights": {},
+    "buyer_default": 0.25,
+    "metered_categories": [],
+    "tier_labels": {
+      "1": "1 direct",
+      "2": "2 adjacent",
+      "3": "3 different layer"
+    }
+  },
+  "reachability": {
+    "headcount_limit": 150,
+    "remove": {},
+    "suppliers": {}
+  },
+  "enrichment": {
+    "provider": "hunter",
+    "page_limit": 10,
+    "status_values": [
+      "found",
+      "generic_only",
+      "not_found",
+      "not_run",
+      "error"
+    ],
+    "reject_local_parts": [
+      "abuse", "accounting", "accounts", "admin", "administrator", "api", "bd",
+      "billing", "business", "careers", "clients", "community", "connect", "contact",
+      "customers", "dev", "developers", "devs", "donotreply", "email", "engineering",
+      "enquiries", "enquiry", "feedback", "finance", "founder", "founders", "general",
+      "grow", "hello", "help", "helpdesk", "hey", "hi", "hr", "info", "inquiries",
+      "inquiry", "jobs", "legal", "mail", "marketing", "media", "no-reply", "noreply",
+      "office", "ops", "orders", "partners", "partnerships", "people", "postmaster",
+      "press", "privacy", "recruiting", "sales", "security", "service", "services",
+      "social", "success", "support", "team", "webmaster"
+    ],
+    "prefer_titles": [
+      "founder", "co-founder", "cofounder", "ceo", "cto", "coo", "cpo", "cro",
+      "chief", "president", "owner", "partner", "head of", "vp ", "vice president",
+      "director", "lead", "manager", "business development", "partnerships"
+    ]
+  },
+  "handoff": {
+    "spreadsheet_id": "",
+    "tabs": [],
+    "priority": {
+      "1": "now",
+      "2": "this week",
+      "3": "batch"
+    },
+    "reason": "Sells {caps}."
+  }
+}

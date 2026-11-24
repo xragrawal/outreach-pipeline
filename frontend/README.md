@@ -10,11 +10,14 @@ the gate output as it happens.
 
 ```bash
 python3 frontend/serve.py
+python3 frontend/serve.py --run runs/acme
 python3 frontend/serve.py --port 9000 --no-open
 ```
 
-The server prints `http://127.0.0.1:8787/` and opens it. The page then shows a
-**Run** button on each stage and **Run stages 1–4** in the section head.
+The server prints `http://127.0.0.1:8787/` and opens it. It builds the page from
+the run folder first, so a new run shows up without a separate build. The page
+then shows a **Run** button on each stage and **Run stages 1–4** in the section
+head.
 
 | Route | Does |
 |---|---|
@@ -43,6 +46,10 @@ python3 frontend/build.py --run examples/usebuy
 | `universe.csv` | companies sourced, source types |
 | `similarity-ranking.csv` | the ranking, the tie count |
 | `similarity-ranking-reachable.csv` | the kept count and the contact cells |
+| `similarity-ranking-removed.csv` | the removed count, when it exists |
+| `service-class-coverage.csv` | the service-class table, when it exists |
+| `multi-service-coverage.csv` | the multi-line table, when it exists |
+| `outreach.csv` | the contact column, when it exists |
 | `similarity-ranking-removed.csv` | removed count |
 | `taxonomy.csv` | tag count, weight sum |
 | `outreach.csv` | the contact table. Optional: without it the page hides the contacts and says so |

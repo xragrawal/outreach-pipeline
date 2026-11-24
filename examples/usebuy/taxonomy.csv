@@ -1,32 +1,32 @@
-tag,weight,core,regex
-social_media_data,0.95,yes,\bsocial (data|media|post)|tiktok|instagram|linkedin data|x posts
-web_scraping,0.9,yes,scrap|crawl|data extraction
-api_gateway,0.9,yes,api gateway|model gateway|unified (enterprise |blockchain )?api|aggregat|marketplace|hosted .*actors|gateway for|single api
-pay_per_call,0.85,yes,per request|usage-based|usage based|pay-per-call|pay per call|metered|paid access|usage-priced
-agent_payments,0.85,yes,x402|agent payment|agentic payment|payment infrastructure for agents
-web_search,0.7,yes,web search|search api|search and grounded|grounded answer|web research
-mcp_server,0.65,yes,\bmcp\b
-browser_automation,0.45,no,browser session|browser automation|browser interaction|browser execution|cloud browser
-data_enrichment,0.4,no,enrich|contactout|people data|work email|email finder
-identity_verification,0.3,no,identity verification|\bkyc\b|attestation|proof of person|zk proof
-blockchain_data,0.3,no,blockchain data|indexed blockchain|explorer api|market data api|token market|wallet data|transaction data|blockchain api
-payments_processing,0.22,no,payment processing|billing|subscription billing|checkout|financial infrastructure
-model_inference,0.2,no,model inference|inference api|generation api|language model|hosted model
-blockchain_rpc,0.2,no,\brpc\b
-agent_tools,0.2,no,tool execution|authenticated tool|tool access|agent authorization|agent security
-cloud_compute,0.18,no,serverless compute|virtual machine|\bvm\b|gpu|cloud compute|bare-metal|dedicated server|cloud server
-dev_docs_sdk,0.15,no,sdk generation|documentation hosting|developer portal|api documentation|agent-readable documentation
-wallet_infra,0.1,no,embedded wallet|smart account|key management|multisig|account abstraction|wallet api|wallet infrastructure
-hosting,0.1,no,application hosting|web hosting|application deployment|app deployment|hosted development|deployment infrastructure|cloud hosting|managed application hosting
-blockchain_indexing,0.08,no,indexing|indexer
-code_sandbox,0.08,no,sandbox
-observability,0.05,no,evaluation|evaluat|tracing|observability|experiment tracking
-agent_orchestration,0.05,no,orchestration|agent runtime|multi-agent|agent development platform
-fiat_onramp,0.05,no,onramp|on-ramp|fiat
-authorization,0.05,no,authori[sz]ation|permission polic|access control
-memory,0.04,no,agent memory|persistent memory|context retrieval
-vector_db,0.04,no,vector (database|search|similarity)|pgvector|embedding storage
-workflow,0.04,no,workflow|task queue|background job|durable execution
-email_infra,0.04,no,email sending|transactional email|email inbox|email delivery
-voice_infra,0.04,no,speech|voice api|voice agent|telecommunication
-feature_flags,0.02,no,feature flag
+tag,weight,core,regex,guard
+social_media_data,0.95,yes,\bsocial (data|media|post)|tiktok|instagram|linkedin data|x posts,
+web_scraping,0.9,yes,scrap|crawl|data extraction,
+api_gateway,0.9,yes,api gateway|model gateway|unified (enterprise |blockchain )?api|aggregat|marketplace|hosted .*actors|gateway for|single api,
+pay_per_call,0.85,yes,per request|usage-based|usage based|pay-per-call|pay per call|metered|paid access|usage-priced,
+agent_payments,0.85,yes,x402|agent payment|agentic payment|payment infrastructure for agents,
+web_search,0.7,yes,web search|search api|search and grounded|grounded answer|web research,
+mcp_server,0.65,yes,\bmcp\b,
+browser_automation,0.45,no,browser session|browser automation|browser interaction|browser execution|cloud browser,
+data_enrichment,0.4,no,enrich|contactout|people data|work email|email finder,
+identity_verification,0.3,no,identity verification|\bkyc\b|attestation|proof of person|zk proof,
+blockchain_data,0.3,no,blockchain data|indexed blockchain|explorer api|market data api|token market|wallet data|transaction data|blockchain api,
+payments_processing,0.22,no,payment processing|billing|subscription billing|checkout|financial infrastructure,
+model_inference,0.2,no,model inference|inference api|generation api|language model|hosted model,
+blockchain_rpc,0.2,no,\brpc\b,
+agent_tools,0.2,no,tool execution|authenticated tool|tool access|agent authorization|agent security,
+cloud_compute,0.18,no,serverless compute|virtual machine|\bvm\b|gpu|cloud compute|bare-metal|dedicated server|cloud server,
+dev_docs_sdk,0.15,no,sdk generation|documentation hosting|developer portal|api documentation|agent-readable documentation,
+wallet_infra,0.1,no,embedded wallet|smart account|key management|multisig|account abstraction|wallet api|wallet infrastructure,
+hosting,0.1,no,application hosting|web hosting|application deployment|app deployment|hosted development|deployment infrastructure|cloud hosting|managed application hosting,
+blockchain_indexing,0.08,no,indexing|indexer,
+code_sandbox,0.08,no,sandbox,
+observability,0.05,no,evaluation|evaluat|tracing|observability|experiment tracking,agent|model|prompt|llm
+agent_orchestration,0.05,no,orchestration|agent runtime|multi-agent|agent development platform,
+fiat_onramp,0.05,no,onramp|on-ramp|fiat,
+authorization,0.05,no,authori[sz]ation|permission polic|access control,
+memory,0.04,no,agent memory|persistent memory|context retrieval,
+vector_db,0.04,no,vector (database|search|similarity)|pgvector|embedding storage,
+workflow,0.04,no,workflow|task queue|background job|durable execution,
+email_infra,0.04,no,email sending|transactional email|email inbox|email delivery|email api,email (sending|delivery|inbox|api)
+voice_infra,0.04,no,speech|voice api|voice agent|telecommunication,
+feature_flags,0.02,no,feature flag,

@@ -508,7 +508,7 @@ footer img{height:22px;filter:var(--logo-filter)}
       <h1>From one ICP<br><span class="second">to a contactable list.</span></h1>
       <p class="lede">Five stages turn a single target into a ranked list of similar companies, each with a named contact and a reason to write.</p>
       <div class="install">
-        <code><b>$</b> python3 pipeline/run_pipeline.py --stage all</code>
+        <code><b>$</b> __RUN_CMD__</code>
         <button class="btn btn-ghost" id="copy" type="button">Copy command</button>
       </div>
       </div>
@@ -521,7 +521,7 @@ footer img{height:22px;filter:var(--logo-filter)}
       <div class="metric arrive">
         <div class="label">Companies sourced</div>
         <div class="figure" data-count="__C_SOURCED__">0</div>
-        <div class="note">__N_SOURCES__ source types</div>
+        <div class="note">__N_SOURCES__</div>
       </div>
       <div class="metric arrive">
         <div class="label">Reachable after the filter</div>
@@ -558,7 +558,7 @@ footer img{height:22px;filter:var(--logo-filter)}
     </div>
     <div class="callout arrive">
       <span class="dotmark" aria-hidden="true"></span>
-      <p><strong>No hub.</strong> The stages run in a line, not around a centre. Stage 4 reports its ties instead of hiding them: __TIE_N__ companies share one score, so their order is not a ranking.</p>
+      <p><strong>No hub.</strong> The stages run in a line, not around a centre. __TIE_TEXT__</p>
     </div>
   </section>
 
@@ -700,7 +700,7 @@ if (first) {
 
 /* ---------- copy ---------- */
 el("#copy").addEventListener("click", async (e) => {
-  const cmd = "python3 pipeline/run_pipeline.py --stage all";
+  const cmd = "__RUN_CMD__";
   try { await navigator.clipboard.writeText(cmd); e.target.textContent = "Copied"; }
   catch { e.target.textContent = "Select the command"; }
   setTimeout(() => e.target.textContent = "Copy command", 1600);
@@ -717,7 +717,7 @@ el("#stage-list").innerHTML = DATA.stages.map(s => `
     </div>
     <div class="state">
       <span class="pill"><span class="dotmark"></span>gate ${esc(s.gate)}</span>
-      <span class="small">${esc(s.note || "")}</span>
+      <span class="small" data-note="${s.id}">${esc(s.note || "")}</span>
       <button class="btn btn-ghost run" type="button" data-stage="${s.id}"
         data-credits="${s.credits ? "1" : "0"}">Run</button>
     </div>
@@ -731,6 +731,12 @@ let busy = false;
 function setServe(on){
   document.body.dataset.serve = on ? "yes" : "no";
   el("#serve-hint").hidden = on;
+  // a served page shows a working run, so "withheld" is wrong there
+  const n = document.querySelector('[data-note="5"]');
+  if (!n) return;
+  if (!n.dataset.orig) n.dataset.orig = n.textContent;
+  const withheld = n.dataset.orig.trim() === "contacts withheld from this copy";
+  n.textContent = (on && withheld) ? "run stage 5 to find contacts" : n.dataset.orig;
 }
 
 async function probe(){
@@ -911,7 +917,8 @@ document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () =
 el("#q").addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase(); renderContacts(); });
 
 /* ---------- cards ---------- */
-el("#multi-sub").textContent =
+if (!DATA.multiline.length) el("#multiline").hidden = true;
+else el("#multi-sub").textContent =
   `The ${DATA.multiline.length} reachable companies that sell the most product lines.`;
 el("#card-list").innerHTML = DATA.multiline.map(m => `
   <div class="card arrive">

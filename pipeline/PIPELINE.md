@@ -55,7 +55,9 @@ Model inference is one route, so it carries 0.20.
 
 **Output:** `icp.md` plus `taxonomy.csv`.
 
-**Gate:** every tag has a positive weight, a regex, and at least one core tag exists. The ICP file has all required sections.
+**Gate:** every tag has a positive weight, a regex, and at least one core tag exists. At least five tags exist. The ICP file has all required sections and no TODO line.
+
+A tag may carry a `guard` regex. The tag matches only when its regex and its guard both match. This stops a common word from tagging a company that is in a different business. In the example run, `email_infra` has the guard `email (sending|delivery|inbox|api)`, so a company that only mentions a contact address is not tagged.
 
 **Failure mode:** weights copied from a competitor's site. They will not match your product, and the ranking will follow the wrong shape.
 
@@ -188,7 +190,7 @@ Capability must dominate. A tie-breaker that can move the rank is not a tie-brea
 | Artifact | Key columns | Producer |
 |---|---|---|
 | `icp.md` | Seven sections | Stage 1 |
-| `taxonomy.csv` | `tag`, `weight`, `core`, `regex` | Stage 1 |
+| `taxonomy.csv` | `tag`, `weight`, `core`, `regex`, optional `guard` | Stage 1 |
 | `universe.csv` | id, three text fields | Stage 2 |
 | `scoring-model.md` | terms, weights, tiers | Stage 3 |
 | `similarity-ranking.csv` | `score`, `match_index`, `matched_capabilities`, `tier` | Stage 4 |
@@ -222,15 +224,24 @@ The last step is a write to Google Sheets, then a read-back.
 
 ## Running it for a new ICP
 
-1. Copy `examples/usebuy/` to a new folder under `examples/`, or anywhere you like.
-2. Edit `run.json`: set `subject`, the column map, the source CSV, and the text fields.
-3. Write `icp.md` and `taxonomy.csv` for the new subject.
-4. Run `--run <folder> --stage 1,2` and fix any gate failure.
-5. Run `--run <folder> --stage 3,4` and read the tie report before you trust the order.
-6. Set `min_score` from the tier-1 cut, then run stage 5 with `--confirm-credits`.
+Do not copy `examples/usebuy/`. It carries one subject's tags and cuts. Make an
+empty run instead:
+
+```bash
+python3 scripts/new_run.py --slug acme --subject "Acme.ai"
+```
+
+1. Write `runs/acme/icp.md`. Stage 1 fails while a TODO line is left.
+2. Write `runs/acme/taxonomy.csv`: at least five tags, one or more core.
+3. Fill `runs/acme/universe.csv`, then set `columns` in `run.json` to match.
+4. Run `--run runs/acme --stage 1,2,3` and fix any gate failure.
+5. Run `--run runs/acme --stage 4` and read the tie report before you trust the order.
+6. Set the tier cuts in `run.json` from the score shape, then run stage 5 with
+   `--confirm-credits`.
 
 The scripts take `--run` and read every rule from `run.json`. Set `run` in
-`pipeline/pipeline.json` to make one folder the default.
+`pipeline/pipeline.json` to make one folder the default. `runs/` is git-ignored,
+because a working run may hold contact data.
 
 ## Where the subject-specific rules live
 

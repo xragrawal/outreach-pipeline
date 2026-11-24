@@ -51,6 +51,7 @@ def resolve_run(arg):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
+    ap.add_argument("--out", default=None, help="write here (default: frontend/index.html)")
     args = ap.parse_args()
 
     run_dir = resolve_run(args.run)
@@ -58,16 +59,27 @@ def main():
     cfg = json.loads((ROOT / "pipeline" / "pipeline.json").read_text())
 
     universe = read(run_dir / "universe.csv")
-    removed = read(run_dir / "similarity-ranking-removed.csv")
-    taxonomy = read(run_dir / "taxonomy.csv")
-    multi = read(run_dir / "multi-service-coverage.csv")
+    removed = read_optional(run_dir / "similarity-ranking-removed.csv")
+    taxonomy = read_optional(run_dir / "taxonomy.csv")
+    multi = read_optional(run_dir / "multi-service-coverage.csv")
 
     # with contacts, else the plain ranking: the same rows, no contact columns
     with_contacts = run_dir / "similarity-ranking-reachable.csv"
-    kept = read(with_contacts) if with_contacts.exists() else read(run_dir / "similarity-ranking.csv")
+    kept = read(with_contacts) if with_contacts.exists() else read_optional(run_dir / "similarity-ranking.csv")
     outreach = read_optional(run_dir / "outreach.csv")
 
-    w_sum = sum(float(t["weight"]) for t in taxonomy)
+    w_sum = sum(float(t["weight"]) for t in taxonomy) if taxonomy else 0.0
+    default_dir = (ROOT / cfg.get("run", ".")).resolve()
+    run_cmd = "python3 pipeline/run_pipeline.py --stage all"
+    if run_dir != default_dir:
+        try:
+            rel = run_dir.relative_to(ROOT)
+        except ValueError:
+            rel = run_dir
+        run_cmd = f"python3 pipeline/run_pipeline.py --run {rel} --stage all"
+
+    ev_col = (run.get("columns") or {}).get("evidence_type", "evidence_type")
+    n_evidence = len({(r.get(ev_col) or "").strip() for r in universe if (r.get(ev_col) or "").strip()})
     emails = sum(1 for r in kept if r.get("contact_email"))
     generic = sum(1 for r in kept if r.get("hunter_status") == "generic_only")
 
@@ -105,9 +117,9 @@ def main():
         })
 
     # the tie report matches the stage 4 gate, which reads the full ranking
-    full = read(run_dir / "similarity-ranking.csv")
+    full = read_optional(run_dir / "similarity-ranking.csv")
     scores = Counter(r["score"] for r in full)
-    tie_score, tie_n = scores.most_common(1)[0]
+    tie_score, tie_n = scores.most_common(1)[0] if scores else ("0", 0)
 
     contacts = []
     for r in outreach:
@@ -168,8 +180,14 @@ def main():
         "__C_GENERIC__": generic,
         "__C_TAGS__": len(taxonomy),
         "__W_SUM__": f"{w_sum:.2f}",
-        "__TIE_N__": tie_n,
-        "__N_SOURCES__": len(cfg["stages"][1].get("source_types", [])),
+        "__TIE_TEXT__": (
+            f"Stage 4 reports its ties instead of hiding them: {tie_n} companies "
+            "share one score, so their order is not a ranking."
+            if tie_n > 1 else
+            "Stage 4 found no tie block: every company has its own score."),
+        "__N_SOURCES__": (f"{n_evidence} evidence types" if n_evidence != 1
+                          else "1 evidence type"),
+        "__RUN_CMD__": run_cmd,
         "__SUBJECT__": run.get("subject", ""),
         "__DATE__": run.get("date", ""),
     }.items():
@@ -179,9 +197,10 @@ def main():
     if leftover:
         raise SystemExit(f"unreplaced placeholders: {sorted(set(leftover))}")
 
-    OUT.write_text(html, encoding="utf-8")
+    out = Path(args.out).resolve() if args.out else OUT
+    out.write_text(html, encoding="utf-8")
     print(f"run   : {run_dir}")
-    print(f"wrote {OUT} ({len(html)/1024:.1f} KB)")
+    print(f"wrote {out} ({len(html)/1024:.1f} KB)")
     print(f"  companies {len(universe)} | kept {len(kept)} | removed {len(removed)}")
     print(f"  contacts {len(contacts)} | emails {emails} | generic {generic}")
     print(f"  tags {len(taxonomy)} | weight sum {w_sum:.2f} | tie {tie_n} at {tie_score}")

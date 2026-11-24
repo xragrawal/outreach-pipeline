@@ -69,7 +69,9 @@ def load_run(run_dir):
     run = json.loads((run_dir / "run.json").read_text())
     tax = list(csv.DictReader(open(run_dir / "taxonomy.csv", encoding="utf-8-sig")))
     weights = {r["tag"]: float(r["weight"]) for r in tax}
-    rules = [(r["tag"], r["regex"]) for r in tax if r.get("regex", "").strip()]
+    # a tag may carry a guard: a second regex that must also match the text
+    rules = [(r["tag"], r["regex"], (r.get("guard") or "").strip())
+             for r in tax if r.get("regex", "").strip()]
     core = {r["tag"] for r in tax if str(r.get("core", "")).strip().lower() in ("1", "true", "yes")}
     return run, weights, rules, core
 
@@ -81,15 +83,9 @@ def tag_company(row, rules, cols):
         str(row.get(cols["services"], "")),
     ]).lower()
     tags = set()
-    for tag, pat in rules:
-        if re.search(pat, text):
+    for tag, pat, guard in rules:
+        if re.search(pat, text) and (not guard or re.search(guard, text)):
             tags.add(tag)
-    # guard: "email" alone must not become email_infra
-    if "email" in text and re.search(r"email (sending|delivery|inbox|api)", text):
-        tags.add("email_infra")
-    # guard: observability only in an AI context
-    if "observability" in tags and not re.search(r"agent|model|prompt|llm", text):
-        tags.discard("observability")
     return tags
 
 
