@@ -108,14 +108,19 @@ def gate_icp(wd, run, stage):
         bad(f"taxonomy has only {len(rows)} tags")
     total = 0.0
     for r in rows:
+        tag = (r.get("tag") or "").strip()
+        if not tag:
+            bad("a taxonomy row has no tag. Check the commas and the header.")
+            continue
         try:
-            w = float(r["weight"])
-        except (KeyError, ValueError):
-            bad(f"tag {r.get('tag')!r} has no numeric weight")
+            w = float(r.get("weight") or "")
+        except (TypeError, ValueError):
+            bad(f"tag {tag!r} has no numeric weight")
+            continue
         if w <= 0:
-            bad(f"tag {r['tag']!r} has weight {w}")
-        if not r.get("regex", "").strip():
-            bad(f"tag {r['tag']!r} has no regex")
+            bad(f"tag {tag!r} has weight {w}")
+        if not (r.get("regex") or "").strip():
+            bad(f"tag {tag!r} has no regex")
         total += w
     core = [r for r in rows if str(r.get("core", "")).strip().lower() in ("yes", "1", "true")]
     if not core:
