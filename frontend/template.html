@@ -601,16 +601,16 @@ footer img{height:22px;filter:var(--logo-filter)}
     <div class="head">
       <div>
         <h2>Multi-line<span class="second">.</span></h2>
-        <p class="sub">The five reachable companies that sell more than one product line.</p>
+        <p class="sub" id="multi-sub">The reachable companies that sell the most product lines.</p>
       </div>
     </div>
     <div class="cards" id="card-list"></div>
-    <p class="small" style="margin-top:16px">Twelve more reachable companies show three families, but they sell one product: node hosting plus an API.</p>
+    <p class="small" style="margin-top:16px">Family counts come from <code>service-class-coverage.csv</code>. Companies with the same count are ordered by name.</p>
   </section>
 
   <footer>
     <img src="assets/logo/antseed-lockup-black.svg" alt="Antseed" width="74" height="22">
-    <p class="small">Built __DATE__. Figures read from the run, not typed. Day and night are two themes, not a filter.</p>
+    <p class="small">Example run: __SUBJECT__, __DATE__. Figures read from the run, not typed. Day and night are two themes, not a filter.</p>
   </footer>
 
 </div>
@@ -743,6 +743,8 @@ document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () =
 el("#q").addEventListener("input", (e) => { q = e.target.value.trim().toLowerCase(); renderContacts(); });
 
 /* ---------- cards ---------- */
+el("#multi-sub").textContent =
+  `The ${DATA.multiline.length} reachable companies that sell the most product lines.`;
 el("#card-list").innerHTML = DATA.multiline.map(m => `
   <div class="card arrive">
     <h3>${esc(m.company)}</h3>

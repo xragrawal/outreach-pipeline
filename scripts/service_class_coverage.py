@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Score companies on how many infrastructure SERVICE CLASSES they sell.
 
-Not usebuy-specific capabilities. The classes are the generic ones a buyer
-would name: cloud, database, payment, messaging, and so on. A company that
-sells many classes has multi-service coverage, the way usebuy does.
+These are not the subject's own capabilities. The classes are the generic ones
+a buyer would name: cloud, database, payment, messaging, and so on. A company
+that sells many classes has multi-service coverage.
 
 Each class is detected from the company's category, service summary, and
 service list. Rules are keyword based and auditable.
@@ -16,9 +16,14 @@ import re
 from collections import Counter, defaultdict
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parent
-SRC = Path(os.environ.get("COMPANIES_CSV", BASE / "universe.csv"))
-OUT = BASE / "service-class-coverage.csv"
+BASE = Path(__file__).resolve().parent.parent
+
+
+def resolve_run(arg):
+    if arg:
+        return Path(arg).resolve()
+    cfg = json.loads((BASE / "pipeline" / "pipeline.json").read_text())
+    return (BASE / cfg["run"]).resolve()
 
 # class -> (label, regex)
 CLASSES = {
@@ -69,11 +74,15 @@ CATEGORY_HINT = {
 }
 
 
-def classes_for(row):
-    text = " | ".join([row["infrastructure_category"], row["service_summary"],
-                       row["infra_services_sold"]]).lower()
+def classes_for(row, cols=None):
+    cols = cols or {}
+    cat = cols.get("category", "category")
+    summary = cols.get("summary", "service_summary")
+    services = cols.get("services", "services")
+    text = " | ".join([str(row.get(cat, "")), str(row.get(summary, "")),
+                       str(row.get(services, ""))]).lower()
     found = set()
-    hint = CATEGORY_HINT.get(row["infrastructure_category"])
+    hint = CATEGORY_HINT.get(row.get(cat, ""))
     if hint:
         found.add(hint)
     for key, (_, pat) in CLASSES.items():
@@ -83,10 +92,21 @@ def classes_for(row):
 
 
 def main():
-    rows = list(csv.DictReader(open(SRC, encoding="utf-8-sig")))
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
+    args = ap.parse_args()
+
+    run_dir = resolve_run(args.run)
+    run = json.loads((run_dir / "run.json").read_text()) if (run_dir / "run.json").exists() else {}
+    cols = run.get("columns", {})
+    src = run_dir / run.get("source_csv", "universe.csv")
+    out_path = run_dir / "service-class-coverage.csv"
+
+    rows = list(csv.DictReader(open(src, encoding="utf-8-sig")))
     out = []
     for r in rows:
-        cls = classes_for(r)
+        cls = classes_for(r, cols)
         out.append({
             "company": r["company"],
             "url": r["url"],
@@ -104,13 +124,13 @@ def main():
 
     fields = ["rank", "company", "class_count", "service_classes", "category",
               "segment", "headcount", "url", "services"]
-    with open(OUT, "w", newline="") as f:
+    with open(out_path, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         w.writeheader()
         w.writerows(out)
 
     dist = Counter(r["class_count"] for r in out)
-    print(f"wrote {OUT}")
+    print(f"wrote {out_path}")
     print("\ncoverage distribution:")
     for n in sorted(dist, reverse=True):
         print(f"  {n:2d} classes: {dist[n]:3d} companies")

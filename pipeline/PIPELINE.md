@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Purpose | Turn one target company into a ranked, contactable list of similar companies |
-| Proven on | useBuy.ai, 259 companies, 36 personal contacts |
+| Example run | `examples/usebuy/`: 259 companies, 207 kept, 36 personal contacts |
 | Entry point | `pipeline/run_pipeline.py` |
 | Config | `pipeline/pipeline.json` |
 | Date | 2026-11-24 |
@@ -14,9 +14,9 @@
 
 | # | Stage | Question it answers | Main output |
 |---|---|---|---|
-| 1 | ICP generation | Who do we want, and what do we value? | `icp.md`, `pipeline/taxonomy.csv` |
+| 1 | ICP generation | Who do we want, and what do we value? | `icp.md`, `taxonomy.csv` |
 | 2 | Sourcing | Which companies could match, and where do we find them? | `universe.csv` |
-| 3 | Scoring model | Which parameters separate a good match, and how much does each count? | `pipeline/scoring-model.md` |
+| 3 | Scoring model | Which parameters separate a good match, and how much does each count? | `scoring-model.md` |
 | 4 | Scoring | How close is each company, and is it reachable? | `similarity-ranking*.csv` |
 | 5 | Enrichment and handoff | Who do we contact, at which address, and why now? | `similarity-ranking-contacts.csv`, `outreach.csv` |
 
@@ -47,9 +47,10 @@ The ICP is not a paragraph. It is a machine-readable model with four parts.
 
 **Method:** read the product, not the pitch. Open the live catalogue or API index. Count what is actually sold. Weight each capability by how much of the product it is.
 
-For useBuy, social data is 165 of 170 routes, so it carries 0.95. Model inference is one route, so it carries 0.20.
+In the example run, social data is 165 of 170 routes, so it carries 0.95.
+Model inference is one route, so it carries 0.20.
 
-**Output:** `icp.md` plus `pipeline/taxonomy.csv`.
+**Output:** `icp.md` plus `taxonomy.csv`.
 
 **Gate:** every tag has a positive weight, a regex, and at least one core tag exists. The ICP file has all required sections.
 
@@ -78,7 +79,7 @@ For useBuy, social data is 165 of 170 routes, so it carries 0.95. Model inferenc
 
 **Gate:** rows above zero, no duplicate ids, every text field present.
 
-**Failure mode:** one source only. In the useBuy run, 176 of 259 rows came from one directory. That is why the CSV held almost no multi-category companies.
+**Failure mode:** one source only. In the example run, 176 of 259 rows came from one directory. That is why the CSV held almost no multi-category companies.
 
 **Lesson from the run:** 125 of 259 `service_summary` rows were boilerplate. Tag from the specific service list, not the summary.
 
@@ -106,7 +107,7 @@ Capability must dominate. A tie-breaker that can move the rank is not a tie-brea
 | 2 | match index 18 or more, and 1 or more core hit |
 | 3 | everything else |
 
-**Output:** `pipeline/scoring-model.md`, plus the weights already in `taxonomy.csv`.
+**Output:** `scoring-model.md`, plus the weights already in `taxonomy.csv`.
 
 **Gate:** the three terms sum to 1.0, all tags carry a weight, tiers are ordered.
 
@@ -141,7 +142,7 @@ Capability must dominate. A tie-breaker that can move the rank is not a tie-brea
 
 **Gate:** the ranking is sorted, kept plus removed equals total, no kept row reaches the size limit, and any large tie block is reported.
 
-**Failure mode:** treating a tie as a ranking. In the useBuy run, 101 companies tied at 21.3. Their order was noise.
+**Failure mode:** treating a tie as a ranking. In the example run, 101 companies tied at 21.3. Their order was noise.
 
 **Lesson from the run:** breadth and reachability pull in opposite directions. The companies that sell the most service classes are the ones you cannot email. Report that tension; do not hide it with a filter.
 
@@ -218,20 +219,29 @@ The last step is a write to Google Sheets, then a read-back.
 
 ## Running it for a new ICP
 
-1. Copy `pipeline/` to the new project folder.
-2. Edit `pipeline.json`: set `subject`, `workdir`, `source_csv`, and the text fields.
-3. Write `icp.md` and `pipeline/taxonomy.csv` for the new subject.
-4. Run `--stage 1,2` and fix any gate failure.
-5. Run `--stage 3,4` and read the tie report before you trust the order.
+1. Copy `examples/usebuy/` to a new folder under `examples/`, or anywhere you like.
+2. Edit `run.json`: set `subject`, the column map, the source CSV, and the text fields.
+3. Write `icp.md` and `taxonomy.csv` for the new subject.
+4. Run `--run <folder> --stage 1,2` and fix any gate failure.
+5. Run `--run <folder> --stage 3,4` and read the tie report before you trust the order.
 6. Set `min_score` from the tier-1 cut, then run stage 5 with `--confirm-credits`.
 
-## What is not generic yet
+The scripts take `--run` and read every rule from `run.json`. Set `run` in
+`pipeline/pipeline.json` to make one folder the default.
 
-| Item | State |
+## Where the subject-specific rules live
+
+Nothing about the target is in the code. Each item sits in the run folder.
+
+| Item | Where it lives |
 |---|---|
-| `rank_similarity.py` | Holds the useBuy weights inline. Read them from `taxonomy.csv` to reuse. |
-| `filter_reachable.py` | Holds the removal list inline. Move it into `pipeline.json`. |
-| `enrich_hunter.py` | Holds the rules inline. The config already mirrors them. |
-| Sheet layout | Fixed to the useBuy columns. Map it per project. |
+| Capability weights, core flags, regex | `taxonomy.csv` |
+| Model terms, tier cuts, tier labels, buyer weights | `run.json` → `model` |
+| Headcount limit, removal list, suppliers | `run.json` → `reachability` |
+| Provider, page limit, rejected local parts, title hints | `run.json` → `enrichment` |
+| Column names in the source CSV | `run.json` → `columns` |
+| Sheet layout and handoff fields | `run.json` → `handoff` |
 
-The orchestrator and the gates are generic. The three worker scripts are not. Moving their constants into `pipeline.json` is the next refactor.
+The engine, the gates and the four worker scripts carry no company names and no
+weights. `scripts/rank_similarity.py` reads the weights from `taxonomy.csv` and
+the terms from `run.json`, so a new subject needs no code change.

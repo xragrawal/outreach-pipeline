@@ -6,7 +6,7 @@
 | Reference | usebuy.ai (buy), capability surface from the live gateway catalogue |
 | Method | Capability-weighted Jaccard, 88% of the final score |
 | Output | `similarity-ranking.csv` (all 259 rows, full detail) |
-| Script | `rank_similarity.py` (reproducible) |
+| Script | `scripts/rank_similarity.py --run examples/usebuy` |
 | Date | 2026-11-23 |
 
 ---
@@ -179,4 +179,4 @@ This is the core result. For each usebuy capability, the table shows how many of
 | File | Contents |
 |---|---|
 | `similarity-ranking.csv` | All 259 companies, ranked, with score, tier, matched capabilities, and services |
-| `rank_similarity.py` | The scoring model. Edit `USEBUY` weights and rerun. |
+| `taxonomy.csv` | The scoring model. Edit a weight and rerun. |

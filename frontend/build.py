@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
-"""Build the pipeline page from the run artefacts.
+"""Build the pipeline page from a run folder.
 
-Reads the CSVs the pipeline produced and injects them into template.html.
-No figure is typed by hand: every number on the page comes from a file.
+Reads the CSVs the run produced and injects them into template.html. No figure
+is typed by hand: every number on the page comes from a file.
+
+Usage
+-----
+    python3 frontend/build.py
+    python3 frontend/build.py --run examples/usebuy
 """
 
+import argparse
 import csv
 import json
 import re
@@ -12,9 +18,9 @@ from collections import Counter
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
+ROOT = BASE.parent
 OUT = BASE / "index.html"
 TEMPLATE = BASE / "template.html"
-ROOT = BASE.parent
 
 
 def read(path):
@@ -35,25 +41,43 @@ def first(row, *names):
     return ""
 
 
+def resolve_run(arg):
+    if arg:
+        return Path(arg).resolve()
+    cfg = json.loads((ROOT / "pipeline" / "pipeline.json").read_text())
+    return (ROOT / cfg["run"]).resolve()
+
+
 def main():
-    universe = read(ROOT / "universe.csv")
-    removed = read(ROOT / "similarity-ranking-removed.csv")
-    taxonomy = read(ROOT / "pipeline" / "taxonomy.csv")
-    multi = read(ROOT / "multi-service-coverage.csv")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
+    args = ap.parse_args()
+
+    run_dir = resolve_run(args.run)
+    run = json.loads((run_dir / "run.json").read_text()) if (run_dir / "run.json").exists() else {}
+    cfg = json.loads((ROOT / "pipeline" / "pipeline.json").read_text())
+
+    universe = read(run_dir / "universe.csv")
+    removed = read(run_dir / "similarity-ranking-removed.csv")
+    taxonomy = read(run_dir / "taxonomy.csv")
+    multi = read(run_dir / "multi-service-coverage.csv")
 
     # with contacts, else the plain ranking: the same rows, no contact columns
-    with_contacts = ROOT / "similarity-ranking-reachable.csv"
-    kept = read(with_contacts) if with_contacts.exists() else read(ROOT / "similarity-ranking.csv")
-    outreach = read_optional(ROOT / "outreach.csv")
-    cfg = json.loads((ROOT / "pipeline" / "pipeline.json").read_text())
+    with_contacts = run_dir / "similarity-ranking-reachable.csv"
+    kept = read(with_contacts) if with_contacts.exists() else read(run_dir / "similarity-ranking.csv")
+    outreach = read_optional(run_dir / "outreach.csv")
+
+    w_sum = sum(float(t["weight"]) for t in taxonomy)
+    emails = sum(1 for r in kept if r.get("contact_email"))
+    generic = sum(1 for r in kept if r.get("hunter_status") == "generic_only")
 
     stages = []
     notes = {
-        "icp": f"{len(taxonomy)} tags · weight sum {sum(float(t['weight']) for t in taxonomy):.2f}",
+        "icp": f"{len(taxonomy)} tags · weight sum {w_sum:.2f}",
         "source": f"{len(universe)} rows · {len({r['company'].lower() for r in universe})} unique",
-        "model": "0.88 / 0.07 / 0.05",
+        "model": " / ".join(f"{v:g}" for v in run.get("model", {}).get("terms", {}).values()) or "",
         "score": f"{len(kept)} kept · {len(removed)} removed",
-        "enrich": f"{sum(1 for r in kept if r.get('contact_email'))} personal emails",
+        "enrich": f"{emails} personal emails",
     }
     for s in cfg["stages"]:
         stages.append({
@@ -65,7 +89,6 @@ def main():
             "note": notes.get(s["key"], ""),
         })
 
-    # ranking rows
     ranking = []
     for r in kept:
         ranking.append({
@@ -79,11 +102,11 @@ def main():
             "contact": r.get("contact_name", ""),
         })
 
-    # tie block
-    scores = Counter(r["score"] for r in kept)
+    # the tie report matches the stage 4 gate, which reads the full ranking
+    full = read(run_dir / "similarity-ranking.csv")
+    scores = Counter(r["score"] for r in full)
     tie_score, tie_n = scores.most_common(1)[0]
 
-    # contacts
     contacts = []
     for r in outreach:
         contacts.append({
@@ -96,35 +119,33 @@ def main():
             "tier": r["tier"],
         })
 
-    # multi-line five: the ones that sell more than one product line
-    FIVE = {"upstash", "thirdweb", "blockrun", "crewai", "langchain"}
+    # the companies that sell the most product lines, reachable ones only
     by_company = {r["company"].lower(): r for r in kept}
-    five = []
+    multiline = []
     for r in multi:
-        if r["status"] != "kept" or r["company"].lower() not in FIVE:
+        if r["status"] != "kept" or r["company"].lower() not in by_company:
             continue
-        c = by_company.get(r["company"].lower(), {})
-        five.append({
+        c = by_company[r["company"].lower()]
+        multiline.append({
             "company": r["company"],
             "families": int(r["family_count"]),
             "families_list": r["families"],
             "email": c.get("contact_email", ""),
         })
-    five.sort(key=lambda x: -x["families"])
+    multiline.sort(key=lambda x: (-x["families"], x["company"].lower()))
+    multiline = multiline[:5]
 
-    emails = sum(1 for r in kept if r.get("contact_email"))
-    generic = sum(1 for r in kept if r.get("hunter_status") == "generic_only")
-    w_sum = sum(float(t["weight"]) for t in taxonomy)
-
+    sheet_id = run.get("handoff", {}).get("spreadsheet_id", "")
     data = {
         # the sheet holds the contacts, so only a run with contacts links to it
-        "sheet": ("https://docs.google.com/spreadsheets/d/"
-                  + cfg["stages"][-1]["handoff"]["spreadsheet_id"] + "/edit") if outreach else "",
-        "meta": {"kept": len(kept), "emails": emails, "contacts": bool(contacts)},
+        "sheet": (f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit"
+                  if sheet_id and outreach else ""),
+        "meta": {"kept": len(kept), "emails": emails, "contacts": bool(contacts),
+                 "multiline": len(multiline)},
         "stages": stages,
         "ranking": ranking,
         "contacts": contacts,
-        "multiline": five,
+        "multiline": multiline,
     }
 
     html = TEMPLATE.read_text(encoding="utf-8")
@@ -138,8 +159,9 @@ def main():
         "__C_TAGS__": len(taxonomy),
         "__W_SUM__": f"{w_sum:.2f}",
         "__TIE_N__": tie_n,
-        "__N_SOURCES__": len(cfg["stages"][1]["source_types"]),
-        "__DATE__": "24 November 2026",
+        "__N_SOURCES__": len(cfg["stages"][1].get("source_types", [])),
+        "__SUBJECT__": run.get("subject", ""),
+        "__DATE__": run.get("date", ""),
     }.items():
         html = html.replace(k, str(v))
 
@@ -148,11 +170,12 @@ def main():
         raise SystemExit(f"unreplaced placeholders: {sorted(set(leftover))}")
 
     OUT.write_text(html, encoding="utf-8")
+    print(f"run   : {run_dir}")
     print(f"wrote {OUT} ({len(html)/1024:.1f} KB)")
     print(f"  companies {len(universe)} | kept {len(kept)} | removed {len(removed)}")
     print(f"  contacts {len(contacts)} | emails {emails} | generic {generic}")
     print(f"  tags {len(taxonomy)} | weight sum {w_sum:.2f} | tie {tie_n} at {tie_score}")
-    print(f"  multi-line {len(five)}")
+    print(f"  multi-line {len(multiline)}")
 
 
 if __name__ == "__main__":

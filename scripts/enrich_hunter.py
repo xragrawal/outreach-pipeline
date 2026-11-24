@@ -24,11 +24,15 @@ import urllib.request
 from datetime import date
 from pathlib import Path
 
-BASE = Path(__file__).resolve().parent
-CSV_PATH = BASE / "similarity-ranking-reachable.csv"
-CACHE = BASE / "hunter-cache"
-OUT_CSV = BASE / "similarity-ranking-contacts.csv"
-ACCOUNT_JSON = BASE / "hunter-account.json"
+BASE = Path(__file__).resolve().parent.parent
+
+
+def resolve_run(arg):
+    """The run folder: --run, else the one named in pipeline/pipeline.json."""
+    if arg:
+        return Path(arg).resolve()
+    cfg = json.loads((BASE / "pipeline" / "pipeline.json").read_text())
+    return (BASE / cfg["run"]).resolve()
 
 API = "https://api.hunter.io/v2"
 
@@ -85,13 +89,13 @@ def call(path, params, key):
         return None, (0, {"error": type(e).__name__})
 
 
-def is_generic(email, entry):
+def is_generic(email, entry, generic=None):
     """True when the address is a shared inbox, not one person."""
     if entry.get("type") == "generic":
         return True
     local = email.split("@", 1)[0].lower()
     local = re.split(r"[+._-]", local)[0]
-    return local in GENERIC_LOCAL
+    return local in (generic or GENERIC_LOCAL)
 
 
 def has_identity(entry):
@@ -102,19 +106,20 @@ def has_identity(entry):
     return bool(first or last) and bool(position)
 
 
-def pick(entries):
+def pick(entries, hints=None, generic=None):
     """Best personal contact: seniority, then confidence, then a title hint."""
+    hints = hints or DECISION_HINTS
     people = []
     for e in entries:
         value = (e.get("value") or "").strip().lower()
         if not value or "@" not in value:
             continue
-        if is_generic(value, e):
+        if is_generic(value, e, generic):
             continue
         if not has_identity(e):
             continue
         title = (e.get("position") or "").lower()
-        hint = any(h in title for h in DECISION_HINTS)
+        hint = any(h in title for h in hints)
         people.append((1 if hint else 0, e.get("confidence") or 0, value, e))
     if not people:
         return None
@@ -129,14 +134,27 @@ def main():
                     help="only enrich rows whose score is above this value")
     ap.add_argument("--only", type=str, default=None,
                     help="comma-separated company names to enrich")
+    ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
     args = ap.parse_args()
+
+    run_dir = resolve_run(args.run)
+    run = json.loads((run_dir / "run.json").read_text()) if (run_dir / "run.json").exists() else {}
+    enr = run.get("enrichment", {})
+    generic = set(enr.get("reject_local_parts", [])) or GENERIC_LOCAL
+    hints = tuple(enr.get("prefer_titles", [])) or DECISION_HINTS
+    page_limit = int(enr.get("page_limit", 10))
+
+    csv_path = run_dir / "similarity-ranking-reachable.csv"
+    cache = run_dir / "hunter-cache"
+    out_csv = run_dir / "similarity-ranking-contacts.csv"
+    account_json = run_dir / "hunter-account.json"
 
     key = load_key()
     if not key:
         print("NO KEY: add HUNTER_API_KEY to ~/.hermes/.env and rerun.")
         return 1
 
-    rows = list(csv.DictReader(open(CSV_PATH)))
+    rows = list(csv.DictReader(open(csv_path)))
     print(f"rows: {len(rows)}")
 
     selected = rows
@@ -159,12 +177,12 @@ def main():
             if k in d:
                 v = d[k]
                 print(f"  {k}: used {v.get('used')} of {v.get('available')}" if isinstance(v, dict) else f"  {k}: {v}")
-        ACCOUNT_JSON.write_text(json.dumps(acct, indent=2))
+        account_json.write_text(json.dumps(acct, indent=2))
     else:
         print(f"account check failed: {err}")
         return 1
 
-    CACHE.mkdir(exist_ok=True)
+    cache.mkdir(exist_ok=True)
     today = date.today().isoformat()
 
     results = []
@@ -183,16 +201,16 @@ def main():
         domain = re.sub(r"^www\.", "", urllib.parse.urlparse(
             url if url.startswith(("http://", "https://")) else "https://" + url).netloc.lower())
 
-        cache_file = CACHE / f"{domain}.json"
+        cache_file = cache / f"{domain}.json"
         if cache_file.exists():
             payload = json.loads(cache_file.read_text())
             status = "cached"
         else:
-            payload, err = call("domain-search", {"domain": domain, "limit": 10}, key)
+            payload, err = call("domain-search", {"domain": domain, "limit": page_limit}, key)
             if payload is None and err[0] == 400:
                 detail = json.dumps(err[1])
                 if "pagination" in detail or "limited to" in detail:
-                    payload, err = call("domain-search", {"domain": domain, "limit": 10}, key)
+                    payload, err = call("domain-search", {"domain": domain, "limit": page_limit}, key)
             if payload is None:
                 code = err[0]
                 status = "error"
@@ -203,7 +221,7 @@ def main():
             time.sleep(1.2)
 
         entries = (payload.get("data", {}) or {}).get("emails", []) if isinstance(payload, dict) else []
-        chosen = pick(entries)
+        chosen = pick(entries, hints=hints, generic=generic)
 
         row = dict(r)
         if chosen:
@@ -240,19 +258,19 @@ def main():
               "email_source_url", "hunter_status", "lookup_date"):
         if c not in fields:
             fields.append(c)
-    with open(OUT_CSV, "w", newline="") as f:
+    with open(out_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         w.writeheader()
         w.writerows(results)
 
     acct2, _ = call("account", {}, key)
     if acct2:
-        ACCOUNT_JSON.write_text(json.dumps(acct2, indent=2))
+        account_json.write_text(json.dumps(acct2, indent=2))
 
     counts = {}
     for x in results:
         counts[x["hunter_status"]] = counts.get(x["hunter_status"], 0) + 1
-    print(f"\nwrote {OUT_CSV}")
+    print(f"\nwrote {out_csv}")
     print("status:", counts)
     return 0
 

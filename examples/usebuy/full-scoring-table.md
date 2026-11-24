@@ -6,7 +6,7 @@
 | Kept (reachable) | 207 |
 | Removed | 52 |
 | Final score range | 0 to 100 |
-| Model file | `rank_similarity.py` |
+| Model file | `taxonomy.csv` plus `run.json` |
 | Filter file | `filter_reachable.py` |
 | Date | 2026-11-23 |
 
@@ -216,7 +216,7 @@ This last example shows why 98 companies tie. Any company with only the blockcha
 1. It is not a market-size or quality measure. It measures overlap with usebuy's capabilities.
 2. It is not a prediction of fit for a partnership. A low score can still be a good supplier.
 3. It depends on the CSV text. A company that sells social data but describes itself vaguely will score low. That is a limit of the input, not of the company.
-4. The weights are a judgment call, set from the catalogue evidence in 1.2. Change a weight in `rank_similarity.py` and rerun to test a different view.
+4. The weights are a judgment call, set from the catalogue evidence in 1.2. Change a weight in `taxonomy.csv` and rerun to test a different view.
 5. The buyer term is a category heuristic, not research.
 6. 87 of the 207 kept companies have no headcount in the CSV. The `Staff` column shows an em dash for them. That is missing data, not a small company. Across all 259 rows, 127 have no headcount.
 
@@ -535,7 +535,7 @@ The CSV has two known weaknesses that carry into this model:
 
 ```
 cd outputs/usebuy-profile-2026-11-23
-python3 rank_similarity.py     # rebuilds similarity-ranking.csv
+python3 scripts/rank_similarity.py --run examples/usebuy   # rebuilds similarity-ranking.csv
 python3 filter_reachable.py    # rebuilds the reachable and removed files
 ```
 

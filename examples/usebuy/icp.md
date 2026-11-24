@@ -48,7 +48,7 @@ Three parts hold this up:
 | 9 | Data enrichment | 0.40 | ContactOut, Clay, Ploid |
 | 10 | Identity verification | 0.30 | Self zk proofs, ERC-8004 |
 
-The full 31-row table is `pipeline/taxonomy.csv`. It holds the weight, the core flag, and the regex that detects the tag.
+The full 31-row table is `taxonomy.csv`. It holds the weight, the core flag, and the regex that detects the tag.
 
 Weight sum: **9.18**.
 

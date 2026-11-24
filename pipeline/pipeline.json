@@ -1,10 +1,9 @@
 {
   "project": {
     "name": "icp-to-outreach",
-    "subject": "useBuy.ai",
-    "date": "2026-11-24",
-    "workdir": "."
+    "date": "2026-11-24"
   },
+  "run": "examples/usebuy",
   "stages": [
     {
       "id": 1,
@@ -17,7 +16,7 @@
       ],
       "outputs": [
         "icp.md",
-        "pipeline/taxonomy.csv"
+        "taxonomy.csv"
       ],
       "command": null,
       "gate": "icp",
@@ -36,22 +35,12 @@
       "key": "source",
       "name": "Sourcing",
       "question": "Which companies could match, and where do we find them?",
-      "inputs": [
-        "../usebuy-infrastructure-2026-11-20/infrastructure-companies.csv"
-      ],
+      "inputs": [],
       "outputs": [
         "universe.csv"
       ],
       "command": null,
       "gate": "source",
-      "source_csv": "../usebuy-infrastructure-2026-11-20/infrastructure-companies.csv",
-      "encoding": "utf-8-sig",
-      "id_column": "company",
-      "text_fields": [
-        "infrastructure_category",
-        "service_summary",
-        "infra_services_sold"
-      ],
       "source_types": [
         "directory",
         "review site",
@@ -67,31 +56,13 @@
       "name": "Scoring model",
       "question": "Which parameters separate a good match from a bad one, and how much does each count?",
       "inputs": [
-        "pipeline/taxonomy.csv",
-        "full-scoring-table.md"
+        "taxonomy.csv"
       ],
       "outputs": [
-        "pipeline/scoring-model.md"
+        "scoring-model.md"
       ],
       "command": null,
-      "gate": "model",
-      "terms": {
-        "capability": 0.88,
-        "delivery": 0.07,
-        "buyer": 0.05
-      },
-      "tiers": [
-        {
-          "tier": 1,
-          "match_index_min": 55,
-          "core_hits_min": 2
-        },
-        {
-          "tier": 2,
-          "match_index_min": 18,
-          "core_hits_min": 1
-        }
-      ]
+      "gate": "model"
     },
     {
       "id": 4,
@@ -100,7 +71,7 @@
       "question": "How close is each company, and is it reachable?",
       "inputs": [
         "universe.csv",
-        "pipeline/taxonomy.csv"
+        "taxonomy.csv"
       ],
       "outputs": [
         "similarity-ranking.csv",
@@ -109,28 +80,17 @@
       ],
       "command": [
         "python3",
-        "rank_similarity.py"
+        "scripts/rank_similarity.py",
+        "--run",
+        "{run}"
       ],
       "post_command": [
         "python3",
-        "filter_reachable.py"
+        "scripts/filter_reachable.py",
+        "--run",
+        "{run}"
       ],
-      "gate": "score",
-      "reachability": {
-        "headcount_limit": 150,
-        "remove_competitors": [
-          "Firecrawl",
-          "Apify",
-          "Exa"
-        ],
-        "reason_codes": [
-          "hyperscaler",
-          "public company",
-          "AI major",
-          "competitor",
-          "headcount"
-        ]
-      }
+      "gate": "score"
     },
     {
       "id": 5,
@@ -146,132 +106,12 @@
       ],
       "command": [
         "python3",
-        "enrich_hunter.py",
-        "--min-score",
-        "21.4"
+        "scripts/enrich_hunter.py",
+        "--run",
+        "{run}"
       ],
       "gate": "enrich",
-      "requires_credits": true,
-      "enrichment": {
-        "provider": "hunter",
-        "endpoint": "domain-search",
-        "page_limit": 10,
-        "credit_per_domain": 1,
-        "require_type": "personal",
-        "reject_local_parts": [
-          "info",
-          "hello",
-          "contact",
-          "support",
-          "help",
-          "helpdesk",
-          "sales",
-          "admin",
-          "administrator",
-          "team",
-          "hi",
-          "hey",
-          "enquiries",
-          "enquiry",
-          "inquiries",
-          "inquiry",
-          "partnerships",
-          "partners",
-          "business",
-          "bd",
-          "press",
-          "media",
-          "jobs",
-          "careers",
-          "recruiting",
-          "privacy",
-          "legal",
-          "billing",
-          "accounts",
-          "accounting",
-          "finance",
-          "marketing",
-          "hr",
-          "people",
-          "office",
-          "mail",
-          "email",
-          "connect",
-          "grow",
-          "founders",
-          "founder",
-          "noreply",
-          "no-reply",
-          "donotreply",
-          "security",
-          "abuse",
-          "postmaster",
-          "webmaster",
-          "dev",
-          "devs",
-          "developers",
-          "engineering",
-          "api",
-          "ops",
-          "community",
-          "social",
-          "feedback",
-          "success",
-          "customers",
-          "clients",
-          "orders",
-          "service",
-          "services",
-          "general"
-        ],
-        "prefer_titles": [
-          "founder",
-          "co-founder",
-          "ceo",
-          "cto",
-          "coo",
-          "cpo",
-          "cro",
-          "chief",
-          "president",
-          "owner",
-          "partner",
-          "head of",
-          "vp ",
-          "vice president",
-          "director",
-          "lead",
-          "manager",
-          "business development",
-          "partnerships"
-        ],
-        "status_values": [
-          "found",
-          "generic_only",
-          "not_found",
-          "not_run",
-          "error"
-        ]
-      },
-      "handoff": {
-        "fields": [
-          "contact_name",
-          "contact_role",
-          "contact_email",
-          "priority",
-          "reason_to_contact"
-        ],
-        "priority_rule": "tier 1 = now, tier 2 = this week, tier 3 = batch",
-        "backend": "google_sheets",
-        "spreadsheet_id": "1gApZC5JzftQ1E4JpZOqmTPuvxtzPw63muT7DJGgvXSA",
-        "tabs": [
-          "shortlist",
-          "multi-service"
-        ],
-        "value_input": "RAW",
-        "freeze_header": true,
-        "verify": "exact_match_on_every_column"
-      }
+      "requires_credits": true
     }
   ]
 }

@@ -4,8 +4,8 @@
 |---|---|
 | Stage | 3 of 5 |
 | Subject | useBuy.ai |
-| Inputs | `pipeline/taxonomy.csv`, `icp.md` |
-| Used by | `rank_similarity.py` |
+| Inputs | `taxonomy.csv`, `icp.md` |
+| Used by | `scripts/rank_similarity.py` |
 | Date | 2026-11-24 |
 
 ---

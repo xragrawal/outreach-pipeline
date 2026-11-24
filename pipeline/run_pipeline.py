@@ -7,22 +7,34 @@ Usage
     python3 pipeline/run_pipeline.py --stage 1
     python3 pipeline/run_pipeline.py --stage all
     python3 pipeline/run_pipeline.py --stage 5 --confirm-credits
+    python3 pipeline/run_pipeline.py --run examples/usebuy --stage 4
 
 A gate is a cheap check that the stage output is usable. A failed gate stops
 the run. Nothing is published if a gate fails.
 
 Stage 5 calls a paid API. It does nothing unless you pass --confirm-credits.
+
+The engine lives in this file. Everything that names a subject, a company, a
+weight or a limit lives in the run folder: `run.json`, `taxonomy.csv` and the
+stage artefacts next to them.
 """
 
 import argparse
 import csv
 import json
 import subprocess
-import sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
 CONFIG = BASE / "pipeline.json"
+
+DEFAULT_STATUS_VALUES = ["found", "generic_only", "not_found", "not_run", "error"]
+DEFAULT_COLUMNS = {
+    "id": "company",
+    "category": "category",
+    "summary": "service_summary",
+    "services": "services",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -31,11 +43,14 @@ CONFIG = BASE / "pipeline.json"
 
 def load_config(path):
     with open(path, encoding="utf-8") as f:
-        cfg = json.load(f)
-    # the workdir in the file is relative to the repo root, not the caller's cwd
-    base = Path(path).resolve().parent.parent
-    cfg["project"]["workdir"] = str((base / cfg["project"]["workdir"]).resolve())
-    return cfg
+        return json.load(f)
+
+
+def load_run(run_dir):
+    path = run_dir / "run.json"
+    if not path.exists():
+        raise SystemExit(f"no run.json in {run_dir}")
+    return json.loads(path.read_text())
 
 
 def read_csv(path):
@@ -50,8 +65,9 @@ def stage_by_id(cfg, sid):
     raise SystemExit(f"no stage {sid}")
 
 
-def resolve(cfg, rel):
-    return (Path(cfg["project"]["workdir"]) / rel).resolve()
+def resolve_run(cfg, arg):
+    rel = arg or cfg.get("run", ".")
+    return (BASE.parent / rel).resolve()
 
 
 def ok(msg):
@@ -71,8 +87,7 @@ def warn(msg):
 # gates
 # ---------------------------------------------------------------------------
 
-def gate_icp(cfg, stage):
-    wd = Path(cfg["project"]["workdir"])
+def gate_icp(wd, run, stage):
     icp = wd / "icp.md"
     if not icp.exists():
         warn("icp.md is missing. Stage 1 output should describe the ICP.")
@@ -83,9 +98,9 @@ def gate_icp(cfg, stage):
             bad(f"icp.md lacks sections: {missing}")
         ok(f"icp.md has {len(stage.get('required_sections', []))} required sections")
 
-    tax = wd / "pipeline" / "taxonomy.csv"
+    tax = wd / "taxonomy.csv"
     if not tax.exists():
-        bad("pipeline/taxonomy.csv is missing")
+        bad("taxonomy.csv is missing")
     rows = read_csv(tax)
     if len(rows) < 5:
         bad(f"taxonomy has only {len(rows)} tags")
@@ -100,7 +115,7 @@ def gate_icp(cfg, stage):
         if not r.get("regex", "").strip():
             bad(f"tag {r['tag']!r} has no regex")
         total += w
-    core = [r for r in rows if r.get("core") == "yes"]
+    core = [r for r in rows if str(r.get("core", "")).strip().lower() in ("yes", "1", "true")]
     if not core:
         bad("no core capability is marked")
     ok(f"taxonomy: {len(rows)} tags, {len(core)} core, weight sum {total:.2f}")
@@ -108,16 +123,16 @@ def gate_icp(cfg, stage):
         warn("weight sum is below 1.0. Check the weight scale.")
 
 
-def gate_source(cfg, stage):
-    wd = Path(cfg["project"]["workdir"])
-    src = (wd / stage["source_csv"]).resolve()
+def gate_source(wd, run, stage):
+    cols = {**DEFAULT_COLUMNS, **run.get("columns", {})}
+    src = (wd / run.get("source_csv", "universe.csv")).resolve()
     out = wd / "universe.csv"
 
     if not src.exists():
         bad(f"source CSV not found: {src}")
 
     rows = read_csv(src)
-    id_col = stage["id_column"]
+    id_col = cols["id"]
     seen = set()
     dups = 0
     kept = []
@@ -133,43 +148,49 @@ def gate_source(cfg, stage):
 
     if not kept:
         bad("source CSV has no usable rows")
-    for f in stage["text_fields"]:
+    for f in (cols["category"], cols["summary"], cols["services"]):
         if f not in kept[0]:
             bad(f"source CSV lacks text field {f!r}")
 
-    with open(out, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=list(kept[0].keys()))
-        w.writeheader()
-        w.writerows(kept)
+    if src.resolve() != out.resolve():
+        with open(out, "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=list(kept[0].keys()))
+            w.writeheader()
+            w.writerows(kept)
+        ok(f"wrote {out.name}")
+    else:
+        ok("source and universe are the same file, so nothing was rewritten")
 
     ok(f"universe: {len(kept)} unique companies from {len(rows)} rows, {dups} duplicates dropped")
-    ok(f"wrote {out.name}")
     if dups:
         warn("duplicates were dropped. Check that the first row was the right one.")
 
 
-def gate_model(cfg, stage):
-    terms = stage["terms"]
+def gate_model(wd, run, stage):
+    model = run.get("model", {})
+    terms = model.get("terms", {})
+    if not terms:
+        bad("run.json has no model.terms")
     total = sum(terms.values())
     if abs(total - 1.0) > 1e-9:
         bad(f"scoring terms sum to {total}, not 1.0")
     ok(f"terms sum to 1.0: " + ", ".join(f"{k} {v}" for k, v in terms.items()))
 
-    tax = Path(cfg["project"]["workdir"]) / "pipeline" / "taxonomy.csv"
-    rows = read_csv(tax)
+    rows = read_csv(wd / "taxonomy.csv")
     unweighted = [r["tag"] for r in rows if float(r["weight"]) <= 0]
     if unweighted:
         bad(f"tags with no weight: {unweighted}")
     ok(f"all {len(rows)} tags carry a weight")
 
-    tiers = stage["tiers"]
+    tiers = model.get("tiers", [])
+    if not tiers:
+        bad("run.json has no model.tiers")
     if [t["tier"] for t in tiers] != sorted(t["tier"] for t in tiers):
         bad("tiers are not in order")
     ok(f"{len(tiers)} tiers defined")
 
 
-def gate_score(cfg, stage):
-    wd = Path(cfg["project"]["workdir"])
+def gate_score(wd, run, stage):
     ranked = wd / "similarity-ranking.csv"
     kept_f = wd / "similarity-ranking-reachable.csv"
     gone_f = wd / "similarity-ranking-removed.csv"
@@ -206,23 +227,26 @@ def gate_score(cfg, stage):
     else:
         ok("no large tie block")
 
-    limit = stage["reachability"]["headcount_limit"]
-    over = [r["company"] for r in kept if (r.get("headcount") or "").isdigit()
-            and int(r["headcount"]) >= limit]
-    if over:
-        bad(f"{len(over)} kept rows are at or above the headcount limit: {over[:5]}")
-    ok(f"no kept row reaches the headcount limit of {limit}")
+    limit = run.get("reachability", {}).get("headcount_limit")
+    if limit is None:
+        warn("no headcount limit in run.json, so the size check is skipped")
+    else:
+        over = [r["company"] for r in kept if (r.get("headcount") or "").isdigit()
+                and int(r["headcount"]) >= limit]
+        if over:
+            bad(f"{len(over)} kept rows are at or above the headcount limit: {over[:5]}")
+        ok(f"no kept row reaches the headcount limit of {limit}")
 
 
-def gate_enrich(cfg, stage):
-    wd = Path(cfg["project"]["workdir"])
+def gate_enrich(wd, run, stage):
     path = wd / "similarity-ranking-contacts.csv"
     if not path.exists():
         bad("similarity-ranking-contacts.csv is missing")
     rows = read_csv(path)
 
-    allowed = set(stage["enrichment"]["status_values"])
-    reject = set(stage["enrichment"]["reject_local_parts"])
+    enr = run.get("enrichment", {})
+    allowed = set(enr.get("status_values") or DEFAULT_STATUS_VALUES)
+    reject = set(enr.get("reject_local_parts") or [])
 
     bad_status = {r["hunter_status"] for r in rows if r["hunter_status"] not in allowed}
     if bad_status:
@@ -237,17 +261,20 @@ def gate_enrich(cfg, stage):
             bad(f"{r['company']} is 'found' with no email")
     ok(f"{len(found)} found rows all have a name and an email")
 
-    leaked = []
-    for r in rows:
-        email = r["contact_email"].strip()
-        if not email:
-            continue
-        local = email.split("@")[0].split("+")[0].split(".")[0].lower()
-        if local in reject:
-            leaked.append(email)
-    if leaked:
-        bad(f"generic addresses leaked through: {leaked[:5]}")
-    ok("no generic address in the contact column")
+    if not reject:
+        warn("no reject_local_parts in run.json, so the shared-inbox check is skipped")
+    else:
+        leaked = []
+        for r in rows:
+            email = r["contact_email"].strip()
+            if not email:
+                continue
+            local = email.split("@")[0].split("+")[0].split(".")[0].lower()
+            if local in reject:
+                leaked.append(email)
+        if leaked:
+            bad(f"generic addresses leaked through: {leaked[:5]}")
+        ok("no generic address in the contact column")
 
     no_email = [r["company"] for r in rows if not r["contact_email"].strip()]
     ok(f"{len(rows) - len(no_email)} rows carry an email, {len(no_email)} are blank")
@@ -269,18 +296,22 @@ GATES = {
 # runner
 # ---------------------------------------------------------------------------
 
-def run_command(cfg, stage, cmd, dry):
+def fill(cmd, run_dir):
+    return [str(c).replace("{run}", str(run_dir)) for c in cmd]
+
+
+def run_command(wd, cmd, dry):
     label = " ".join(cmd)
     if dry:
         print(f"  PLAN  {label}")
         return
     print(f"  RUN   {label}")
-    out = subprocess.run(cmd, cwd=cfg["project"]["workdir"])
+    out = subprocess.run(cmd, cwd=BASE.parent)
     if out.returncode != 0:
         bad(f"command failed with code {out.returncode}: {label}")
 
 
-def run_stage(cfg, stage, dry, confirm_credits):
+def run_stage(cfg, run_dir, run, stage, dry, confirm_credits):
     print(f"\n=== Stage {stage['id']}: {stage['name']} ===")
     print(f"  Q     {stage['question']}")
 
@@ -289,9 +320,9 @@ def run_stage(cfg, stage, dry, confirm_credits):
         return
 
     if stage.get("command"):
-        run_command(cfg, stage, stage["command"], dry)
+        run_command(run_dir, fill(stage["command"], run_dir), dry)
     if stage.get("post_command"):
-        run_command(cfg, stage, stage["post_command"], dry)
+        run_command(run_dir, fill(stage["post_command"], run_dir), dry)
 
     gate = GATES.get(stage.get("gate"))
     if not gate:
@@ -299,22 +330,25 @@ def run_stage(cfg, stage, dry, confirm_credits):
     if dry:
         print(f"  PLAN  gate {stage['gate']}")
         return
-    gate(cfg, stage)
+    gate(run_dir, run, stage)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=str(CONFIG))
+    ap.add_argument("--run", default=None, help="run folder (default: pipeline.json)")
     ap.add_argument("--stage", default="all")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--confirm-credits", action="store_true")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
-    wd = cfg["project"]["workdir"]
+    run_dir = resolve_run(cfg, args.run)
+    run = load_run(run_dir)
+
     print(f"pipeline : {cfg['project']['name']}")
-    print(f"subject  : {cfg['project']['subject']}")
-    print(f"workdir  : {wd}")
+    print(f"subject  : {run.get('subject', '')}")
+    print(f"run      : {run_dir}")
 
     if args.stage == "all":
         stages = cfg["stages"]
@@ -322,7 +356,7 @@ def main():
         stages = [stage_by_id(cfg, s) for s in args.stage.split(",")]
 
     for s in stages:
-        run_stage(cfg, s, args.dry_run, args.confirm_credits)
+        run_stage(cfg, run_dir, run, s, args.dry_run, args.confirm_credits)
 
     print("\nDone.")
 

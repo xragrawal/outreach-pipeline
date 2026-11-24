@@ -1,0 +1,420 @@
+{
+  "name": "usebuy-2026-11-23",
+  "subject": "useBuy.ai",
+  "subject_url": "https://usebuy.ai",
+  "date": "2026-11-24",
+  "note": "Agent pay-per-request marketplace on Celo. 170 gateway capabilities, 149 live.",
+  "source_csv": "universe.csv",
+  "columns": {
+    "id": "company",
+    "url": "url",
+    "segment": "segment",
+    "category": "infrastructure_category",
+    "summary": "service_summary",
+    "services": "infra_services_sold",
+    "sales_route": "sales_route",
+    "evidence_type": "commercial_evidence_type",
+    "headcount": "directory_headcount"
+  },
+  "model": {
+    "terms": {
+      "capability": 0.88,
+      "delivery": 0.07,
+      "buyer": 0.05
+    },
+    "tiers": [
+      {
+        "tier": 1,
+        "match_index_min": 55,
+        "core_hits_min": 2
+      },
+      {
+        "tier": 2,
+        "match_index_min": 18,
+        "core_hits_min": 1
+      }
+    ],
+    "buyer_weights": {
+      "Web data infrastructure": 1.0,
+      "Agent API gateway": 1.0,
+      "Agent tools and authentication": 0.95,
+      "Browser infrastructure": 0.9,
+      "Agent memory": 0.85,
+      "Agent observability": 0.85,
+      "AI evaluation and observability": 0.8,
+      "Agent runtime": 0.8,
+      "Agent orchestration": 0.75,
+      "Agent orchestration and observability": 0.75,
+      "Code execution sandboxes": 0.75,
+      "Model inference": 0.7,
+      "API developer infrastructure": 0.65,
+      "Workflow infrastructure": 0.6,
+      "Email infrastructure": 0.55,
+      "Voice infrastructure": 0.55,
+      "Payment infrastructure": 0.55,
+      "Agent security": 0.55,
+      "Database infrastructure": 0.45,
+      "Cloud compute": 0.45,
+      "Cloud hosting": 0.35,
+      "Cloud development infrastructure": 0.4,
+      "Developer infrastructure": 0.4,
+      "Authorization infrastructure": 0.35,
+      "Identity infrastructure": 0.35,
+      "Wallet infrastructure": 0.35,
+      "Wallet and payment infrastructure": 0.4,
+      "Blockchain data infrastructure": 0.35,
+      "Blockchain data APIs": 0.35,
+      "Blockchain RPC and data APIs": 0.25,
+      "Transaction infrastructure": 0.25,
+      "Trading API infrastructure": 0.2,
+      "Cross-chain API infrastructure": 0.2,
+      "Storage infrastructure": 0.2,
+      "Cloud and blockchain infrastructure": 0.2,
+      "Cloud compute and hosting": 0.3,
+      "Cloud compute and storage": 0.3,
+      "Managed blockchain infrastructure": 0.2,
+      "Blockchain security infrastructure": 0.15
+    },
+    "buyer_default": 0.25,
+    "metered_categories": [
+      "Agent API gateway",
+      "Blockchain RPC and data APIs",
+      "Blockchain data APIs",
+      "Blockchain data infrastructure",
+      "Browser infrastructure",
+      "Code execution sandboxes",
+      "Model inference",
+      "Web data infrastructure"
+    ],
+    "tier_labels": {
+      "1": "1 direct",
+      "2": "2 adjacent",
+      "3": "3 different layer"
+    }
+  },
+  "reachability": {
+    "headcount_limit": 150,
+    "remove": {
+      "Alibaba Cloud": [
+        "hyperscaler",
+        "global cloud division"
+      ],
+      "Amazon Web Services": [
+        "hyperscaler",
+        "global cloud division"
+      ],
+      "Google Cloud": [
+        "hyperscaler",
+        "global cloud division, also a supplier"
+      ],
+      "HUAWEI CLOUD": [
+        "hyperscaler",
+        "global cloud division"
+      ],
+      "IBM Cloud": [
+        "hyperscaler",
+        "global cloud division"
+      ],
+      "Oracle Cloud": [
+        "hyperscaler",
+        "global cloud division"
+      ],
+      "Cloudflare": [
+        "large network",
+        "public company, edge network"
+      ],
+      "Stripe": [
+        "large fintech",
+        "public-scale payments company"
+      ],
+      "MongoDB": [
+        "public company",
+        "listed database vendor"
+      ],
+      "Supabase": [
+        "late-stage platform",
+        "large open-source platform"
+      ],
+      "Vercel": [
+        "late-stage platform",
+        "large developer platform"
+      ],
+      "Zapier": [
+        "large SaaS",
+        "automation leader"
+      ],
+      "LaunchDarkly": [
+        "late-stage SaaS",
+        "feature-flag leader"
+      ],
+      "Pinecone": [
+        "late-stage SaaS",
+        "vector DB leader"
+      ],
+      "Neon": [
+        "late-stage SaaS",
+        "acquired-scale database vendor"
+      ],
+      "Telnyx": [
+        "large carrier",
+        "global carrier"
+      ],
+      "Deepgram": [
+        "late-stage AI",
+        "voice AI leader"
+      ],
+      "Resend": [
+        "late-stage SaaS",
+        "email platform"
+      ],
+      "Hostinger": [
+        "large host",
+        "global hosting group"
+      ],
+      "Render": [
+        "late-stage SaaS",
+        "hosting platform"
+      ],
+      "Replit": [
+        "late-stage SaaS",
+        "large dev platform"
+      ],
+      "Modal": [
+        "late-stage AI",
+        "compute platform"
+      ],
+      "Certora": [
+        "late-stage",
+        "security vendor"
+      ],
+      "Storj": [
+        "token-listed",
+        "listed storage network"
+      ],
+      "OpenAI": [
+        "AI major",
+        "frontier model lab"
+      ],
+      "Anthropic": [
+        "AI major",
+        "frontier model lab"
+      ],
+      "Perplexity": [
+        "AI major",
+        "consumer search brand"
+      ],
+      "Replicate": [
+        "AI major",
+        "model hosting leader"
+      ],
+      "DeepSeek": [
+        "AI major",
+        "frontier model lab"
+      ],
+      "Coinbase Cloud": [
+        "exchange division",
+        "division of a listed exchange"
+      ],
+      "CoinGecko": [
+        "category leader",
+        "market-data leader"
+      ],
+      "Etherscan": [
+        "category leader",
+        "explorer leader"
+      ],
+      "Alchemy": [
+        "headcount 373",
+        "large infrastructure vendor"
+      ],
+      "QuickNode": [
+        "headcount 110",
+        "large RPC vendor"
+      ],
+      "Infura": [
+        "corporate product",
+        "product of ConsenSys"
+      ],
+      "Blockdaemon": [
+        "headcount 210",
+        "large node vendor"
+      ],
+      "Nansen": [
+        "headcount 117",
+        "large analytics vendor"
+      ],
+      "Dune": [
+        "headcount 152",
+        "large analytics vendor"
+      ],
+      "Kaiko": [
+        "headcount 224",
+        "market-data vendor"
+      ],
+      "MoonPay": [
+        "large fintech",
+        "fiat onramp leader"
+      ],
+      "Transak": [
+        "large fintech",
+        "fiat onramp vendor"
+      ],
+      "Ramp Network": [
+        "large fintech",
+        "fiat onramp vendor"
+      ],
+      "0x": [
+        "large protocol",
+        "liquidity protocol company"
+      ],
+      "Safe": [
+        "large foundation",
+        "wallet standard, foundation-run"
+      ],
+      "Privy": [
+        "acquired",
+        "acquired by Stripe"
+      ],
+      "Turnkey": [
+        "late-stage",
+        "wallet infrastructure vendor"
+      ],
+      "ChainUp Cloud": [
+        "headcount 120",
+        "part of a large group"
+      ],
+      "Zeeve": [
+        "headcount 120",
+        "managed infra vendor"
+      ],
+      "IntellectEU": [
+        "headcount 222",
+        "large integrator"
+      ],
+      "Firecrawl": [
+        "competitor",
+        "web data competitor, excluded by request"
+      ],
+      "Apify": [
+        "competitor",
+        "catalogue competitor and supplier, excluded by request"
+      ],
+      "Exa": [
+        "competitor",
+        "web search competitor, excluded by request"
+      ]
+    },
+    "suppliers": {
+      "Chainstack": "supplies the Celo RPC route",
+      "SQD": "supplies the free multi-chain data route",
+      "Google Cloud": "supplies the VM route"
+    }
+  },
+  "enrichment": {
+    "min_score": 21.4,
+    "provider": "hunter",
+    "page_limit": 10,
+    "status_values": [
+      "found",
+      "generic_only",
+      "not_found",
+      "not_run",
+      "error"
+    ],
+    "reject_local_parts": [
+      "abuse",
+      "accounting",
+      "accounts",
+      "admin",
+      "administrator",
+      "api",
+      "bd",
+      "billing",
+      "business",
+      "careers",
+      "clients",
+      "community",
+      "connect",
+      "contact",
+      "customers",
+      "dev",
+      "developers",
+      "devs",
+      "donotreply",
+      "email",
+      "engineering",
+      "enquiries",
+      "enquiry",
+      "feedback",
+      "finance",
+      "founder",
+      "founders",
+      "general",
+      "grow",
+      "hello",
+      "help",
+      "helpdesk",
+      "hey",
+      "hi",
+      "hr",
+      "info",
+      "inquiries",
+      "inquiry",
+      "jobs",
+      "legal",
+      "mail",
+      "marketing",
+      "media",
+      "no-reply",
+      "noreply",
+      "office",
+      "ops",
+      "orders",
+      "partners",
+      "partnerships",
+      "people",
+      "postmaster",
+      "press",
+      "privacy",
+      "recruiting",
+      "sales",
+      "security",
+      "service",
+      "services",
+      "social",
+      "success",
+      "support",
+      "team",
+      "webmaster"
+    ],
+    "prefer_titles": [
+      "founder",
+      "co-founder",
+      "cofounder",
+      "ceo",
+      "cto",
+      "coo",
+      "cpo",
+      "cro",
+      "chief",
+      "president",
+      "owner",
+      "partner",
+      "head of",
+      "vp ",
+      "vice president",
+      "director",
+      "lead",
+      "manager",
+      "business development",
+      "partnerships"
+    ]
+  },
+  "handoff": {
+    "spreadsheet_id": "1gApZC5JzftQ1E4JpZOqmTPuvxtzPw63muT7DJGgvXSA",
+    "tabs": [
+      "shortlist",
+      "multi-service"
+    ]
+  }
+}
