@@ -1,7 +1,33 @@
 # Pipeline page
 
-One static page that shows the five-stage run: the ranking, the contacts and the
+One page that shows the five-stage run: the ranking, the contacts and the
 multi-line companies. Every figure on the page is read from a file at build time.
+
+With the small server in `serve.py`, the page can also run each stage and show
+the gate output as it happens.
+
+## Run the stages
+
+```bash
+python3 frontend/serve.py
+python3 frontend/serve.py --port 9000 --no-open
+```
+
+The server prints `http://127.0.0.1:8787/` and opens it. The page then shows a
+**Run** button on each stage and **Run stages 1–4** in the section head.
+
+| Route | Does |
+|---|---|
+| `GET /api/state` | Lists the stages, whether their outputs exist, and which spend credits |
+| `POST /api/run` | Starts one stage. Body: `{"stage": 4, "confirm_credits": false}` |
+| `GET /api/job?id=…` | Returns the state, exit code and output of a job |
+
+The server binds to `127.0.0.1` only. It runs `pipeline/run_pipeline.py` with a
+fixed argument list, so it cannot run any other command. It runs one job at a
+time. Stage 5 needs `confirm_credits`, and the page asks first.
+
+Opened from `file://` or by a static host, the page finds no API. It hides the
+Run buttons and shows the command to start the server.
 
 ## Build
 
@@ -30,6 +56,7 @@ The build fails if any `__PLACEHOLDER__` is left unreplaced.
 
 - `template.html` — the page with `/*__DATA__*/{}` and `__*__` placeholders.
 - `build.py` — the builder.
+- `serve.py` — the local server and stage runner.
 - `index.html` — the output. Open it in a browser. No server is needed.
 - `assets/fonts/GeistPixel.ttf` — the real Geist Pixel file, ELSH axis.
 - `assets/logo/` — the lockups, marks and favicon from the brand kit.
@@ -67,3 +94,5 @@ The ranking file here has its contact columns removed.
   put `index.html` in a 390px iframe.
 - Without contact data the page prints `withheld` in the email metric. It never
   claims zero.
+- The page does not reload itself after a stage. It offers a Reload button, so a
+  running stage never swaps the figures under you.

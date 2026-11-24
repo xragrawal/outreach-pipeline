@@ -30,6 +30,9 @@ python3 pipeline/run_pipeline.py --stage all     # run everything
 
 Stage 5 spends API credits. It does nothing unless you add `--confirm-credits`.
 
+The same stages run from the page. Start `python3 frontend/serve.py`, then press
+the Run button on a stage. The page calls this script and streams its output.
+
 ---
 
 ## Stage 1: ICP generation

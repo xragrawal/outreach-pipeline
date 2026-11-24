@@ -224,6 +224,7 @@ section::before{
 }
 section.tight{padding-top:56px;padding-bottom:56px}
 .head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:32px;flex-wrap:wrap}
+.head .nav-actions{margin-left:auto}
 .head p{margin:0;max-width:52ch}
 
 /* ---------- hero ---------- */
@@ -309,6 +310,24 @@ header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
   padding:4px 9px;border-radius:999px;
 }
 .dotmark{width:7px;height:7px;border-radius:50%;background:var(--green-text);display:inline-block;flex:0 0 auto}
+
+/* ---------- run controls ---------- */
+.stage .state .run{height:32px;font-size:13px;padding:0 12px;border-radius:8px;min-width:74px;justify-content:center}
+.stage .state .run[data-state="running"]{color:var(--text-small);cursor:progress}
+.stage .state .run[data-state="pass"]{border-color:var(--green-text);color:var(--green-text)}
+.stage .state .run[data-state="fail"]{border-color:#b4322a;color:#b4322a}
+body[data-serve="no"] .run,body[data-serve="no"] #run-all{display:none}
+#run-all{height:36px;font-size:13px;padding:0 14px}
+.log{
+  margin:0;padding:18px 20px;border:1px solid var(--tile-line);border-radius:12px;
+  background:var(--tile);color:var(--text-body);
+  font-family:var(--font-mono);font-size:12.5px;line-height:20px;
+  max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;
+}
+.log .p{color:var(--green-text)}
+.log .f{color:#b4322a}
+.log .w{color:#8a6a00}
+.log .d{color:var(--text-small)}
 
 /* ---------- tables ---------- */
 .tablewrap{overflow-x:auto;border:1px solid var(--tile-line);border-radius:8px;background:var(--rail)}
@@ -527,12 +546,34 @@ footer img{height:22px;filter:var(--logo-filter)}
         <h2>Five stages<span class="second">.</span></h2>
         <p class="sub">Each stage answers one question and ends with a gate. A failed gate stops the run.</p>
       </div>
-      <span class="pill"><span class="dotmark"></span><span id="gate-summary">gates passed</span></span>
+      <div class="nav-actions">
+        <button class="btn btn-ghost" id="run-all" type="button">Run stages 1–4</button>
+        <span class="pill"><span class="dotmark"></span><span id="gate-summary">gates passed</span></span>
+      </div>
     </div>
     <div class="stages" id="stage-list"></div>
+    <div class="callout" id="serve-hint" hidden>
+      <span class="dotmark" aria-hidden="true"></span>
+      <p><strong>Run it here.</strong> Start <code>python3 frontend/serve.py</code> and open the link it prints. Each stage then gets a Run button and a live log.</p>
+    </div>
     <div class="callout arrive">
       <span class="dotmark" aria-hidden="true"></span>
       <p><strong>No hub.</strong> The stages run in a line, not around a centre. Stage 4 reports its ties instead of hiding them: __TIE_N__ companies share one score, so their order is not a ranking.</p>
+    </div>
+  </section>
+
+  <section id="console" hidden>
+    <div class="head">
+      <div>
+        <h2>Run log<span class="second">.</span></h2>
+        <p class="sub" id="console-sub">No stage has run in this session.</p>
+      </div>
+      <span class="pill"><span class="dotmark"></span><span id="console-status">idle</span></span>
+    </div>
+    <pre class="log" id="log" aria-live="polite"></pre>
+    <p class="small" style="margin-top:14px">The figures above come from the files at build time. After a stage, reload to read them again.</p>
+    <div style="margin-top:14px">
+      <button class="btn btn-ghost" id="reload-figures" type="button" hidden>Reload the page</button>
     </div>
   </section>
 
@@ -677,8 +718,132 @@ el("#stage-list").innerHTML = DATA.stages.map(s => `
     <div class="state">
       <span class="pill"><span class="dotmark"></span>gate ${esc(s.gate)}</span>
       <span class="small">${esc(s.note || "")}</span>
+      <button class="btn btn-ghost run" type="button" data-stage="${s.id}"
+        data-credits="${s.credits ? "1" : "0"}">Run</button>
     </div>
   </div>`).join("");
+
+/* ---------- run controls ---------- */
+const STAGE_BY_ID = Object.fromEntries(DATA.stages.map(s => [String(s.id), s]));
+const served = location.protocol === "http:" || location.protocol === "https:";
+let busy = false;
+
+function setServe(on){
+  document.body.dataset.serve = on ? "yes" : "no";
+  el("#serve-hint").hidden = on;
+}
+
+async function probe(){
+  if (!served) { setServe(false); return; }
+  try {
+    const r = await fetch("/api/state", {cache: "no-store"});
+    if (!r.ok) throw new Error("no api");
+    await r.json();
+    setServe(true);
+  } catch { setServe(false); }
+}
+
+function logChunk(text){
+  const box = el("#log");
+  for (const line of text.split("\n")) {
+    if (!line.trim()) continue;
+    const t = line.trimStart();
+    const span = document.createElement("span");
+    span.className = t.startsWith("PASS") ? "p"
+      : t.startsWith("FAIL") ? "f"
+      : t.startsWith("WARN") ? "w"
+      : (t.startsWith("RUN") || t.startsWith("PLAN") || t.startsWith("SKIP")) ? "d" : "";
+    span.textContent = line + "\n";
+    box.appendChild(span);
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+function setRunButton(id, state, label){
+  const b = document.querySelector(`.run[data-stage="${id}"]`);
+  if (!b) return;
+  b.dataset.state = state;
+  b.textContent = label;
+}
+
+function openConsole(id){
+  const stage = STAGE_BY_ID[String(id)];
+  const box = el("#console");
+  box.hidden = false;
+  el("#console-sub").textContent = `Stage ${id}, ${stage ? stage.name : "run"}.`;
+  el("#console-status").textContent = "running";
+  el("#log").textContent = "";
+  el("#reload-figures").hidden = true;
+  if (box.getBoundingClientRect().top > innerHeight - 140)
+    box.scrollIntoView({behavior: "smooth", block: "start"});
+}
+
+async function pollJob(job){
+  let seen = 0, first = true;
+  for (;;) {
+    await new Promise(r => setTimeout(r, 500));
+    const r = await fetch(`/api/job?id=${job}`, {cache: "no-store"});
+    if (!r.ok) { logChunk("FAIL  lost the job. Check the server window.\n"); return 1; }
+    const j = await r.json();
+    if (first) { logChunk(`$ python3 -u ${j.cmd}\n\n`); first = false; }
+    if (j.output.length > seen) { logChunk(j.output.slice(seen)); seen = j.output.length; }
+    if (j.state === "done") return j.code ?? 1;
+  }
+}
+
+async function runStage(id){
+  const stage = STAGE_BY_ID[String(id)];
+  const credits = !!(stage && stage.credits);
+  if (credits && !confirm("Stage 5 calls Hunter and spends API credits. Run it now?")) return null;
+  const res = await fetch("/api/run", {
+    method: "POST", headers: {"content-type": "application/json"},
+    body: JSON.stringify({stage: id, confirm_credits: credits})
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) { logChunk(`FAIL  ${body.error || res.statusText}\n`); return 1; }
+  return pollJob(body.job);
+}
+
+function unlock(){
+  busy = false;
+  document.querySelectorAll(".run").forEach(b => { b.disabled = false; });
+  el("#run-all").disabled = false;
+}
+
+async function go(id){
+  if (busy) return 1;
+  busy = true;
+  document.querySelectorAll(".run").forEach(b => { b.disabled = true; });
+  el("#run-all").disabled = true;
+  setRunButton(id, "running", "Running");
+  openConsole(id);
+  const code = await runStage(id);
+  if (code === null) {
+    setRunButton(id, "", "Run");
+    el("#console-status").textContent = "idle";
+    el("#console").hidden = true;
+    unlock();
+    return 1;
+  }
+  setRunButton(id, code === 0 ? "pass" : "fail", code === 0 ? "Passed" : "Failed");
+  el("#console-status").textContent = code === 0 ? "passed" : "failed";
+  el("#reload-figures").hidden = false;
+  unlock();
+  return code;
+}
+
+document.querySelectorAll(".run").forEach(b => b.addEventListener("click", () => go(b.dataset.stage)));
+
+el("#run-all").addEventListener("click", async () => {
+  for (const s of DATA.stages) {
+    if (s.credits) continue;
+    if (await go(s.id) !== 0) break;
+  }
+});
+
+el("#reload-figures").addEventListener("click", () => location.reload());
+
+probe();
 
 /* ---------- ranking ---------- */
 function tierClass(t){

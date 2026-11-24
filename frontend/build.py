@@ -87,6 +87,7 @@ def main():
             "question": s["question"],
             "outputs": s["outputs"],
             "gate": s["gate"],
+            "credits": bool(s.get("requires_credits")),
             "note": notes.get(s["key"], ""),
         })
 

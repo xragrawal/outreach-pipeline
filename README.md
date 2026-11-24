@@ -90,7 +90,28 @@ and the lessons from the example run.
 | `scripts/enrich_hunter.py` | Finds personal addresses through Hunter. |
 | `scripts/service_class_coverage.py` | Groups the market into service classes. |
 | `frontend/build.py` | Renders a run into one static HTML page. |
+| `frontend/serve.py` | Serves the page and runs stages on request. |
 | `examples/usebuy/` | One finished run, end to end. |
+
+## Run the stages from the page
+
+```bash
+python3 frontend/serve.py
+```
+
+The server prints a link and opens it. Every stage then has a **Run** button.
+Press one and the log streams under the stages: each gate line appears as it
+passes. **Run stages 1–4** walks the chain in order.
+
+The server binds to `127.0.0.1` only, and it runs one fixed command list, so it
+cannot run anything else. It runs one stage at a time. Stage 5 asks for a
+confirmation first, because it spends Hunter credits.
+
+The figures on the page come from the files at build time. After a stage, press
+**Reload the page** to read them again.
+
+Without the server the page is plain HTML. Opened from `file://` or served by a
+static host, it hides the Run buttons and shows the command to start the server.
 
 ## The page
 
