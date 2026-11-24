@@ -77,7 +77,8 @@ def main():
         "source": f"{len(universe)} rows · {len({r['company'].lower() for r in universe})} unique",
         "model": " / ".join(f"{v:g}" for v in run.get("model", {}).get("terms", {}).values()) or "",
         "score": f"{len(kept)} kept · {len(removed)} removed",
-        "enrich": f"{emails} personal emails",
+        "enrich": (f"{emails} personal emails" if outreach
+                   else "contacts withheld from this copy"),
     }
     for s in cfg["stages"]:
         stages.append({
@@ -148,13 +149,21 @@ def main():
         "multiline": multiline,
     }
 
+    # a run without contacts must not claim zero. Say the data is not here.
+    if contacts:
+        email_metric = (f'<div class="figure" data-count="{emails}">0</div>\n'
+                        f'        <div class="note">{generic} shared inboxes refused</div>')
+    else:
+        email_metric = ('<div class="figure word">withheld</div>\n'
+                        '        <div class="note">personal addresses stay out of this copy</div>')
+
     html = TEMPLATE.read_text(encoding="utf-8")
     html = html.replace("/*__DATA__*/{}", json.dumps(data, ensure_ascii=False))
     for k, v in {
         "__C_SOURCED__": len(universe),
         "__C_KEPT__": len(kept),
         "__C_REMOVED__": len(removed),
-        "__C_EMAILS__": emails,
+        "__EMAIL_METRIC__": email_metric,
         "__C_GENERIC__": generic,
         "__C_TAGS__": len(taxonomy),
         "__W_SUM__": f"{w_sum:.2f}",

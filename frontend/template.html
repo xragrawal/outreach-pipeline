@@ -278,6 +278,7 @@ header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
   font-size:clamp(34px,3.4vw,52px);line-height:1.02;font-variant-numeric:tabular-nums;
   letter-spacing:-.02em;
 }
+.metric .figure.word{font-size:clamp(18px,1.8vw,26px);line-height:1.9;letter-spacing:0}
 .metric .note{font-size:12px;line-height:16px;color:var(--text-small);margin-top:4px}
 
 /* ---------- stages ---------- */
@@ -418,7 +419,8 @@ footer img{height:22px;filter:var(--logo-filter)}
   h2{font-size:34px;letter-spacing:-1.4px}
   h2{letter-spacing:-1.4px}
   .stage{grid-template-columns:36px 1fr;gap:14px}
-  .stage .state{grid-column:2;flex-direction:row;align-items:center}
+  .stage .state{grid-column:2;flex-direction:row;align-items:center;
+    flex-wrap:wrap;justify-content:flex-start;white-space:normal}
   .cards{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
   .metric{padding-left:0 !important;border-left:0 !important;padding-top:18px;border-top:1px solid var(--tile-line)}
@@ -509,8 +511,7 @@ footer img{height:22px;filter:var(--logo-filter)}
       </div>
       <div class="metric arrive">
         <div class="label">Personal emails found</div>
-        <div class="figure" data-count="__C_EMAILS__">0</div>
-        <div class="note">__C_GENERIC__ shared inboxes refused</div>
+        __EMAIL_METRIC__
       </div>
       <div class="metric arrive">
         <div class="label">Capabilities scored</div>
@@ -650,7 +651,9 @@ if (first) {
     <div class="label">Top of the ranking</div>
     <div class="co">${esc(first.company)}</div>
     <div class="row"><span class="fig">${Number(first.score).toFixed(1)}</span><span class="small">match index</span></div>
-    ${first.email ? `<div class="addr">${esc(first.email)}</div>` : `<div class="small">No personal address yet</div>`}
+    ${first.email
+      ? `<div class="addr">${esc(first.email)}</div>`
+      : `<div class="small">${DATA.meta.contacts ? "No personal address yet" : "Address held outside this copy"}</div>`}
     <a class="link" href="#ranking">See all ${DATA.meta.kept} ranked ›</a>`;
 }
 

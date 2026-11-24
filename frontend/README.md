@@ -6,26 +6,29 @@ multi-line companies. Every figure on the page is read from a file at build time
 ## Build
 
 ```bash
-python3 frontend/build.py
+python3 frontend/build.py --run examples/usebuy
 ```
 
-`build.py` reads these files from the parent folder and writes `index.html`:
+`build.py` reads these files from the run folder and writes `index.html`:
 
 | File | Feeds |
 |---|---|
+| `run.json` | subject, date, sheet link, model terms |
 | `universe.csv` | companies sourced, source types |
-| `similarity-ranking-reachable.csv` | the ranking, kept count, contact cells |
+| `similarity-ranking.csv` | the ranking, the tie count |
+| `similarity-ranking-reachable.csv` | the kept count and the contact cells |
 | `similarity-ranking-removed.csv` | removed count |
-| `pipeline/taxonomy.csv` | tag count, weight sum |
-| `pipeline/pipeline.json` | stage names, questions, outputs, gates, sheet link |
+| `taxonomy.csv` | tag count, weight sum |
 | `outreach.csv` | the contact table. Optional: without it the page hides the contacts and says so |
-| `multi-service-coverage.csv` | the five multi-line cards |
+| `multi-service-coverage.csv` | the multi-line cards |
+
+With no `--run`, the build uses the run named in `pipeline/pipeline.json`.
 
 The build fails if any `__PLACEHOLDER__` is left unreplaced.
 
 ## Files
 
-- `template.html` — the page with `/*__DATA__*/{}` and `__C_*__` placeholders.
+- `template.html` — the page with `/*__DATA__*/{}` and `__*__` placeholders.
 - `build.py` — the builder.
 - `index.html` — the output. Open it in a browser. No server is needed.
 - `assets/fonts/GeistPixel.ttf` — the real Geist Pixel file, ELSH axis.
@@ -62,3 +65,5 @@ The ranking file here has its contact columns removed.
   and contact columns, and the contacts become one card per person.
 - Chrome headless cannot render below 500px wide. To check the phone layout,
   put `index.html` in a 390px iframe.
+- Without contact data the page prints `withheld` in the email metric. It never
+  claims zero.
