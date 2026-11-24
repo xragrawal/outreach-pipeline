@@ -36,6 +36,8 @@
   --tile:rgba(214,219,211,.2);
   --tile-line:rgba(64,76,66,.1);
   --wash:#f6f3ea;
+  --error:#a42f28;
+  --warning:#725800;
   --logo-filter:none;
   --pad:clamp(20px,9.64vw,145px);
   --ease-arrive:cubic-bezier(.2,.7,.2,1);
@@ -67,6 +69,8 @@
   --tile:rgba(255,255,255,.06);
   --tile-line:rgba(255,255,255,.1);
   --wash:#39403d;
+  --error:#ff8f87;
+  --warning:#ffd166;
   --logo-filter:invert(.93);
   --green-hover:#5b8a2b;
 }
@@ -74,6 +78,8 @@
 *{box-sizing:border-box}
 [hidden]{display:none !important}
 html,body{margin:0;padding:0}
+::selection{background:var(--acid);color:var(--ink)}
+*{scrollbar-color:var(--green-text) var(--tile);scrollbar-width:thin}
 body{
   font-family:var(--font-sans);
   font-size:16px;
@@ -132,7 +138,7 @@ h1{
   font-variation-settings:"ELSH" 11;
   font-size:clamp(40px,4.6vw,60px);
   line-height:1.05;
-  letter-spacing:-.065em;
+  letter-spacing:-.035em;
   margin:0;
   opacity:.82;
   color:var(--title-ink);
@@ -156,16 +162,16 @@ h3{
   line-height:24px;
   margin:0;
 }
-.eyebrow{
-  font-family:var(--font-pixel);
-  font-variation-settings:"ELSH" 20;
-  font-size:17px;
-  line-height:1.5;
+.route-link{
+  font-size:14px;
+  line-height:20px;
+  font-weight:500;
   color:var(--green-text);
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  text-decoration:none;
+  margin-bottom:16px;
+  text-decoration:underline;
+  text-underline-offset:5px;
 }
 .lede{font-size:clamp(20px,2.1vw,26px);line-height:1.4;letter-spacing:-.01em;color:var(--text-body);margin:20px 0 0;max-width:46ch}
 .sub{font-size:18px;line-height:27px;color:var(--text-body);margin:10px 0 0}
@@ -213,6 +219,7 @@ nav{
 }
 .btn-ghost:hover{background:var(--tile);filter:brightness(.98)}
 .btn:focus-visible{outline:2px solid var(--green-text);outline-offset:2px}
+.btn:disabled{cursor:not-allowed;opacity:.52;transform:none}
 
 /* ---------- sections ---------- */
 section{padding:120px var(--pad);position:relative}
@@ -282,18 +289,75 @@ header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
 .metric .figure.word{font-size:clamp(18px,1.8vw,26px);line-height:1.9;letter-spacing:0}
 .metric .note{font-size:12px;line-height:16px;color:var(--text-small);margin-top:4px}
 
-/* ---------- stages ---------- */
-.stages{position:relative;margin-top:8px}
-.stage{
-  display:grid;grid-template-columns:56px 1fr auto;gap:20px;
-  padding:26px 0;border-top:1px solid var(--tile-line);
-  align-items:start;position:relative;
+/* ---------- setup ---------- */
+.workspace{
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);
+  gap:clamp(32px,5vw,72px);align-items:start;
 }
-.stage:first-child{border-top:0}
+.setup-intro{position:sticky;top:92px}
+.setup-intro h2{max-width:11ch}
+.setup-intro .sub{max-width:34ch}
+.setup-flow{display:grid;gap:7px;margin-top:28px}
+.setup-flow-row{
+  width:calc(var(--flow-width) * 1%);margin-left:calc(var(--flow-offset) * 1%);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:42px;padding:9px 12px;border:1px solid var(--tile-line);
+  border-radius:10px;background:var(--tile);font-size:12px;line-height:16px;
+}
+.setup-flow-row[data-ready="true"]{border-color:color-mix(in srgb,var(--green-text) 36%,var(--tile-line))}
+.setup-flow-row strong{font-weight:500;color:var(--text)}
+.setup-flow-row span{color:var(--text-small);font-variant-numeric:tabular-nums;text-align:right}
+.setup-primary{margin-top:16px}
+.run-path{margin-top:24px;padding-top:18px;border-top:1px solid var(--tile-line)}
+.run-path strong{display:block;font-size:13px;margin-bottom:4px}
+.run-path code{font-family:var(--font-mono);font-size:12px;color:var(--green-text);word-break:break-all}
+.setup-form{display:grid;gap:22px}
+.form-section{padding:22px 12px 0;border-top:1px solid var(--tile-line)}
+.form-section:first-child{padding:0 12px;border-top:0}
+.form-section h3{margin-bottom:14px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:7px}
+.field + .field{margin-top:14px}
+.field-grid .field + .field{margin-top:0}
+.field label{font-size:13px;line-height:18px;font-weight:500;color:var(--text)}
+.field small{font-size:12px;line-height:17px;color:var(--text-small)}
+.control{
+  width:100%;border:1px solid var(--tile-line);border-radius:12px;
+  background:var(--tile);color:var(--text);font:inherit;line-height:1.45;
+  padding:12px 14px;outline:none;caret-color:var(--green-text);
+  transition:border-color var(--dur-feedback),background var(--dur-feedback);
+}
+.control:focus{border-color:var(--green-text);background:var(--rail)}
+.control::placeholder{color:var(--text-small);opacity:.82}
+textarea.control{resize:vertical;min-height:104px}
+.form-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.form-status{font-size:13px;line-height:18px;color:var(--text-small)}
+.form-status[data-kind="error"]{color:var(--error)}
+.form-status[data-kind="success"]{color:var(--green-text)}
+body[data-serve="no"] .server-action{display:none}
+
+/* ---------- waterfall ---------- */
+.stages{position:relative;margin-top:12px;display:grid;gap:10px}
+.stage{
+  width:calc(var(--flow-width) * 1%);
+  margin-left:calc(var(--flow-offset) * 1%);
+  display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:18px;
+  padding:22px 22px 22px 0;
+  border:1px solid var(--tile-line);border-radius:14px;
+  background:var(--rail);align-items:center;position:relative;
+}
+.stage::before{
+  content:"";position:absolute;left:50%;top:-11px;width:1px;height:10px;
+  background:var(--green-text);opacity:.4;
+}
+.stage:first-child::before{display:none}
+.stage[data-ready="true"]{border-color:color-mix(in srgb,var(--green-text) 30%,var(--tile-line))}
+.stage[data-ready="true"] .num{background:var(--green);color:#fff}
 .stage .num{
   font-family:var(--font-pixel);font-variation-settings:"ELSH" 20;
-  font-size:24px;line-height:28px;color:var(--green-text);
-  font-variant-numeric:tabular-nums;
+  font-size:18px;line-height:34px;color:var(--green-text);text-align:center;
+  font-variant-numeric:tabular-nums;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--green-text);background:var(--rail);z-index:1;
 }
 .stage h3{margin-bottom:4px}
 .stage .q{color:var(--text-body);font-size:15px;line-height:22px;max-width:56ch;margin:0}
@@ -302,7 +366,9 @@ header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
   color:var(--text-small);margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;
 }
 .stage .out span{background:var(--tile);border:1px solid var(--tile-line);padding:2px 7px;border-radius:5px}
-.stage .state{display:flex;flex-direction:column;align-items:flex-end;gap:8px;white-space:nowrap}
+.stage .state{display:flex;flex-direction:column;align-items:flex-end;gap:7px;white-space:nowrap}
+.stage .flow-count{font-family:var(--font-pixel);font-size:22px;line-height:24px;font-variant-numeric:tabular-nums;color:var(--text)}
+.stage .flow-label{font-size:11px;line-height:15px;color:var(--text-small)}
 .pill{
   display:inline-flex;align-items:center;gap:6px;
   font-size:12px;line-height:16px;color:var(--text-small);
@@ -315,9 +381,15 @@ header.hero{padding:96px var(--pad) 88px;position:relative;overflow:hidden}
 .stage .state .run{height:32px;font-size:13px;padding:0 12px;border-radius:8px;min-width:74px;justify-content:center}
 .stage .state .run[data-state="running"]{color:var(--text-small);cursor:progress}
 .stage .state .run[data-state="pass"]{border-color:var(--green-text);color:var(--green-text)}
-.stage .state .run[data-state="fail"]{border-color:#b4322a;color:#b4322a}
+.stage .state .run[data-state="fail"]{border-color:var(--error);color:var(--error)}
 body[data-serve="no"] .run,body[data-serve="no"] #run-all{display:none}
 #run-all{height:36px;font-size:13px;padding:0 14px}
+.source-panel{margin-top:28px;padding:24px;border:1px solid var(--tile-line);border-radius:14px;background:var(--tile)}
+.source-panel h3{margin-bottom:5px}
+.source-panel p{margin:0 0 16px;color:var(--text-body);font-size:14px;line-height:21px;max-width:70ch}
+.source-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end}
+.source-row textarea{min-height:150px;font-family:var(--font-mono);font-size:12px;line-height:18px}
+.source-actions{display:grid;gap:10px;min-width:160px}
 .log{
   margin:0;padding:18px 20px;border:1px solid var(--tile-line);border-radius:12px;
   background:var(--tile);color:var(--text-body);
@@ -325,8 +397,8 @@ body[data-serve="no"] .run,body[data-serve="no"] #run-all{display:none}
   max-height:420px;overflow:auto;white-space:pre-wrap;word-break:break-word;
 }
 .log .p{color:var(--green-text)}
-.log .f{color:#b4322a}
-.log .w{color:#8a6a00}
+.log .f{color:var(--error)}
+.log .w{color:var(--warning)}
 .log .d{color:var(--text-small)}
 
 /* ---------- tables ---------- */
@@ -364,6 +436,9 @@ body[data-contacts="no"] .col-contact{display:none}
 }
 .chip[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
 .chip:hover{background:var(--tile)}
+.chip:focus-visible,input[type="search"]:focus-visible,.control:focus-visible{
+  outline:2px solid var(--green-text);outline-offset:2px;
+}
 input[type="search"]{
   font-family:var(--font-sans);font-size:14px;color:var(--text);
   background:var(--tile);border:1px solid var(--tile-line);border-radius:999px;
@@ -417,6 +492,9 @@ footer img{height:22px;filter:var(--logo-filter)}
 @media (max-width:1023px){
   .hero-inner{grid-template-columns:1fr;gap:32px}
   .hero-panel{max-width:420px}
+  .workspace{grid-template-columns:1fr}
+  .setup-intro{position:static}
+  .setup-intro h2{max-width:none}
 }
 @media (max-width:900px){
   .cards{grid-template-columns:1fr 1fr}
@@ -434,18 +512,24 @@ footer img{height:22px;filter:var(--logo-filter)}
   section,header.hero{padding-left:20px;padding-right:20px}
   section{padding-top:72px;padding-bottom:72px}
   header.hero{padding-top:56px;padding-bottom:56px}
-  h1{font-size:46px;line-height:1.04;letter-spacing:-.06em}
+  h1{font-size:46px;line-height:1.04;letter-spacing:-.035em}
   h2{font-size:34px;letter-spacing:-1.4px}
   h2{letter-spacing:-1.4px}
-  .stage{grid-template-columns:36px 1fr;gap:14px}
+  .field-grid{grid-template-columns:1fr}
+  .field-grid .field + .field{margin-top:0}
+  .stage{width:100%;margin-left:0;grid-template-columns:36px 1fr;gap:14px;padding:18px 16px 18px 0}
   .stage .state{grid-column:2;flex-direction:row;align-items:center;
     flex-wrap:wrap;justify-content:flex-start;white-space:normal}
+  .stage::before{left:16px}
+  .stage .num{width:32px;height:32px;line-height:32px;font-size:16px}
+  .source-row{grid-template-columns:1fr}
+  .source-actions{display:flex;min-width:0;align-items:center;flex-wrap:wrap}
   .cards{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
   .metric{padding-left:0 !important;border-left:0 !important;padding-top:18px;border-top:1px solid var(--tile-line)}
   .metric:first-child{border-top:0;padding-top:0}
-  /* ranking keeps the score, drops the two wide columns */
-  .col-core,.col-contact{display:none}
+  /* ranking keeps every field and scrolls as one table */
+  #ranking table{min-width:760px}
   #ranking table td,#ranking table th{padding:10px 10px}
   #ranking .bar{gap:6px}
   #ranking .bar .track{display:none}
@@ -477,9 +561,10 @@ footer img{height:22px;filter:var(--logo-filter)}
   .brand{gap:8px}
   .nav-actions .btn-ghost{height:34px;font-size:13px;padding:0 11px}
   .nav-actions .btn-primary{height:36px;font-size:13px;padding:0 12px;border-radius:9px}
-  h1{font-size:38px;letter-spacing:-.055em;line-height:1.06}
+  h1{font-size:38px;letter-spacing:-.035em;line-height:1.06}
   h2{font-size:30px}
   .hero-panel{padding:16px}
+  .source-panel{padding:18px}
 }
 </style>
 </head>
@@ -488,7 +573,7 @@ footer img{height:22px;filter:var(--logo-filter)}
 <div class="rail dotted">
 
   <nav>
-    <a class="brand" href="#top">
+    <a class="brand" href="#setup">
       <img src="assets/logo/antseed-lockup-black.svg" alt="Antseed" width="91" height="27">
       <span class="tag">ICP → OUTREACH</span>
     </a>
@@ -496,19 +581,90 @@ footer img{height:22px;filter:var(--logo-filter)}
       <button class="btn btn-ghost" id="theme" type="button" aria-label="Switch theme">
         <span class="dotmark" aria-hidden="true"></span><span id="theme-label">Night</span>
       </button>
-      <a class="btn btn-primary" id="sheet-link" href="#" target="_blank" rel="noopener">Open the sheet</a>
+      <a class="btn btn-ghost" id="sheet-link" href="#" target="_blank" rel="noopener">Open sheet</a>
+      <a class="btn btn-primary" href="#setup">New run</a>
     </div>
   </nav>
 
-  <header class="hero" id="top">
+  <section id="setup">
+    <div class="workspace">
+      <div class="setup-intro">
+        <h2>Define the company and ICP<span class="second">.</span></h2>
+        <p class="sub">Create one auditable run. The page writes the same files that the command-line pipeline reads.</p>
+        <div class="setup-flow" id="setup-flow" aria-label="Live pipeline waterfall"></div>
+        <button class="btn btn-primary server-action setup-primary" data-create-run type="submit" form="setup-form">Create run and save ICP</button>
+        <div class="run-path">
+          <strong>Active run</strong>
+          <code id="active-run">Loading local state…</code>
+        </div>
+        <div class="callout" id="setup-offline" hidden>
+          <span class="dotmark" aria-hidden="true"></span>
+          <p>Start <code>python3 frontend/serve.py</code> to create and edit runs from this page.</p>
+        </div>
+      </div>
+
+      <form class="setup-form" id="setup-form">
+        <div class="form-section">
+          <h3>Company</h3>
+          <div class="field-grid">
+            <div class="field">
+              <label for="subject">Company name</label>
+              <input class="control" id="subject" name="subject" autocomplete="organization" required placeholder="Acme AI">
+            </div>
+            <div class="field">
+              <label for="subject-url">Company website</label>
+              <input class="control" id="subject-url" name="subject_url" type="url" autocomplete="url" placeholder="https://acme.example">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Ideal customer profile</h3>
+          <div class="field">
+            <label for="buyer">Buyer</label>
+            <textarea class="control" id="buyer" name="buyer" required placeholder="Who buys, what they need, and what they reject."></textarea>
+          </div>
+          <div class="field">
+            <label for="value-proposition">Value proposition</label>
+            <textarea class="control" id="value-proposition" name="value_proposition" required placeholder="What the target company sells and why buyers choose it."></textarea>
+          </div>
+          <div class="field">
+            <label for="capabilities">Capabilities</label>
+            <textarea class="control" id="capabilities" name="capabilities" required placeholder="Managed detection and response | 3&#10;Cloud security monitoring | 2&#10;Incident response | 3&#10;Compliance reporting | 1&#10;Threat intelligence | 1"></textarea>
+            <small>Add at least five lines. Use <code>Capability | weight</code>. A missing weight defaults to 1.</small>
+          </div>
+          <div class="field">
+            <label for="core-capabilities">Core capabilities</label>
+            <input class="control" id="core-capabilities" name="core_capabilities" required placeholder="Managed detection and response, Incident response">
+            <small>Use exact names from the capability list.</small>
+          </div>
+          <div class="field">
+            <label for="anti-icp">Anti-ICP</label>
+            <textarea class="control" id="anti-icp" name="anti_icp" required placeholder="Which companies do not fit, and why?"></textarea>
+          </div>
+          <div class="field">
+            <label for="evidence">Evidence</label>
+            <textarea class="control" id="evidence" name="evidence" placeholder="Add source links or dated notes. You can leave this blank during setup."></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary server-action" id="create-run" data-create-run type="submit">Create run and save ICP</button>
+          <span class="form-status" id="setup-status" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <header class="hero" id="summary">
     <div class="hero-wash" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-copy">
-      <a class="eyebrow" href="#stages">Pipeline <span aria-hidden="true">›</span></a>
-      <h1>From one ICP<br><span class="second">to a contactable list.</span></h1>
-      <p class="lede">Five stages turn a single target into a ranked list of similar companies, each with a named contact and a reason to write.</p>
+      <a class="route-link" href="#stages">Open the five-stage workflow</a>
+      <h1>Start with a company.<br><span class="second">Leave with the right leads.</span></h1>
+      <p class="lede">Define the ICP once. Then watch each gate source, score, filter, and enrich the lead set.</p>
       <div class="install">
-        <code><b>$</b> __RUN_CMD__</code>
+        <code><b>$</b> __RUN_CMD_HTML__</code>
         <button class="btn btn-ghost" id="copy" type="button">Copy command</button>
       </div>
       </div>
@@ -548,10 +704,26 @@ footer img{height:22px;filter:var(--logo-filter)}
       </div>
       <div class="nav-actions">
         <button class="btn btn-ghost" id="run-all" type="button">Run stages 1–4</button>
-        <span class="pill"><span class="dotmark"></span><span id="gate-summary">gates passed</span></span>
+        <span class="pill" role="status" aria-live="polite"><span class="dotmark"></span><span id="gate-summary">gates passed</span></span>
       </div>
     </div>
     <div class="stages" id="stage-list"></div>
+    <div class="source-panel server-action" id="source-panel">
+      <h3>Supply the candidate list</h3>
+      <p>Stage 2 reads a CSV. Paste it here after you define the ICP. Keep the required columns in the header.</p>
+      <div class="source-row">
+        <div class="field">
+          <label for="candidate-csv">Candidate CSV</label>
+          <textarea class="control" id="candidate-csv" spellcheck="false" placeholder="company,url,segment,category,service_summary,services,sales_route,evidence_type,headcount"></textarea>
+        </div>
+        <div class="source-actions">
+          <input id="candidate-file" type="file" accept=".csv,text/csv" hidden>
+          <button class="btn btn-ghost" id="choose-csv" type="button">Choose CSV</button>
+          <button class="btn btn-primary" id="import-csv" type="button">Import candidates</button>
+          <span class="form-status" id="source-status" role="status" aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
     <div class="callout" id="serve-hint" hidden>
       <span class="dotmark" aria-hidden="true"></span>
       <p><strong>Run it here.</strong> Start <code>python3 frontend/serve.py</code> and open the link it prints. Each stage then gets a Run button and a live log.</p>
@@ -568,7 +740,7 @@ footer img{height:22px;filter:var(--logo-filter)}
         <h2>Run log<span class="second">.</span></h2>
         <p class="sub" id="console-sub">No stage has run in this session.</p>
       </div>
-      <span class="pill"><span class="dotmark"></span><span id="console-status">idle</span></span>
+      <span class="pill" role="status" aria-live="polite"><span class="dotmark"></span><span id="console-status">idle</span></span>
     </div>
     <pre class="log" id="log" aria-live="polite"></pre>
     <p class="small" style="margin-top:14px">The figures above come from the files at build time. After a stage, reload to read them again.</p>
@@ -664,6 +836,80 @@ const DATA = /*__DATA__*/{};
 const el = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
+/* ---------- run setup ---------- */
+const setup = DATA.setup || {};
+const setupFields = {
+  "#subject": setup.subject,
+  "#subject-url": setup.subject_url,
+  "#buyer": setup.buyer,
+  "#value-proposition": setup.value_proposition,
+  "#capabilities": Array.isArray(setup.capabilities)
+    ? setup.capabilities.map(name => `${name} | ${(setup.capability_weights || {})[name] ?? 1}`).join("\n") : "",
+  "#core-capabilities": Array.isArray(setup.core_capabilities) ? setup.core_capabilities.join(", ") : "",
+  "#anti-icp": setup.anti_icp,
+  "#evidence": setup.evidence,
+};
+for (const [selector, value] of Object.entries(setupFields)) {
+  const field = el(selector);
+  if (field && value) field.value = value;
+}
+
+function formMessage(target, message, kind = "") {
+  target.textContent = message;
+  target.dataset.kind = kind;
+}
+
+el("#setup-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const buttons = [...document.querySelectorAll("[data-create-run]")];
+  const status = el("#setup-status");
+  buttons.forEach(button => { button.disabled = true; });
+  formMessage(status, "Creating the run…");
+  const payload = Object.fromEntries(new FormData(event.currentTarget).entries());
+  try {
+    const response = await fetch("/api/setup", {
+      method: "POST", headers: {"content-type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "The run could not be created.");
+    formMessage(status, "Run created. Loading the workspace…", "success");
+    location.reload();
+  } catch (error) {
+    formMessage(status, error.message, "error");
+    buttons.forEach(button => { button.disabled = false; });
+  }
+});
+
+el("#choose-csv").addEventListener("click", () => el("#candidate-file").click());
+el("#candidate-file").addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  el("#candidate-csv").value = await file.text();
+  formMessage(el("#source-status"), `${file.name} loaded.`, "success");
+});
+el("#import-csv").addEventListener("click", async () => {
+  const button = el("#import-csv");
+  const status = el("#source-status");
+  const csv = el("#candidate-csv").value.trim();
+  if (!csv) { formMessage(status, "Paste or choose a CSV first.", "error"); return; }
+  button.disabled = true;
+  formMessage(status, "Importing candidates…");
+  try {
+    const response = await fetch("/api/candidates", {
+      method: "POST", headers: {"content-type": "application/json"},
+      body: JSON.stringify({csv}),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || "The CSV could not be imported.");
+    formMessage(status, `${result.rows} candidates imported. Reloading…`, "success");
+    location.reload();
+  } catch (error) {
+    formMessage(status, error.message, "error");
+    button.disabled = false;
+  }
+});
+
 /* ---------- theme ---------- */
 const root = document.documentElement;
 const stored = localStorage.getItem("antseed-theme");
@@ -700,15 +946,43 @@ if (first) {
 
 /* ---------- copy ---------- */
 el("#copy").addEventListener("click", async (e) => {
-  const cmd = "__RUN_CMD__";
+  const cmd = __RUN_CMD_JSON__;
   try { await navigator.clipboard.writeText(cmd); e.target.textContent = "Copied"; }
   catch { e.target.textContent = "Select the command"; }
   setTimeout(() => e.target.textContent = "Copy command", 1600);
 });
 
 /* ---------- stages ---------- */
+function flowValue(stage) {
+  if (stage.key === "icp") return [1, "target company"];
+  if (stage.key === "source") return [DATA.meta.sourced, "companies"];
+  if (stage.key === "model") return [DATA.meta.sourced, "candidates modeled"];
+  if (stage.key === "score") return [DATA.meta.kept, "reachable"];
+  return [DATA.meta.contacts ? DATA.meta.emails : 0, "personal emails"];
+}
+function flowWidth(stage) {
+  const counts = DATA.stages.map(item => Number(flowValue(item)[0]) || 0);
+  const max = Math.max(1, ...counts);
+  const count = Number(flowValue(stage)[0]) || 0;
+  return Math.max(48, (count / max) * 100);
+}
+function usesLegibilityFloor(stage) {
+  const counts = DATA.stages.map(item => Number(flowValue(item)[0]) || 0);
+  const max = Math.max(1, ...counts);
+  const count = Number(flowValue(stage)[0]) || 0;
+  return (count / max) * 100 < 48;
+}
+function flowStyle(stage) {
+  const width = flowWidth(stage);
+  return `--flow-width:${width.toFixed(2)};--flow-offset:${((100 - width) / 2).toFixed(2)}`;
+}
+el("#setup-flow").innerHTML = DATA.stages.map(s => `
+  <div class="setup-flow-row" data-stage-row="${s.id}" data-ready="false" style="${flowStyle(s)}">
+    <strong>${s.id}. ${esc(s.name)}</strong>
+    <span>${esc(flowValue(s)[0])} ${esc(flowValue(s)[1])}${usesLegibilityFloor(s) ? " · minimum display width" : ""}</span>
+  </div>`).join("");
 el("#stage-list").innerHTML = DATA.stages.map(s => `
-  <div class="stage arrive">
+  <div class="stage arrive" data-stage-row="${s.id}" data-ready="false" style="${flowStyle(s)}">
     <div class="num">${String(s.id).padStart(2,"0")}</div>
     <div>
       <h3>${esc(s.name)}</h3>
@@ -716,10 +990,12 @@ el("#stage-list").innerHTML = DATA.stages.map(s => `
       <div class="out">${s.outputs.map(o => `<span>${esc(o)}</span>`).join("")}</div>
     </div>
     <div class="state">
-      <span class="pill"><span class="dotmark"></span>gate ${esc(s.gate)}</span>
+      <span class="flow-count">${esc(flowValue(s)[0])}</span>
+      <span class="flow-label">${esc(flowValue(s)[1])}${usesLegibilityFloor(s) ? " · minimum display width" : ""}</span>
+      <span class="pill"><span class="dotmark"></span><span data-gate-state="${s.id}" aria-live="polite">gate ${esc(s.gate)}</span></span>
       <span class="small" data-note="${s.id}">${esc(s.note || "")}</span>
       <button class="btn btn-ghost run" type="button" data-stage="${s.id}"
-        data-credits="${s.credits ? "1" : "0"}">Run</button>
+        data-credits="${s.credits ? "1" : "0"}" aria-label="Run stage ${s.id}: ${esc(s.name)}">Run stage ${s.id}</button>
     </div>
   </div>`).join("");
 
@@ -731,6 +1007,8 @@ let busy = false;
 function setServe(on){
   document.body.dataset.serve = on ? "yes" : "no";
   el("#serve-hint").hidden = on;
+  el("#setup-offline").hidden = on;
+  if (!on) el("#active-run").textContent = "Local server not connected";
   // a served page shows a working run, so "withheld" is wrong there
   const n = document.querySelector('[data-note="5"]');
   if (!n) return;
@@ -739,13 +1017,29 @@ function setServe(on){
   n.textContent = (on && withheld) ? "run stage 5 to find contacts" : n.dataset.orig;
 }
 
+function applyState(state) {
+  el("#active-run").textContent = `${state.run}${state.subject ? ` · ${state.subject}` : ""}`;
+  let ready = 0;
+  for (const stage of state.stages || []) {
+    document.querySelectorAll(`[data-stage-row="${stage.id}"]`).forEach(row => {
+      row.dataset.ready = String(!!stage.ready);
+    });
+    document.querySelectorAll(`[data-gate-state="${stage.id}"]`).forEach(label => {
+      label.textContent = stage.ready ? "input ready" : "waiting for input";
+    });
+    if (stage.ready) ready += 1;
+  }
+  el("#gate-summary").textContent = `${ready} of ${DATA.stages.length} stages ready`;
+}
+
 async function probe(){
   if (!served) { setServe(false); return; }
   try {
     const r = await fetch("/api/state", {cache: "no-store"});
     if (!r.ok) throw new Error("no api");
-    await r.json();
+    const state = await r.json();
     setServe(true);
+    applyState(state);
   } catch { setServe(false); }
 }
 
@@ -821,20 +1115,28 @@ async function go(id){
   busy = true;
   document.querySelectorAll(".run").forEach(b => { b.disabled = true; });
   el("#run-all").disabled = true;
-  setRunButton(id, "running", "Running");
+  setRunButton(id, "running", `Running ${id}`);
   openConsole(id);
-  const code = await runStage(id);
-  if (code === null) {
-    setRunButton(id, "", "Run");
-    el("#console-status").textContent = "idle";
-    el("#console").hidden = true;
+  let code = 1;
+  try {
+    const result = await runStage(id);
+    if (result === null) {
+      setRunButton(id, "", `Run stage ${id}`);
+      el("#console-status").textContent = "idle";
+      el("#console").hidden = true;
+      return 1;
+    }
+    code = result;
+  } catch (error) {
+    logChunk(`FAIL  ${error.message || "The stage connection failed."}\n`);
+    code = 1;
+  } finally {
+    el("#reload-figures").hidden = false;
     unlock();
-    return 1;
   }
-  setRunButton(id, code === 0 ? "pass" : "fail", code === 0 ? "Passed" : "Failed");
+  setRunButton(id, code === 0 ? "pass" : "fail", code === 0 ? `Stage ${id} passed` : `Retry stage ${id}`);
   el("#console-status").textContent = code === 0 ? "passed" : "failed";
-  el("#reload-figures").hidden = false;
-  unlock();
+  probe();
   return code;
 }
 
@@ -946,9 +1248,7 @@ function countUp(node){
 const io = new IntersectionObserver((entries) => {
   entries.forEach((en) => {
     if (!en.isIntersecting) return;
-    const items = [...en.target.querySelectorAll(".arrive")];
-    items.forEach((n, i) => setTimeout(() => n.classList.add("in"), i * 50));
-    if (en.target.matches(".metric")) en.target.classList.add("in");
+    en.target.classList.add("in");
     io.unobserve(en.target);
   });
 }, { threshold: 0.2 });

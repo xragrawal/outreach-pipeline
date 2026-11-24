@@ -22,12 +22,24 @@ head.
 | Route | Does |
 |---|---|
 | `GET /api/state` | Lists the stages, whether their outputs exist, and which spend credits |
+| `POST /api/setup` | Creates a run from the company and ICP form, then makes it active |
+| `POST /api/candidates` | Validates and writes the Stage 2 candidate CSV |
 | `POST /api/run` | Starts one stage. Body: `{"stage": 4, "confirm_credits": false}` |
 | `GET /api/job?id=…` | Returns the state, exit code and output of a job |
 
 The server binds to `127.0.0.1` only. It runs `pipeline/run_pipeline.py` with a
 fixed argument list, so it cannot run any other command. It runs one job at a
 time. Stage 5 needs `confirm_credits`, and the page asks first.
+
+## Create a run from the page
+
+The setup form writes a new folder under `runs/`. It records the company brief
+in `run.json` and `icp.md`. It also creates `taxonomy.csv` from the weighted
+capability lines. Use `Capability | weight` on each line.
+
+The source panel accepts the Stage 2 CSV. It requires the configured company,
+category, summary and services columns. After import, the existing stage runner
+uses the same gate and worker code as the command-line flow.
 
 Opened from `file://` or by a static host, the page finds no API. It hides the
 Run buttons and shows the command to start the server.

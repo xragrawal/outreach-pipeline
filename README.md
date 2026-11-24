@@ -151,6 +151,11 @@ The server prints a link and opens it. Every stage then has a **Run** button.
 Press one and the log streams under the stages: each gate line appears as it
 passes. **Run stages 1–4** walks the chain in order.
 
+The page can also create a working run. Enter the company, buyer, value
+proposition, weighted capabilities, core capabilities, anti-ICP and evidence.
+The server writes the run folder and makes it active for the current session.
+Import the candidate CSV in Stage 2, then run the waterfall from Stage 1.
+
 The server binds to `127.0.0.1` only, and it runs one fixed command list, so it
 cannot run anything else. It runs one stage at a time. Stage 5 asks for a
 confirmation first, because it spends Hunter credits.

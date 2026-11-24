@@ -12,6 +12,7 @@ Usage
 
 import argparse
 import csv
+import html
 import json
 import re
 from collections import Counter
@@ -46,6 +47,16 @@ def resolve_run(arg):
         return Path(arg).resolve()
     cfg = json.loads((ROOT / "pipeline" / "pipeline.json").read_text())
     return (ROOT / cfg["run"]).resolve()
+
+
+def script_json(value):
+    """Serialize data without allowing a value to close the script element."""
+    return (json.dumps(value, ensure_ascii=False)
+            .replace("&", "\\u0026")
+            .replace("<", "\\u003c")
+            .replace(">", "\\u003e")
+            .replace("\u2028", "\\u2028")
+            .replace("\u2029", "\\u2029"))
 
 
 def main():
@@ -95,6 +106,7 @@ def main():
     for s in cfg["stages"]:
         stages.append({
             "id": s["id"],
+            "key": s["key"],
             "name": s["name"],
             "question": s["question"],
             "outputs": s["outputs"],
@@ -154,8 +166,14 @@ def main():
         # the sheet holds the contacts, so only a run with contacts links to it
         "sheet": (f"https://docs.google.com/spreadsheets/d/{sheet_id}/edit"
                   if sheet_id and outreach else ""),
-        "meta": {"kept": len(kept), "emails": emails, "contacts": bool(contacts),
+        "meta": {"sourced": len(universe), "kept": len(kept), "removed": len(removed),
+                 "tags": len(taxonomy), "emails": emails, "contacts": bool(contacts),
                  "multiline": len(multiline)},
+        "setup": {
+            "subject": run.get("subject", ""),
+            "subject_url": run.get("subject_url", ""),
+            **(run.get("brief") or {}),
+        },
         "stages": stages,
         "ranking": ranking,
         "contacts": contacts,
@@ -170,8 +188,8 @@ def main():
         email_metric = ('<div class="figure word">withheld</div>\n'
                         '        <div class="note">personal addresses stay out of this copy</div>')
 
-    html = TEMPLATE.read_text(encoding="utf-8")
-    html = html.replace("/*__DATA__*/{}", json.dumps(data, ensure_ascii=False))
+    page = TEMPLATE.read_text(encoding="utf-8")
+    page = page.replace("/*__DATA__*/{}", script_json(data))
     for k, v in {
         "__C_SOURCED__": len(universe),
         "__C_KEPT__": len(kept),
@@ -187,20 +205,21 @@ def main():
             "Stage 4 found no tie block: every company has its own score."),
         "__N_SOURCES__": (f"{n_evidence} evidence types" if n_evidence != 1
                           else "1 evidence type"),
-        "__RUN_CMD__": run_cmd,
-        "__SUBJECT__": run.get("subject", ""),
-        "__DATE__": run.get("date", ""),
+        "__RUN_CMD_HTML__": html.escape(run_cmd),
+        "__RUN_CMD_JSON__": script_json(run_cmd),
+        "__SUBJECT__": html.escape(str(run.get("subject", ""))),
+        "__DATE__": html.escape(str(run.get("date", ""))),
     }.items():
-        html = html.replace(k, str(v))
+        page = page.replace(k, str(v))
 
-    leftover = re.findall(r"__[A-Z_]+__", html)
+    leftover = re.findall(r"__[A-Z_]+__", page)
     if leftover:
         raise SystemExit(f"unreplaced placeholders: {sorted(set(leftover))}")
 
     out = Path(args.out).resolve() if args.out else OUT
-    out.write_text(html, encoding="utf-8")
+    out.write_text(page, encoding="utf-8")
     print(f"run   : {run_dir}")
-    print(f"wrote {out} ({len(html)/1024:.1f} KB)")
+    print(f"wrote {out} ({len(page)/1024:.1f} KB)")
     print(f"  companies {len(universe)} | kept {len(kept)} | removed {len(removed)}")
     print(f"  contacts {len(contacts)} | emails {emails} | generic {generic}")
     print(f"  tags {len(taxonomy)} | weight sum {w_sum:.2f} | tie {tie_n} at {tie_score}")

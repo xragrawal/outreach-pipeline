@@ -1,0 +1,305 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-24T10:08:57Z",
+  "title": "Design System: Antseed Outreach Pipeline",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Seed Green",
+        "tonalRamp": ["oklch(15% 0.125 132.2)", "oklch(25% 0.125 132.2)", "oklch(35% 0.125 132.2)", "oklch(45% 0.125 132.2)", "oklch(55% 0.125 132.2)", "oklch(65% 0.125 132.2)", "oklch(80% 0.125 132.2)", "oklch(95% 0.125 132.2)"]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Pressed Leaf",
+        "tonalRamp": ["oklch(15% 0.114 132.7)", "oklch(25% 0.114 132.7)", "oklch(35% 0.114 132.7)", "oklch(45% 0.114 132.7)", "oklch(55% 0.114 132.7)", "oklch(65% 0.114 132.7)", "oklch(80% 0.114 132.7)", "oklch(95% 0.114 132.7)"]
+      },
+      "acid-highlight": {
+        "role": "secondary",
+        "displayName": "Acid Seed",
+        "tonalRamp": ["oklch(15% 0.204 122.8)", "oklch(25% 0.204 122.8)", "oklch(35% 0.204 122.8)", "oklch(45% 0.204 122.8)", "oklch(55% 0.204 122.8)", "oklch(65% 0.204 122.8)", "oklch(80% 0.204 122.8)", "oklch(95% 0.204 122.8)"]
+      },
+      "selection-ink": {
+        "role": "neutral",
+        "displayName": "Selection Ink",
+        "tonalRamp": ["oklch(15% 0.027 160.8)", "oklch(25% 0.027 160.8)", "oklch(35% 0.027 160.8)", "oklch(45% 0.027 160.8)", "oklch(55% 0.027 160.8)", "oklch(65% 0.027 160.8)", "oklch(80% 0.027 160.8)", "oklch(95% 0.027 160.8)"]
+      },
+      "day-title": {
+        "role": "neutral",
+        "displayName": "Near Ink",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-text": {
+        "role": "neutral",
+        "displayName": "Field Ink",
+        "tonalRamp": ["oklch(15% 0.023 135.2)", "oklch(25% 0.023 135.2)", "oklch(35% 0.023 135.2)", "oklch(45% 0.023 135.2)", "oklch(55% 0.023 135.2)", "oklch(65% 0.023 135.2)", "oklch(80% 0.023 135.2)", "oklch(95% 0.023 135.2)"]
+      },
+      "day-body": {
+        "role": "neutral",
+        "displayName": "Slate Copy",
+        "tonalRamp": ["oklch(15% 0.024 237.2)", "oklch(25% 0.024 237.2)", "oklch(35% 0.024 237.2)", "oklch(45% 0.024 237.2)", "oklch(55% 0.024 237.2)", "oklch(65% 0.024 237.2)", "oklch(80% 0.024 237.2)", "oklch(95% 0.024 237.2)"]
+      },
+      "day-page": {
+        "role": "neutral",
+        "displayName": "Warm Page",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-rail": {
+        "role": "neutral",
+        "displayName": "Paper Rail",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-tile": {
+        "role": "neutral",
+        "displayName": "Soft Tile",
+        "tonalRamp": ["oklch(15% 0.012 133.4)", "oklch(25% 0.012 133.4)", "oklch(35% 0.012 133.4)", "oklch(45% 0.012 133.4)", "oklch(55% 0.012 133.4)", "oklch(65% 0.012 133.4)", "oklch(80% 0.012 133.4)", "oklch(95% 0.012 133.4)"]
+      },
+      "day-line": {
+        "role": "neutral",
+        "displayName": "Hairline Green",
+        "tonalRamp": ["oklch(15% 0.023 150)", "oklch(25% 0.023 150)", "oklch(35% 0.023 150)", "oklch(45% 0.023 150)", "oklch(55% 0.023 150)", "oklch(65% 0.023 150)", "oklch(80% 0.023 150)", "oklch(95% 0.023 150)"]
+      },
+      "day-error": {
+        "role": "tertiary",
+        "displayName": "Failure Red",
+        "tonalRamp": ["oklch(15% 0.154 27.8)", "oklch(25% 0.154 27.8)", "oklch(35% 0.154 27.8)", "oklch(45% 0.154 27.8)", "oklch(55% 0.154 27.8)", "oklch(65% 0.154 27.8)", "oklch(80% 0.154 27.8)", "oklch(95% 0.154 27.8)"]
+      },
+      "day-warning": {
+        "role": "tertiary",
+        "displayName": "Warning Amber",
+        "tonalRamp": ["oklch(15% 0.097 88.7)", "oklch(25% 0.097 88.7)", "oklch(35% 0.097 88.7)", "oklch(45% 0.097 88.7)", "oklch(55% 0.097 88.7)", "oklch(65% 0.097 88.7)", "oklch(80% 0.097 88.7)", "oklch(95% 0.097 88.7)"]
+      },
+      "night-primary": {
+        "role": "primary",
+        "displayName": "Night Sprout",
+        "tonalRamp": ["oklch(15% 0.135 129.2)", "oklch(25% 0.135 129.2)", "oklch(35% 0.135 129.2)", "oklch(45% 0.135 129.2)", "oklch(55% 0.135 129.2)", "oklch(65% 0.135 129.2)", "oklch(80% 0.135 129.2)", "oklch(95% 0.135 129.2)"]
+      },
+      "night-text": {
+        "role": "neutral",
+        "displayName": "Night Ink",
+        "tonalRamp": ["oklch(15% 0.007 124.5)", "oklch(25% 0.007 124.5)", "oklch(35% 0.007 124.5)", "oklch(45% 0.007 124.5)", "oklch(55% 0.007 124.5)", "oklch(65% 0.007 124.5)", "oklch(80% 0.007 124.5)", "oklch(95% 0.007 124.5)"]
+      },
+      "night-muted": {
+        "role": "neutral",
+        "displayName": "Night Quiet",
+        "tonalRamp": ["oklch(15% 0.013 156.9)", "oklch(25% 0.013 156.9)", "oklch(35% 0.013 156.9)", "oklch(45% 0.013 156.9)", "oklch(55% 0.013 156.9)", "oklch(65% 0.013 156.9)", "oklch(80% 0.013 156.9)", "oklch(95% 0.013 156.9)"]
+      },
+      "night-page": {
+        "role": "neutral",
+        "displayName": "Night Page",
+        "tonalRamp": ["oklch(15% 0.007 178.8)", "oklch(25% 0.007 178.8)", "oklch(35% 0.007 178.8)", "oklch(45% 0.007 178.8)", "oklch(55% 0.007 178.8)", "oklch(65% 0.007 178.8)", "oklch(80% 0.007 178.8)", "oklch(95% 0.007 178.8)"]
+      },
+      "night-rail": {
+        "role": "neutral",
+        "displayName": "Night Rail",
+        "tonalRamp": ["oklch(15% 0.008 169.5)", "oklch(25% 0.008 169.5)", "oklch(35% 0.008 169.5)", "oklch(45% 0.008 169.5)", "oklch(55% 0.008 169.5)", "oklch(65% 0.008 169.5)", "oklch(80% 0.008 169.5)", "oklch(95% 0.008 169.5)"]
+      },
+      "night-error": {
+        "role": "tertiary",
+        "displayName": "Night Failure Red",
+        "tonalRamp": ["oklch(15% 0.137 25)", "oklch(25% 0.137 25)", "oklch(35% 0.137 25)", "oklch(45% 0.137 25)", "oklch(55% 0.137 25)", "oklch(65% 0.137 25)", "oklch(80% 0.137 25)", "oklch(95% 0.137 25)"]
+      },
+      "night-warning": {
+        "role": "tertiary",
+        "displayName": "Night Warning Amber",
+        "tonalRamp": ["oklch(15% 0.135 86.1)", "oklch(25% 0.135 86.1)", "oklch(35% 0.135 86.1)", "oklch(45% 0.135 86.1)", "oklch(55% 0.135 86.1)", "oklch(65% 0.135 86.1)", "oklch(80% 0.135 86.1)", "oklch(95% 0.135 86.1)"]
+      },
+      "day-title-muted": {
+        "role": "neutral",
+        "displayName": "Muted Title Ink",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-small": {
+        "role": "neutral",
+        "displayName": "Quiet Copy",
+        "tonalRamp": ["oklch(15% 0.022 157.4)", "oklch(25% 0.022 157.4)", "oklch(35% 0.022 157.4)", "oklch(45% 0.022 157.4)", "oklch(55% 0.022 157.4)", "oklch(65% 0.022 157.4)", "oklch(80% 0.022 157.4)", "oklch(95% 0.022 157.4)"]
+      },
+      "day-grey": {
+        "role": "neutral",
+        "displayName": "Secondary Grey",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-dot": {
+        "role": "neutral",
+        "displayName": "Day Rail Dot",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "day-dot-off": {
+        "role": "neutral",
+        "displayName": "Day Inactive Track",
+        "tonalRamp": ["oklch(15% 0.019 119.8)", "oklch(25% 0.019 119.8)", "oklch(35% 0.019 119.8)", "oklch(45% 0.019 119.8)", "oklch(55% 0.019 119.8)", "oklch(65% 0.019 119.8)", "oklch(80% 0.019 119.8)", "oklch(95% 0.019 119.8)"]
+      },
+      "day-wash": {
+        "role": "neutral",
+        "displayName": "Warm Wash",
+        "tonalRamp": ["oklch(15% 0.012 91.5)", "oklch(25% 0.012 91.5)", "oklch(35% 0.012 91.5)", "oklch(45% 0.012 91.5)", "oklch(55% 0.012 91.5)", "oklch(65% 0.012 91.5)", "oklch(80% 0.012 91.5)", "oklch(95% 0.012 91.5)"]
+      },
+      "night-primary-hover": {
+        "role": "primary",
+        "displayName": "Night Pressed Leaf",
+        "tonalRamp": ["oklch(15% 0.135 132)", "oklch(25% 0.135 132)", "oklch(35% 0.135 132)", "oklch(45% 0.135 132)", "oklch(55% 0.135 132)", "oklch(65% 0.135 132)", "oklch(80% 0.135 132)", "oklch(95% 0.135 132)"]
+      },
+      "night-dot": {
+        "role": "neutral",
+        "displayName": "Night Rail Dot",
+        "tonalRamp": ["oklch(15% 0.009 164.5)", "oklch(25% 0.009 164.5)", "oklch(35% 0.009 164.5)", "oklch(45% 0.009 164.5)", "oklch(55% 0.009 164.5)", "oklch(65% 0.009 164.5)", "oklch(80% 0.009 164.5)", "oklch(95% 0.009 164.5)"]
+      },
+      "night-dot-off": {
+        "role": "neutral",
+        "displayName": "Night Inactive Track",
+        "tonalRamp": ["oklch(15% 0.012 160.6)", "oklch(25% 0.012 160.6)", "oklch(35% 0.012 160.6)", "oklch(45% 0.012 160.6)", "oklch(55% 0.012 160.6)", "oklch(65% 0.012 160.6)", "oklch(80% 0.012 160.6)", "oklch(95% 0.012 160.6)"]
+      },
+      "night-tile": {
+        "role": "neutral",
+        "displayName": "Night Soft Tile",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "night-line": {
+        "role": "neutral",
+        "displayName": "Night Hairline",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      },
+      "night-wash": {
+        "role": "neutral",
+        "displayName": "Night Wash",
+        "tonalRamp": ["oklch(15% 0.011 168.2)", "oklch(25% 0.011 168.2)", "oklch(35% 0.011 168.2)", "oklch(45% 0.011 168.2)", "oklch(55% 0.011 168.2)", "oklch(65% 0.011 168.2)", "oklch(80% 0.011 168.2)", "oklch(95% 0.011 168.2)"]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Control White",
+        "tonalRamp": ["oklch(15% 0 89.9)", "oklch(25% 0 89.9)", "oklch(35% 0 89.9)", "oklch(45% 0 89.9)", "oklch(55% 0 89.9)", "oklch(65% 0 89.9)", "oklch(80% 0 89.9)", "oklch(95% 0 89.9)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Pixel Display", "purpose": "Main statement and major figures."},
+      "headline": {"displayName": "Pixel Headline", "purpose": "Section headings."},
+      "title": {"displayName": "Interface Title", "purpose": "Component titles and company names."},
+      "body": {"displayName": "Operating Body", "purpose": "Forms, descriptions, and table content."},
+      "label": {"displayName": "Control Label", "purpose": "Fields, buttons, and table headers."},
+      "mono": {"displayName": "Data Mono", "purpose": "Commands, paths, addresses, and machine state."}
+    },
+    "shadows": [
+      {"name": "primary-control-edge", "value": "0 3.5px 0.5px rgba(46,74,14,.1), inset 0 -0.5px 0 rgba(200,230,170,.63), inset 0 -2px 1px #3b5e17", "purpose": "Gives primary actions a small physical lower edge."},
+      {"name": "ghost-control-edge", "value": "inset 0 -1px 2px rgba(48,56,44,.08)", "purpose": "Separates secondary controls from low-contrast surfaces."}
+    ],
+    "motion": [
+      {"name": "ease-arrive", "value": "cubic-bezier(.2,.7,.2,1)", "purpose": "Entry motion, card lift, and score painting."},
+      {"name": "ease-slide", "value": "cubic-bezier(.65,0,.35,1)", "purpose": "Deliberate spatial changes."},
+      {"name": "ease-pop", "value": "cubic-bezier(.3,1.6,.5,1)", "purpose": "Short emphatic feedback."},
+      {"name": "ease-window", "value": "cubic-bezier(.2,.9,.25,1.12)", "purpose": "Window-like surface changes."},
+      {"name": "feedback", "value": "150ms", "purpose": "Hover, focus, and direct control feedback."},
+      {"name": "control", "value": "350ms", "purpose": "Card and control state changes."},
+      {"name": "block", "value": "600ms", "purpose": "Section and block arrival."},
+      {"name": "painting", "value": "1500ms", "purpose": "Long data painting effects."}
+    ],
+    "breakpoints": [
+      {"name": "compact", "value": "520px"},
+      {"name": "mobile", "value": "760px"},
+      {"name": "two-column", "value": "900px"},
+      {"name": "workspace-stack", "value": "1023px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Starts runs and confirms the main action.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Create run</button>",
+      "css": ".ds-btn-primary{font-family:var(--font-sans,Geist,system-ui,sans-serif);font-weight:500;font-size:15px;line-height:20px;height:44px;padding:0 18px;border-radius:10px;border:0;cursor:pointer;background:var(--green,#4f7a24);color:#fff;box-shadow:0 3.5px .5px rgba(46,74,14,.1),inset 0 -.5px rgba(200,230,170,.63),inset 0 -2px 1px #3b5e17;transition:background 150ms ease}.ds-btn-primary:hover{background:var(--green-hover,#436a1e)}.ds-btn-primary:focus-visible{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-btn-primary:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Carries secondary actions and theme controls.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">Open sheet</button>",
+      "css": ".ds-btn-ghost{font-family:var(--font-sans,Geist,system-ui,sans-serif);font-weight:500;font-size:14px;line-height:20px;height:40px;padding:0 16px;border-radius:10px;cursor:pointer;background:var(--tile,rgba(214,219,211,.2));color:var(--text,#30382c);border:1px solid var(--tile-line,rgba(64,76,66,.1));box-shadow:inset 0 -1px 2px rgba(48,56,44,.08);transition:filter 150ms ease}.ds-btn-ghost:hover{filter:brightness(.98)}.ds-btn-ghost:focus-visible{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-btn-ghost:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Collects company and ICP data with quiet visual weight.",
+      "html": "<label class=\"ds-field\"><span>Company name</span><input type=\"text\" placeholder=\"Acme AI\"></label>",
+      "css": ".ds-field{display:grid;gap:7px;font-family:var(--font-sans,Geist,system-ui,sans-serif);font-size:13px;line-height:18px;font-weight:500;color:var(--text,#30382c)}.ds-field input{width:100%;border:1px solid var(--tile-line,rgba(64,76,66,.1));border-radius:12px;background:var(--tile,rgba(214,219,211,.2));color:var(--text,#30382c);font:400 16px/1.45 var(--font-sans,Geist,system-ui,sans-serif);padding:12px 14px;outline:none;caret-color:var(--green-text,#4f7a24);transition:border-color 150ms,background 150ms}.ds-field input:hover{border-color:color-mix(in srgb,var(--green-text,#4f7a24) 35%,var(--tile-line,rgba(64,76,66,.1)))}.ds-field input:focus-visible{border-color:var(--green-text,#4f7a24);background:var(--rail,#fff);outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}"
+    },
+    {
+      "name": "Selected Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip-selected",
+      "description": "Marks the active contact filter.",
+      "html": "<button class=\"ds-chip\" type=\"button\" aria-pressed=\"true\">Now</button>",
+      "css": ".ds-chip{font:400 13px/18px var(--font-sans,Geist,system-ui,sans-serif);padding:7px 12px;border-radius:999px;border:1px solid var(--green,#4f7a24);background:var(--green,#4f7a24);color:#fff;cursor:pointer;transition:filter 150ms,transform 150ms}.ds-chip:hover{filter:brightness(.94)}.ds-chip:focus-visible{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-chip:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Pipeline Stage",
+      "kind": "custom",
+      "refersTo": "pipeline-stage",
+      "description": "Shows one gate, its outputs, current count, and state.",
+      "html": "<article class=\"ds-stage\"><span class=\"ds-stage-num\">03</span><div><h3>Model the candidates</h3><p>Can each company support the required capabilities?</p><span class=\"ds-output\">company-profiles.json</span></div><div class=\"ds-stage-state\"><strong>48</strong><small>candidates modeled</small></div></article>",
+      "css": ".ds-stage{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:18px;align-items:center;padding:22px 22px 22px 0;border:1px solid color-mix(in srgb,var(--green-text,#4f7a24) 30%,var(--tile-line,rgba(64,76,66,.1)));border-radius:14px;background:var(--rail,#fff);color:var(--text,#30382c);font-family:var(--font-sans,Geist,system-ui,sans-serif);transition:border-color 150ms}.ds-stage:hover{border-color:var(--green-text,#4f7a24)}.ds-stage:focus-within{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-stage-num{width:34px;height:34px;border-radius:50%;background:var(--green,#4f7a24);color:#fff;text-align:center;font:400 18px/34px var(--font-pixel,\"Geist Pixel Var\",Geist,sans-serif)}.ds-stage h3{margin:0 0 4px;font-size:18px;line-height:24px}.ds-stage p{margin:0 0 8px;color:var(--text-body,#56656f);font-size:15px;line-height:22px}.ds-output{display:inline-block;background:var(--tile,rgba(214,219,211,.2));border:1px solid var(--tile-line,rgba(64,76,66,.1));padding:2px 7px;border-radius:5px;font:400 11.5px/18px var(--font-mono,\"Geist Mono\",monospace);color:var(--text-small,#66746b)}.ds-stage-state{display:grid;text-align:right}.ds-stage-state strong{font:400 22px/24px var(--font-pixel,\"Geist Pixel Var\",Geist,sans-serif)}.ds-stage-state small{font-size:11px;line-height:15px;color:var(--text-small,#66746b)}"
+    },
+    {
+      "name": "Result Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Summarizes a reachable multi-line company.",
+      "html": "<article class=\"ds-card\"><h3>Northstar Systems</h3><div class=\"ds-card-stat\"><strong>6</strong><span>families</span></div><p>Detection, response, cloud, compliance, identity, intelligence</p><code>buyer@northstar.example</code></article>",
+      "css": ".ds-card{position:relative;background:var(--rail,#fff);border-radius:11px;padding:20px;border:1px solid var(--tile-line,rgba(64,76,66,.1));color:var(--text,#30382c);font-family:var(--font-sans,Geist,system-ui,sans-serif);transition:transform 350ms cubic-bezier(.2,.7,.2,1),border-color 350ms}.ds-card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--green-text,#4f7a24) 34%,var(--tile-line,rgba(64,76,66,.1)))}.ds-card:focus-within{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-card h3{margin:0 0 6px;font-size:18px;line-height:24px}.ds-card-stat{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}.ds-card-stat strong{font:400 30px/30px var(--font-pixel,\"Geist Pixel Var\",Geist,sans-serif)}.ds-card-stat span{font-size:12px;color:var(--text-small,#66746b)}.ds-card p{font-size:13px;line-height:20px;color:var(--text-body,#56656f)}.ds-card code{font:400 11.5px/18px var(--font-mono,\"Geist Mono\",monospace);color:var(--green-text,#4f7a24)}"
+    },
+    {
+      "name": "Status Pill",
+      "kind": "chip",
+      "description": "Shows live gate or console state without dominating the stage.",
+      "html": "<span class=\"ds-status\"><span aria-hidden=\"true\"></span>input ready</span>",
+      "css": ".ds-status{display:inline-flex;align-items:center;gap:6px;font:400 12px/16px var(--font-sans,Geist,system-ui,sans-serif);color:var(--text-small,#66746b);border:1px solid var(--tile-line,rgba(64,76,66,.1));background:var(--tile,rgba(214,219,211,.2));padding:4px 9px;border-radius:999px}.ds-status>span{width:7px;height:7px;border-radius:50%;background:var(--green-text,#4f7a24)}.ds-status:hover{border-color:color-mix(in srgb,var(--green-text,#4f7a24) 35%,var(--tile-line,rgba(64,76,66,.1)))}.ds-status:focus-visible{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}"
+    },
+    {
+      "name": "Navigation Rail",
+      "kind": "nav",
+      "description": "Keeps the Antseed identity and run actions visible.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-brand\">ANTSEED</span><span class=\"ds-route\">ICP → OUTREACH</span><button type=\"button\">New run</button></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:12px;padding:12px 20px;background:color-mix(in srgb,var(--rail,#fff) 86%,transparent);border-bottom:1px solid var(--tile-line,rgba(64,76,66,.1));backdrop-filter:blur(14px);color:var(--text,#30382c);font-family:var(--font-sans,Geist,system-ui,sans-serif)}.ds-brand{font-weight:500;letter-spacing:.08em}.ds-route{font:400 11px/16px var(--font-mono,\"Geist Mono\",monospace);letter-spacing:.04em;color:var(--text-small,#66746b);border-left:1px solid var(--tile-line,rgba(64,76,66,.1));padding-left:12px}.ds-nav button{margin-left:auto;height:44px;padding:0 18px;border:0;border-radius:10px;background:var(--green,#4f7a24);color:#fff;font-weight:500;cursor:pointer}.ds-nav button:hover{background:var(--green-hover,#436a1e)}.ds-nav button:focus-visible{outline:2px solid var(--green-text,#4f7a24);outline-offset:2px}.ds-nav button:active{transform:translateY(1px)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Auditable Waterfall",
+    "overview": "The Antseed system makes a narrowing process visible. Connected bands show how one company becomes a ranked, reachable lead set.\n\nThe visual language is calm, exact, and operational. Pixel headings add Antseed character. Flat rails, dotted edges, and direct copy keep the work traceable.\n\nThis surface extends the existing Antseed identity. It preserves the lockup, Geist families, green controls, dotted rails, and day and night themes.",
+    "keyCharacteristics": [
+      "A centered rail contains the complete workspace.",
+      "Eight-pixel dot grids define page and section edges.",
+      "Pixel type marks headings and key figures.",
+      "Green marks action, readiness, progress, and focus.",
+      "Connected stage widths show pipeline narrowing.",
+      "Day and night themes keep the same hierarchy."
+    ],
+    "rules": [
+      {"name": "The Green Means Progress Rule", "body": "Use green for action, focus, readiness, success, and measured progress.", "section": "colors"},
+      {"name": "The Theme Role Rule", "body": "Change token values between themes. Do not change component hierarchy or meaning.", "section": "colors"},
+      {"name": "The Acid Rarity Rule", "body": "Keep acid green out of normal controls. Reserve it for text selection.", "section": "colors"},
+      {"name": "The Pixel Anchor Rule", "body": "Use Geist Pixel for headings and important figures. Do not use it for dense body text.", "section": "typography"},
+      {"name": "The Data Voice Rule", "body": "Use mono type only when the content behaves like data, code, or system output.", "section": "typography"},
+      {"name": "The One Rail Rule", "body": "Keep the complete task inside one continuous rail. Do not split it into dashboard islands.", "section": "layout"},
+      {"name": "The Narrowing Rule", "body": "Keep all five stages connected, ordered, and visibly narrower when counts fall.", "section": "layout"},
+      {"name": "The Flat First Rule", "body": "Use tone and hairlines before shadow. Add lift only for action or hover feedback.", "section": "elevation"},
+      {"name": "The Soft Precision Rule", "body": "Use moderate curves for controls and surfaces. Do not use oversized rounded containers.", "section": "shapes"}
+    ],
+    "dos": [
+      "Do preserve the Antseed lockup, pixel headings, dotted rails, and both themes.",
+      "Do show every stage, gate, count, failure, and output in sequence.",
+      "Do use green consistently for action, focus, readiness, and success.",
+      "Do keep paid enrichment behind a clear confirmation step.",
+      "Do respect reduced-motion settings and visible keyboard focus.",
+      "Do keep direct product language and real data labels."
+    ],
+    "donts": [
+      "Don't turn the workspace into unrelated dashboard cards.",
+      "Don't hide a failed gate or let later stages appear complete after failure.",
+      "Don't use the pixel font for paragraphs, form values, or dense tables.",
+      "Don't use acid green as a normal button or surface color.",
+      "Don't replace dotted structure with heavy borders or large shadows.",
+      "Don't change the hierarchy between day and night themes."
+    ]
+  }
+}
